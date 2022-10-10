@@ -74,10 +74,7 @@ public class Manga {
             @Override
             public void call(Subscriber<? super List<Chapter>> subscriber) {
                 try {
-//                    Mongo mongo = new Mongo();
                     List<Chapter> list = new ArrayList<>();
-
-//                    list.addAll(mongo.QueryComicBase(comic));
                     if (list.isEmpty()) {
                         comic.setUrl(parser.getUrl(comic.getCid()));
                         Request request = parser.getInfoRequest(comic.getCid());
@@ -93,7 +90,6 @@ public class Manga {
                         if (list == null) {
                             list = parser.parseChapter(html);
                         }
-//                        mongo.UpdateComicBase(comic, list);
                     }
                     if (!list.isEmpty()) {
                         subscriber.onNext(list);
@@ -138,21 +134,15 @@ public class Manga {
             @Override
             public void call(Subscriber<? super List<ImageUrl>> subscriber) {
                 String html;
-//                Mongo mongo = new Mongo();
                 List<ImageUrl> list = new ArrayList<>();
                 try {
-//                    List<ImageUrl> listdoc = new ArrayList<>();
-//                    list.addAll(mongo.QueryComicChapter(mComic, path));
                     if (list.isEmpty()) {
                         Request request = parser.getImagesRequest(cid, path);
                         html = getResponseBody(App.getHttpClient(), request);
-                        list = parser.parseImages(html,chapter);
-                        if (list == null || list.size()==0) {
+                        list = parser.parseImages(html, chapter);
+                        if (list == null || list.size() == 0) {
                             list = parser.parseImages(html);
                         }
-//                        if (!list.isEmpty()) {
-//                            mongo.InsertComicChapter(mComic, path, list);
-//                        }
                     }
 
                     if (list.isEmpty()) {
@@ -173,10 +163,8 @@ public class Manga {
 
     public static List<ImageUrl> getImageUrls(Parser parser, int source, String cid, String path, String title, ChapterManager mChapterManager) throws InterruptedIOException {
         List<ImageUrl> list = new ArrayList<>();
-//        Mongo mongo = new Mongo();
         Response response = null;
         try {
-//            list.addAll(mongo.QueryComicChapter(source, cid, path));
             if (!list.isEmpty()) {
                 return list;
             }
@@ -190,7 +178,6 @@ public class Manga {
                 if (list.size() == 0) {
                     list.addAll(parser.parseImages(response.body().string()));
                 }
-//                mongo.InsertComicChapter(source, cid, path, list);
             } else {
                 throw new NetworkErrorException();
             }

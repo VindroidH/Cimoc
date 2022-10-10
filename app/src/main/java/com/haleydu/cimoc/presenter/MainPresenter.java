@@ -2,7 +2,6 @@ package com.haleydu.cimoc.presenter;
 
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.core.Update;
-import com.haleydu.cimoc.core.UpdateJson;
 import com.haleydu.cimoc.manager.ComicManager;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.model.Comic;
@@ -28,14 +27,13 @@ import rx.schedulers.Schedulers;
 
 public class MainPresenter extends BasePresenter<MainView> {
 
-    private ComicManager mComicManager;
     private static final String APP_VERSIONNAME = "versionName";
     private static final String APP_VERSIONCODE = "versionCode";
     private static final String APP_CONTENT = "content";
     private static final String APP_MD5 = "md5";
-    private static final String APP_URL= "url";
-
+    private static final String APP_URL = "url";
     private static final String SOURCE_URL = "https://raw.githubusercontent.com/Haleydu/update/master/sourceBaseUrl.json";
+    private ComicManager mComicManager;
 
     @Override
     protected void onViewAttach() {
@@ -108,7 +106,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                             String md5 = new JSONObject(json).getString(APP_MD5);
                             String url = new JSONObject(json).getString(APP_URL);
                             if (appVersionCode < ServerAppVersionCode) {
-                                mBaseView.onUpdateReady(versionName,content,url,ServerAppVersionCode,md5);
+                                mBaseView.onUpdateReady(versionName, content, url, ServerAppVersionCode, md5);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -154,10 +152,10 @@ public class MainPresenter extends BasePresenter<MainView> {
                                 try {
                                     String HHAAZZ = new JSONObject(json).getString("HHAAZZ");
                                     String sw = new JSONObject(json).getString("sw");
-                                    if (!HHAAZZ.equals(App.getPreferenceManager().getString(PreferenceManager.PREF_HHAAZZ_BASEURL, ""))){
+                                    if (!HHAAZZ.equals(App.getPreferenceManager().getString(PreferenceManager.PREF_HHAAZZ_BASEURL, ""))) {
                                         App.getPreferenceManager().putString(PreferenceManager.PREF_HHAAZZ_BASEURL, HHAAZZ);
                                     }
-                                    if (!sw.equals(App.getPreferenceManager().getString(PreferenceManager.PREF_HHAAZZ_SW, ""))){
+                                    if (!sw.equals(App.getPreferenceManager().getString(PreferenceManager.PREF_HHAAZZ_SW, ""))) {
                                         App.getPreferenceManager().putString(PreferenceManager.PREF_HHAAZZ_SW, sw);
                                     }
                                 } catch (JSONException e) {

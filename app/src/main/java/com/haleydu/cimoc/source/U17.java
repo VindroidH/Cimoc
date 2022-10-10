@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import okhttp3.CipherSuite;
 import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.Request;
@@ -100,7 +99,7 @@ public class U17 extends MangaParser {
         // http://m.u17.com/chapter/list?comicId=%s
         List<Chapter> list = new LinkedList<>();
         Node body = new Node(html);
-        int i=0;
+        int i = 0;
         for (Node node : body.list("#chapter > li > a")) {
             String title = node.text();
             String path = node.hrefWithSplit(1);

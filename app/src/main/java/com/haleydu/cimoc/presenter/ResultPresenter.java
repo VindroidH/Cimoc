@@ -24,7 +24,7 @@ public class ResultPresenter extends BasePresenter<ResultView> {
     private SourceManager mSourceManager;
     private State[] mStateArray;
     private String keyword;
-    private boolean strictSearch;
+    private final boolean strictSearch;
     private int error = 0;
     private String keywordTemp;
     private String comicTitleTemp = "";

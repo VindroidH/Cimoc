@@ -4,9 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by Hiroshi on 2016/7/2.
@@ -83,6 +83,10 @@ public class Chapter implements Parcelable {
         this.sourceGroup = sourceGroup;
     }
 
+    @Generated(hash = 393170288)
+    public Chapter() {
+    }
+
     public String getSourceGroup() {
         return sourceGroup == null ? "" : sourceGroup;
     }
@@ -91,16 +95,20 @@ public class Chapter implements Parcelable {
         this.sourceGroup = sourceGroup;
     }
 
-    @Generated(hash = 393170288)
-    public Chapter() {
-    }
-
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getPath() {
         return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public int getCount() {
@@ -115,16 +123,8 @@ public class Chapter implements Parcelable {
         return complete;
     }
 
-    public void setComplete(boolean complete) {
-        this.complete = complete;
-    }
-
     public boolean isDownload() {
         return download;
-    }
-
-    public void setDownload(boolean download) {
-        this.download = download;
     }
 
     public long getTid() {
@@ -168,12 +168,12 @@ public class Chapter implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        if (id !=null) {
+        if (id != null) {
             dest.writeLong(id);
-        }else {
+        } else {
             dest.writeLong(0L);
         }
-        if (sourceComic !=null){
+        if (sourceComic != null) {
             dest.writeLong(sourceComic);
         } else {
             dest.writeLong(0L);
@@ -186,20 +186,20 @@ public class Chapter implements Parcelable {
         dest.writeLong(tid);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public boolean getComplete() {
         return this.complete;
     }
 
+    public void setComplete(boolean complete) {
+        this.complete = complete;
+    }
+
     public boolean getDownload() {
         return this.download;
+    }
+
+    public void setDownload(boolean download) {
+        this.download = download;
     }
 
 }

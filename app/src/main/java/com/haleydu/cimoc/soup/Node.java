@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Node {
 
-    private Element element;
+    private final Element element;
 
     public Node(String html) {
         this.element = Jsoup.parse(html).body();
@@ -22,6 +22,16 @@ public class Node {
 
     public Node(Element element) {
         this.element = element;
+    }
+
+    static public String splitHref(String str, int index) {
+        if (str == null) {
+            return null;
+        }
+        str = str.replaceFirst(".*\\..*?/", "");
+        str = str.replaceAll("[/\\.=\\?]", " ");
+        str = str.trim();
+        return StringUtils.split(str, "\\s+", index);
     }
 
     public Node id(String id) {
@@ -169,16 +179,6 @@ public class Node {
 
     public String hrefWithSplit(String cssQuery, int index) {
         return splitHref(href(cssQuery), index);
-    }
-
-    static public String splitHref(String str, int index) {
-        if (str == null) {
-            return null;
-        }
-        str = str.replaceFirst(".*\\..*?/", "");
-        str = str.replaceAll("[/\\.=\\?]", " ");
-        str = str.trim();
-        return StringUtils.split(str, "\\s+", index);
     }
 
 }

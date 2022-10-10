@@ -1,7 +1,5 @@
 package com.haleydu.cimoc.source;
 
-import android.util.Log;
-
 import com.haleydu.cimoc.model.Chapter;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.ImageUrl;
@@ -12,12 +10,8 @@ import com.haleydu.cimoc.parser.SearchIterator;
 import com.haleydu.cimoc.parser.UrlFilter;
 import com.haleydu.cimoc.soup.Node;
 import com.haleydu.cimoc.utils.DecryptionUtils;
-import com.haleydu.cimoc.utils.LogUtil;
 import com.haleydu.cimoc.utils.StringUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,12 +29,12 @@ public class MH160 extends MangaParser {
     public static final String DEFAULT_TITLE = "漫画160";
     private static final String baseUrl = "https://www.mh160.xyz";
 
-    public static Source getDefaultSource() {
-        return new Source(null, DEFAULT_TITLE, TYPE, true);
-    }
-
     public MH160(Source source) {
         init(source, null);
+    }
+
+    public static Source getDefaultSource() {
+        return new Source(null, DEFAULT_TITLE, TYPE, true);
     }
 
     @Override
@@ -48,10 +42,10 @@ public class MH160 extends MangaParser {
         if (page != 1) {
             return null;
         }
-        String url = StringUtils.format(baseUrl+"/statics/search.aspx?key=%s", keyword);
+        String url = StringUtils.format(baseUrl + "/statics/search.aspx?key=%s", keyword);
         return new Request.Builder()
                 .addHeader("Referer", baseUrl)
-                .addHeader("Host","www.mh160.xyz")
+                .addHeader("Host", "www.mh160.xyz")
                 .url(url)
                 .build();
     }
@@ -65,7 +59,7 @@ public class MH160 extends MangaParser {
                 String cover = node.attr("img", "src");
                 String title = node.text("h4").trim();
                 String cid = node.attr(".mh-works-info > a", "href");
-                String update = node.text(".mh-up-time.fr").replace("最后更新时间：","");
+                String update = node.text(".mh-up-time.fr").replace("最后更新时间：", "");
                 return new Comic(TYPE, cid, title, cover, update, null);
             }
         };
@@ -89,7 +83,7 @@ public class MH160 extends MangaParser {
         return new Request.Builder()
                 .url(url)
                 .addHeader("Referer", baseUrl)
-                .addHeader("Host","www.mh160.xyz")
+                .addHeader("Host", "www.mh160.xyz")
                 .build();
     }
 
@@ -108,9 +102,9 @@ public class MH160 extends MangaParser {
     }
 
     @Override
-    public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic)  {
+    public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list("#mh-chapter-list-ol-0 > li > a")) {
             String title = node.text("p");
             String path = node.href();
@@ -125,7 +119,7 @@ public class MH160 extends MangaParser {
         return new Request.Builder()
                 .url(url)
                 .addHeader("Referer", baseUrl)
-                .addHeader("Host","www.mh160.xyz")
+                .addHeader("Host", "www.mh160.xyz")
                 .build();
     }
 
@@ -139,12 +133,12 @@ public class MH160 extends MangaParser {
                 str = DecryptionUtils.base64Decrypt(str);
                 String[] array = str.split("\\$qingtiandy\\$");
                 String preUrl = "";
-                if(Integer.parseInt(str_id)>542724){
+                if (Integer.parseInt(str_id) > 542724) {
                     preUrl = "https://mhpic5.gezhengzhongyi.cn:8443";
-                }else {
+                } else {
                     preUrl = "https://res.gezhengzhongyi.cn:20207";
                 }
-                if (Integer.parseInt(str_id)>884998){
+                if (Integer.parseInt(str_id) > 884998) {
                     preUrl = "https://mhpic88.miyeye.cn:8443";
                 }
 
@@ -173,6 +167,6 @@ public class MH160 extends MangaParser {
 
     @Override
     public Headers getHeader() {
-        return Headers.of("User-Agent","Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36");
+        return Headers.of("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36");
     }
 }

@@ -15,7 +15,7 @@ public class ImageUrlManager {
 
     private static ImageUrlManager mInstance;
 
-    private ImageUrlDao mImageUrlDao;
+    private final ImageUrlDao mImageUrlDao;
 
     private ImageUrlManager(AppGetter getter) {
         mImageUrlDao = getter.getAppInstance().getDaoSession().getImageUrlDao();
@@ -64,8 +64,8 @@ public class ImageUrlManager {
     }
 
     public void insertOrReplace(List<ImageUrl> imageUrlList) {
-        for (ImageUrl imageurl:imageUrlList) {
-            if (imageurl.getId()!=null) {
+        for (ImageUrl imageurl : imageUrlList) {
+            if (imageurl.getId() != null) {
                 mImageUrlDao.insertOrReplace(imageurl);
             }
         }

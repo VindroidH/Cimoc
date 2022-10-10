@@ -1,9 +1,9 @@
 package com.haleydu.cimoc.rx;
 
-import androidx.annotation.IntDef;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 /**
  * Created by Hiroshi on 2016/8/21.
@@ -36,8 +36,8 @@ public class RxEvent {
     public static final int EVENT_PICTURE_PAGING = 121;
 
     public static final int EVENT_SWITCH_NIGHT = 141;
-    private int type;
-    private Object[] data;
+    private final int type;
+    private final Object[] data;
 
     public RxEvent(@EventType int type, Object... data) {
         this.type = type;

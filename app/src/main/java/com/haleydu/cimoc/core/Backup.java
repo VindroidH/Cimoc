@@ -166,7 +166,7 @@ public class Backup {
 
                 String filename = StringUtils.getDateStringWithSuffix(SUFFIX_CSBF);
                 DocumentFile file = DocumentUtils.getOrCreateFile(dir, filename);
-                DocumentUtils.writeStringToFile(resolver, file, result.toString());
+                DocumentUtils.writeStringToFile(resolver, file, result);
                 return settingMap.size();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -333,7 +333,7 @@ public class Backup {
                     Integer page = object.has(JSON_CIMOC_KEY_COMIC_PAGE) ?
                             object.getInt(JSON_CIMOC_KEY_COMIC_PAGE) : null;
                     list.add(new Comic(null, source, cid, title, cover, false, false, update,
-                            finish, null, null, null, last, page, null, null,null,null));
+                            finish, null, null, null, last, page, null, null, null, null));
                 }
                 break;
             case SUFFIX_CFBF:

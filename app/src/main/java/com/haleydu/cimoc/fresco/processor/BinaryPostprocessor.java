@@ -15,7 +15,7 @@ import com.facebook.imagepipeline.request.BasePostprocessor;
 
 public class BinaryPostprocessor extends BasePostprocessor {
 
-    private String url;
+    private final String url;
 
     public BinaryPostprocessor(String url) {
         this.url = url;

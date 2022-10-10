@@ -21,10 +21,8 @@ public class PermissionUtils {
     public static boolean hasAllPermissions(Activity activity) {
         int readResult = checkPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
         int writeResult = checkPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int readPhoneState = checkPermission(activity, Manifest.permission.READ_PHONE_STATE);
         return readResult == PackageManager.PERMISSION_GRANTED &&
-                writeResult == PackageManager.PERMISSION_GRANTED &&
-                readPhoneState == PackageManager.PERMISSION_GRANTED;
+                writeResult == PackageManager.PERMISSION_GRANTED;
     }
 
     public static int checkPermission(@NonNull Activity activity, @NonNull String permission) {

@@ -6,9 +6,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.manager.PreferenceManager;
@@ -16,13 +13,16 @@ import com.haleydu.cimoc.ui.fragment.BaseFragment;
 import com.haleydu.cimoc.ui.fragment.dialog.SliderDialogFragment;
 import com.haleydu.cimoc.ui.widget.Option;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 /**
  * Created by Hiroshi on 2017/1/10.
  */
 
 public class SliderPreference extends Option implements View.OnClickListener {
 
-    private PreferenceManager mPreferenceManager;
+    private final PreferenceManager mPreferenceManager;
     private FragmentManager mFragmentManager;
     private Fragment mTargetFragment;
     private String mPreferenceKey;

@@ -136,8 +136,6 @@
     <string name="settings_reader_click_event_summary">阅读状态屏幕及按键点击事件</string>
     <string name="settings_reader_long_click_event">自定义长按事件</string>
     <string name="settings_reader_long_click_event_summary">阅读状态屏幕长按事件</string>
-    <!--<string name="settings_reader_volume_click_event">自定义音量键点击事件</string>-->
-    <!--<string name="settings_reader_volume_click_event_summary">音量键点击事件</string>-->
     <string name="settings_reader_load_prev">自动加载上一章</string>
     <string name="settings_reader_load_prev_summary">位于第一页自动加载上一章</string>
     <string name="settings_reader_load_next">自动加载下一章</string>
@@ -194,10 +192,6 @@
     <string name="settings_other_storage_edit_neutral">选择路径</string>
     <string name="settings_other_clear_cache">清理缓存</string>
     <string name="settings_other_clear_cache_summary">清理在线漫画的缓存数据</string>
-    <string name="settings_other_firebase_event">Firebase数据收集</string>
-    <string name="settings_other_firebase_event_summary">允许程序通过Firebase收集您的使用情况，以便于分析程序和漫画源的工作状态。</string>
-    <string name="settings_other_reduce_ad">减少页面广告</string>
-    <string name="settings_other_reduce_ad_summary">减少历史和收藏页广告，下载和本地页不显示广告</string>
 
     <string name="backup_save">备份</string>
     <string name="backup_save_comic_auto">自动备份</string>
@@ -232,21 +226,15 @@
     <string name="backup_clear_record_notice_summary">清除后请尽快备份以免备份数据丢失，无法恢复备份内容</string>
 
     <string name="home_page">主页</string>
-    <string name="home_page_url">https://github.com/Haleydu/Cimoc</string>
-    <string name="home_page_cimqus">Cimqus</string>
-    <string name="home_page_cimqus_url">https://cimqus.now.sh</string>
-    <string name="home_page_gitter">Gitter</string>
-    <string name="home_page_gitter_url">https://gitter.im/Haleydu_Cimoc/community</string>
-    <string name="home_page_comiclist">Comiclist</string>
-    <string name="home_page_comiclist_url">https://www.baidu.com/</string>
+    <string name="home_page_url">https://github.com/VindroidH/Cimoc</string>
     <string name="about_resource">源代码</string>
-    <string name="about_resource_url">https://github.com/Haleydu/Cimoc</string>
+    <string name="about_resource_url">https://github.com/VindroidH/Cimoc</string>
     <string name="about_resource_ori">原作仓库</string>
-    <string name="about_resource_ori_url">https://github.com/feilongfl/Cimoc</string>
+    <string name="about_resource_ori_url">https://github.com/Haleydu/Cimoc</string>
     <string name="about_support">意见反馈</string>
-    <string name="about_support_url">https://github.com/Haleydu/Cimoc/issues</string>
+    <string name="about_support_url">https://github.com/VindroidH/Cimoc</string>
     <string name="about_update">检查更新</string>
-    <string name="about_update_url">https://github.com/Haleydu/Cimoc/releases</string>
+    <string name="about_update_url">https://github.com/VindroidH/Cimoc/releases</string>
     <string name="about_update_summary">点击访问Github Releases页面</string>
     <string name="about_update_app_auto">自动检查更新APP</string>
     <string name="about_update_latest">当前已经是最新版本</string>
@@ -313,30 +301,5 @@
     <string name="common_execute_fail">操作失败</string>
     <string name="common_operation_select">操作选择</string>
     <string name="common_null">null</string>
-    <string name="about_version">作者 Haleydu</string>
-    <string name="detail_disqus">评论</string>
-
-    <!--登陆相关-->
-    <string name="com_auth0_client_id">NulJt1aXcyBVmuzf3KctjdURchpHhKqW</string>
-    <string name="com_auth0_domain">cimoc.auth0.com</string>
-    <string name="title_activity_login">Users</string>
-    <string name="user_login_tips">请登录</string>
-    <string name="user_login_item">登录</string>
-    <string name="user_login_failed">登陆失败</string>
-    <string name="user_login_sucess">登陆成功</string>
-    <string name="user_login_logout_sucess">注销成功</string>
-    <string name="user_login_logout_tips">您确定要注销么？</string>
-    <string name="user_login_logout">注销</string>
-
-    <!--祝愿不被乱改，请大家手下留情，可以随意下载，不要乱加东西-->
-    <string name="mongo_str">mongodb://comic:ba93Z5qUerhSJE3q@ds014118.mlab.com:14118</string>
-    <string name="mongo_database_name">comic</string>
-    <string name="mongo_comic_base">comic-base</string>
-    <string name="mongo_comic_chapter">comic-chapter</string>
-
-    <string name="developing">此功能正在开发中</string>
-
-    <string name="the_public">Cimoc微信公众号</string>
-    <string name="the_public_summary">关注公众号查看最新版本</string>
-
+    <string name="about_version">原作者 Haleydu</string>
 </resources>

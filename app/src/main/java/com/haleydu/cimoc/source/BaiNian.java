@@ -43,15 +43,15 @@ public class BaiNian extends MangaParser {
     public Request getSearchRequest(String keyword, int page) throws UnsupportedEncodingException {
         String url = "";
         if (page == 1) {
-            url = "https://m.bnmanhua.com/index.php/search.html";
+            url = "https://m.bnmanhua.cc/index.php/search.html";
         }
 
         RequestBody requestBodyPost = new FormBody.Builder()
                 .add("keyword", keyword)
                 .build();
         return new Request.Builder()
-                .addHeader("Referer", "https://m.bnmanhua.com/")
-                .addHeader("Host", "m.bnmanhua.com")
+                .addHeader("Referer", "https://m.bnmanhua.cc/")
+                .addHeader("Host", "m.bnmanhua.cc")
 //                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0")
                 .url(url)
                 .post(requestBodyPost)
@@ -74,17 +74,17 @@ public class BaiNian extends MangaParser {
 
     @Override
     public String getUrl(String cid) {
-        return "https://m.bnmanhua.com".concat(cid);
+        return "https://m.bnmanhua.cc".concat(cid);
     }
 
     @Override
     protected void initUrlFilterList() {
-        filter.add(new UrlFilter("m.bnmanhua.com"));
+        filter.add(new UrlFilter("m.bnmanhua.cc"));
     }
 
     @Override
     public Request getInfoRequest(String cid) {
-        String url = "https://m.bnmanhua.com".concat(cid);
+        String url = "https://m.bnmanhua.cc".concat(cid);
         return new Request.Builder().url(url).build();
     }
 
@@ -104,7 +104,7 @@ public class BaiNian extends MangaParser {
     @Override
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list("div.tabs_block > ul > li > a")) {
             String title = node.text();
             String path = node.href();
@@ -115,23 +115,23 @@ public class BaiNian extends MangaParser {
 
     @Override
     public Request getImagesRequest(String cid, String path) {
-        String url = "https://m.bnmanhua.com".concat(path);
+        String url = "https://m.bnmanhua.cc".concat(path);
         return new Request.Builder().url(url).build();
     }
 
     @Override
-    public List<ImageUrl> parseImages(String html,Chapter chapter) {
+    public List<ImageUrl> parseImages(String html, Chapter chapter) {
         List<ImageUrl> list = new LinkedList<>();
         String host = StringUtils.match("src=\"(.*?)\\/upload", html, 1);
-        String path_str = StringUtils.match("z_img=\'\\[(.*?)\\]\'", html, 1);
+        String path_str = StringUtils.match("z_img='\\[(.*?)\\]'", html, 1);
         if (path_str != null && !path_str.equals("")) {
             try {
                 String[] array = path_str.split(",");
                 for (int i = 0; i != array.length; ++i) {
-                    String path = array[i].replace("\"","").replace("\\","");
+                    String path = array[i].replace("\"", "").replace("\\", "");
                     Long comicChapter = chapter.getId();
                     Long id = Long.parseLong(comicChapter + "000" + i);
-                    list.add(new ImageUrl(id,comicChapter,i + 1, host+"/"+path, false));
+                    list.add(new ImageUrl(id, comicChapter, i + 1, host + "/" + path, false));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -153,6 +153,6 @@ public class BaiNian extends MangaParser {
 
     @Override
     public Headers getHeader() {
-        return Headers.of("Referer", "https://m.bnmanhua.com");
+        return Headers.of("Referer", "https://m.bnmanhua.cc");
     }
 }

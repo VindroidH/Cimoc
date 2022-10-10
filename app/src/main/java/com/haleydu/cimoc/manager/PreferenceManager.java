@@ -115,8 +115,6 @@ public class PreferenceManager {
     public static final String PREF_OTHER_CHECK_SOFTWARE_UPDATE = "pref_other_check_software_update";
     public static final String PREF_OTHER_CONNECT_ONLY_WIFI = "pref_other_connect_only_wifi";
     public static final String PREF_OTHER_LOADCOVER_ONLY_WIFI = "pref_other_loadcover_only_wifi";
-    public static final String PREF_OTHER_FIREBASE_EVENT = "pref_other_firebase_event";
-    public static final String PREF_OTHER_REDUCE_AD = "pref_other_reduce_ad";
     public static final String PREF_OTHER_CHECK_UPDATE_LAST = "pref_other_check_update_last";
     public static final String PREF_OTHER_STORAGE = "pref_other_storage";
     public static final String PREF_OTHER_THEME = "pref_other_theme";
@@ -137,15 +135,12 @@ public class PreferenceManager {
     public static final String PREFERENCES_USER_NAME = "user_name";
     public static final String PREFERENCES_USER_EMAIL = "user_email";
     public static final String PREFERENCES_USER_ID = "user_id";
-    private static final String PREFERENCES_NAME = "cimoc_preferences";
-
     public static final String PREFERENCES_MH50_KEY_MSG = "preferences_mh50_key_msg";
     public static final String PREFERENCES_MH50_IV_MSG = "preferences_mh50_iv_msg";
-
     public static final String PREF_HHAAZZ_BASEURL = "pref_hhaazz_baseurl";
     public static final String PREF_HHAAZZ_SW = "pref_hhaazz_sw";
-
-    private SharedPreferences mSharedPreferences;
+    private static final String PREFERENCES_NAME = "cimoc_preferences";
+    private final SharedPreferences mSharedPreferences;
 
     public PreferenceManager(Context context) {
         mSharedPreferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -192,10 +187,15 @@ public class PreferenceManager {
     }
 
     public void putObject(String key, Object value) {
-        if (value instanceof Boolean) mSharedPreferences.edit().putBoolean(key, (Boolean) value).apply();
-        else if (value instanceof Float)  mSharedPreferences.edit().putFloat(key, (Float) value).apply();
-        else if (value instanceof Integer) mSharedPreferences.edit().putInt(key, (Integer) value).apply();
-        else if (value instanceof Long)  mSharedPreferences.edit().putLong(key, (Long) value).apply();
-        else if (value instanceof String)  mSharedPreferences.edit().putString(key, ((String) value)).apply();
+        if (value instanceof Boolean)
+            mSharedPreferences.edit().putBoolean(key, (Boolean) value).apply();
+        else if (value instanceof Float)
+            mSharedPreferences.edit().putFloat(key, (Float) value).apply();
+        else if (value instanceof Integer)
+            mSharedPreferences.edit().putInt(key, (Integer) value).apply();
+        else if (value instanceof Long)
+            mSharedPreferences.edit().putLong(key, (Long) value).apply();
+        else if (value instanceof String)
+            mSharedPreferences.edit().putString(key, ((String) value)).apply();
     }
 }

@@ -1,12 +1,12 @@
 package com.haleydu.cimoc.ui.fragment.recyclerview;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.ui.adapter.BaseAdapter;
 import com.haleydu.cimoc.ui.fragment.BaseFragment;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**

@@ -5,12 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import androidx.core.view.GestureDetectorCompat;
-import androidx.core.view.MotionEventCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+
+import androidx.core.view.GestureDetectorCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Hiroshi on 2017/5/26.
@@ -26,8 +27,8 @@ public class ZoomableRecyclerView extends RecyclerView implements OnScaleDragGes
     private final RectF mTempRectF = new RectF();
     private final Rect mTempRect = new Rect();
 
-    private ScaleDragDetector mScaleDragDetector;
-    private GestureDetectorCompat mGestureDetector;
+    private final ScaleDragDetector mScaleDragDetector;
+    private final GestureDetectorCompat mGestureDetector;
     private OnTapGestureListener mTapGestureListener;
 
     private float mScaleFactor = 2.0f;

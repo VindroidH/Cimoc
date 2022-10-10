@@ -1,11 +1,12 @@
 package com.haleydu.cimoc.parser;
 
-import androidx.annotation.IntDef;
 import android.util.Pair;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
+
+import androidx.annotation.IntDef;
 
 /**
  * Created by Hiroshi on 2016/12/10.

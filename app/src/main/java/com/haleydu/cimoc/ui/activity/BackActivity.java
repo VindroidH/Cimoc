@@ -1,14 +1,14 @@
 package com.haleydu.cimoc.ui.activity;
 
 import android.graphics.PorterDuff;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.utils.ThemeUtils;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 
 /**

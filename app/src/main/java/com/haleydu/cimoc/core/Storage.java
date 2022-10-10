@@ -29,9 +29,9 @@ import rx.schedulers.Schedulers;
 
 public class Storage {
 
-    private static String DOWNLOAD = "download";
-    private static String PICTURE = "picture";
-    private static String BACKUP = "backup";
+    private static final String DOWNLOAD = "download";
+    private static final String PICTURE = "picture";
+    private static final String BACKUP = "backup";
 
     public static DocumentFile initRoot(Context context, String uri) {
         if (uri == null) {
@@ -159,7 +159,7 @@ public class Storage {
                 }
                 Long comicChapter = chapter.getId();
                 Long id = Long.parseLong(comicChapter + "300" + count);
-                ImageUrl image = new ImageUrl(id, chapter.getSourceComic(),++count, uri, false);
+                ImageUrl image = new ImageUrl(id, chapter.getSourceComic(), ++count, uri, false);
                 image.setHeight(opts.outHeight);
                 image.setWidth(opts.outWidth);
                 image.setChapter(chapterStr);

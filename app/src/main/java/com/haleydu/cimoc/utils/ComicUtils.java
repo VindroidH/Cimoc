@@ -1,10 +1,10 @@
 package com.haleydu.cimoc.utils;
 
-import androidx.collection.LongSparseArray;
-
 import com.haleydu.cimoc.model.Comic;
 
 import java.util.List;
+
+import androidx.collection.LongSparseArray;
 
 /**
  * Created by Hiroshi on 2017/3/24.

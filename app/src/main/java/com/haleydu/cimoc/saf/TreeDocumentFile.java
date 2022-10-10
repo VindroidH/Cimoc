@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.DocumentsContract;
-import androidx.annotation.RequiresApi;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -20,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.RequiresApi;
+
 /**
  * Created by Hiroshi on 2017/3/24.
  */
@@ -28,7 +29,7 @@ import java.util.Map;
 @TargetApi(21)
 class TreeDocumentFile extends DocumentFile {
 
-    private Context mContext;
+    private final Context mContext;
     private Uri mUri;
     private String mDisplayName;
     private String mMimeType;

@@ -18,7 +18,7 @@ public class TaskManager {
 
     private static TaskManager mInstance;
 
-    private TaskDao mTaskDao;
+    private final TaskDao mTaskDao;
 
     private TaskManager(AppGetter getter) {
         mTaskDao = getter.getAppInstance().getDaoSession().getTaskDao();

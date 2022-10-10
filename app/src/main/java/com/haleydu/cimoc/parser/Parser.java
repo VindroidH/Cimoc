@@ -7,7 +7,6 @@ import com.haleydu.cimoc.model.Chapter;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.ImageUrl;
 import com.haleydu.cimoc.source.DM5;
-//import com.haleydu.cimoc.source.HHSSEE;
 import com.haleydu.cimoc.source.IKanman;
 
 import org.json.JSONException;
@@ -17,6 +16,8 @@ import java.util.List;
 
 import okhttp3.Headers;
 import okhttp3.Request;
+
+//import com.haleydu.cimoc.source.HHSSEE;
 
 /**
  * Created by Hiroshi on 2016/8/22.
@@ -29,7 +30,7 @@ public interface Parser {
      * @param keyword 关键字
      * @param page    页码
      */
-    Request getSearchRequest(String keyword, int page) throws UnsupportedEncodingException, Exception;
+    Request getSearchRequest(String keyword, int page) throws Exception;
 
     /**
      * 获取搜索结果迭代器，这里不直接解析成列表是为了多图源搜索时，不同图源漫画穿插的效果
@@ -73,10 +74,10 @@ public interface Parser {
 
     /**
      * 解析章节列表，新增函数
+     * <p>
+     * 使用了Lists.reverse(list)后要把TYPE加入interpretationUtils的isReverseOrder函数
      *
-     *  使用了Lists.reverse(list)后要把TYPE加入interpretationUtils的isReverseOrder函数
-     *
-     * @param html 页面源代码
+     * @param html  页面源代码
      * @param comic 漫画名
      */
     List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) throws JSONException;
@@ -101,10 +102,12 @@ public interface Parser {
 
     /**
      * 新增函数
-     * @param html 页面源代码
+     *
+     * @param html    页面源代码
      * @param chapter 漫画章节
      */
-    List<ImageUrl> parseImages(String html,Chapter chapter) throws Manga.NetworkErrorException, JSONException;
+    List<ImageUrl> parseImages(String html, Chapter chapter) throws Manga.NetworkErrorException, JSONException;
+
     /**
      * 图片惰性加载的 HTTP 请求
      *

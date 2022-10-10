@@ -15,12 +15,9 @@ import com.haleydu.cimoc.utils.StringUtils;
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import okhttp3.Headers;
 import okhttp3.Request;
@@ -30,13 +27,14 @@ public class JMTT extends MangaParser {
     public static final int TYPE = 72;
     public static final String DEFAULT_TITLE = "禁漫天堂";
     public static final String baseUrl = "https://18comic1.one/"; //https://cm365.xyz/7MJX9t
-
-    public static Source getDefaultSource() {
-        return new Source(null, DEFAULT_TITLE, TYPE, false);
-    }
+    private String imgpath = "";
 
     public JMTT(Source source) {
         init(source, null);
+    }
+
+    public static Source getDefaultSource() {
+        return new Source(null, DEFAULT_TITLE, TYPE, false);
     }
 
     @Override
@@ -89,12 +87,12 @@ public class JMTT extends MangaParser {
             Node body = new Node(html);
             String intro = body.text("#intro-block > div:eq(0)");
             String title = body.text("div.panel-heading > div");
-            String cover = body.attr("img.lazy_img.img-responsive","src").trim();
+            String cover = body.attr("img.lazy_img.img-responsive", "src").trim();
             String author = body.text("#intro-block > div:eq(4) > span");
-            String update = body.attr("#album_photo_cover > div:eq(1) > div:eq(3)","content");
+            String update = body.attr("#album_photo_cover > div:eq(1) > div:eq(3)", "content");
             boolean status = isFinish(body.text("#intro-block > div:eq(2) > span"));
             comic.setInfo(title, cover, update, intro, author, status);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return comic;
@@ -104,7 +102,7 @@ public class JMTT extends MangaParser {
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
         Node body = new Node(html);
-        int i=0;
+        int i = 0;
         String startTitle = body.text(".col.btn.btn-primary.dropdown-toggle.reading").trim();
         String startPath = body.href(".col.btn.btn-primary.dropdown-toggle.reading");
         list.add(new Chapter(Long.parseLong(sourceComic + "000" + i++), sourceComic, startTitle, startPath));
@@ -116,10 +114,9 @@ public class JMTT extends MangaParser {
         return Lists.reverse(list);
     }
 
-    private String imgpath = "";
     @Override
     public Request getImagesRequest(String cid, String path) {
-        String url = baseUrl+path;
+        String url = baseUrl + path;
         imgpath = path;
         return new Request.Builder().url(url).build();
     }
@@ -133,16 +130,16 @@ public class JMTT extends MangaParser {
                 Long comicChapter = chapter.getId();
                 Long id = Long.parseLong(comicChapter + "000" + i);
 
-                String img1 = node.attr("img","src");
-                String img2 = node.attr("img","data-original");
-                String reg[] = imgpath.split("\\/");
-                if (img1.contains(reg[2])){
+                String img1 = node.attr("img", "src");
+                String img2 = node.attr("img", "data-original");
+                String[] reg = imgpath.split("\\/");
+                if (img1.contains(reg[2])) {
                     list.add(new ImageUrl(id, comicChapter, ++i, img1, false));
-                }else if (img2.contains(reg[2])){
+                } else if (img2.contains(reg[2])) {
                     list.add(new ImageUrl(id, comicChapter, ++i, img2, false));
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
@@ -156,7 +153,7 @@ public class JMTT extends MangaParser {
 
     @Override
     public String parseCheck(String html) {
-        return new Node(html).attr("#album_photo_cover > div:eq(1) > div:eq(3)","content");
+        return new Node(html).attr("#album_photo_cover > div:eq(1) > div:eq(3)", "content");
     }
 
     @Override

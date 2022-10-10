@@ -12,7 +12,6 @@ import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.ui.activity.settings.EventSettingsActivity;
 import com.haleydu.cimoc.ui.fragment.BaseFragment;
 import com.haleydu.cimoc.ui.fragment.dialog.ChoiceDialogFragment;
-import com.haleydu.cimoc.ui.fragment.dialog.ItemDialogFragment;
 import com.haleydu.cimoc.ui.widget.preference.CheckBoxPreference;
 import com.haleydu.cimoc.ui.widget.preference.ChoicePreference;
 

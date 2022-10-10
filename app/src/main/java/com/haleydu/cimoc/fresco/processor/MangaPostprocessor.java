@@ -1,10 +1,6 @@
 package com.haleydu.cimoc.fresco.processor;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
@@ -16,18 +12,16 @@ import com.haleydu.cimoc.rx.RxBus;
 import com.haleydu.cimoc.rx.RxEvent;
 import com.haleydu.cimoc.utils.StringUtils;
 
-import java.util.Objects;
-
 /**
  * Created by Hiroshi on 2017/3/3.
  */
 
 public class MangaPostprocessor extends BasePostprocessor {
 
-    private ImageUrl mImage;
-    private boolean isPaging;
-    private boolean isPagingReverse;
-    private boolean isWhiteEdge;
+    private final ImageUrl mImage;
+    private final boolean isPaging;
+    private final boolean isPagingReverse;
+    private final boolean isWhiteEdge;
 
     private int mWidth, mHeight;
     private int mPosX, mPosY;
@@ -262,23 +256,23 @@ public class MangaPostprocessor extends BasePostprocessor {
         return gray > 21500;
     }
 
-    public void decodeJMTTImage(Bitmap sourceBitmap, CloseableReference<Bitmap> reference){
+    public void decodeJMTTImage(Bitmap sourceBitmap, CloseableReference<Bitmap> reference) {
         String url = mImage.getUrl();
         int scramble_id = 220980;
         int chapterId = 0;
 //        if (url.contains("/Cimoc/download/72/")){
 //            chapterId = Integer.parseInt(Objects.requireNonNull(StringUtils.match("/-photo-(\\d*)/", url, 1)));
 //        }
-        if((url.contains("media/photos")
+        if ((url.contains("media/photos")
                 && Integer.parseInt(url.substring(url.indexOf("photos/") + 7, url.lastIndexOf("/"))) > scramble_id)
 //                || chapterId > scramble_id
-               ) {
+        ) {
             Bitmap resultBitmap = reference.get();
             int rows = 10;
-            int remainder  = mHeight % rows;
+            int remainder = mHeight % rows;
             //Canvas canvas = new Canvas(resultBitmap);
             for (int x = 0; x < 10; x++) {
-                int chunkHeight = (int)Math.floor(mHeight / rows);
+                int chunkHeight = (int) Math.floor(mHeight / rows);
                 int py = chunkHeight * (x);
                 int y = mHeight - chunkHeight * (x + 1) - remainder;
 
@@ -291,7 +285,7 @@ public class MangaPostprocessor extends BasePostprocessor {
                 sourceBitmap.getPixels(pixels, 0, mWidth, 0, y, mWidth, chunkHeight);
                 resultBitmap.setPixels(pixels, 0, mWidth, 0, py, mWidth, chunkHeight);
             }
-            jmttIsDone=true;
+            jmttIsDone = true;
         }
     }
 }

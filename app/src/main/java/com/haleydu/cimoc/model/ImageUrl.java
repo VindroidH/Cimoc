@@ -2,14 +2,10 @@ package com.haleydu.cimoc.model;
 
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.converter.PropertyConverter;
-
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by Hiroshi on 2016/8/20.
@@ -39,18 +35,18 @@ public class ImageUrl {
 
     public ImageUrl(Long id, Long comicChapter, int num, String[] urls, String chapter, int state, boolean lazy) {
         this(id, comicChapter, num, urls, chapter, state, 0, 0, lazy,
-                false, false,false);
+                false, false, false);
     }
 
-    public ImageUrl(Long id,Long comicChapter,int num, String url, boolean lazy) {
-       this(id, comicChapter, num, new String[]{url}, null, STATE_NULL,
-               0, 0, lazy, false, false, false);
+    public ImageUrl(Long id, Long comicChapter, int num, String url, boolean lazy) {
+        this(id, comicChapter, num, new String[]{url}, null, STATE_NULL,
+                0, 0, lazy, false, false, false);
     }
 
     @Generated(hash = 254698487)
     public ImageUrl(Long id, @NotNull Long comicChapter, int num, String[] urls,
-            String chapter, int state, int height, int width, boolean lazy, boolean loading,
-            boolean success, boolean download) {
+                    String chapter, int state, int height, int width, boolean lazy, boolean loading,
+                    boolean success, boolean download) {
         this.id = id;
         this.comicChapter = comicChapter;
         this.num = num;
@@ -72,12 +68,24 @@ public class ImageUrl {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public int getNum() {
         return num;
     }
 
+    public void setNum(int num) {
+        this.num = num;
+    }
+
     public String[] getUrls() {
         return urls;
+    }
+
+    public void setUrls(String[] urls) {
+        this.urls = urls;
     }
 
     public String getUrl() {
@@ -128,41 +136,21 @@ public class ImageUrl {
         return lazy;
     }
 
-    public void setLazy(boolean lazy) {
-        this.lazy = lazy;
-    }
-
     public boolean isLoading() {
         return loading;
-    }
-
-    public void setLoading(boolean loading) {
-        this.loading = loading;
     }
 
     public boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
     public boolean isDownload() {
         return download;
-    }
-
-    public void setDownload(boolean download) {
-        this.download = download;
     }
 
     @Override
     public boolean equals(Object o) {
         return o instanceof ImageUrl && ((ImageUrl) o).id == id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getComicChapter() {
@@ -173,30 +161,37 @@ public class ImageUrl {
         this.comicChapter = comicChapter;
     }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
-
-    public void setUrls(String[] urls) {
-        this.urls = urls;
-    }
-
     public boolean getLazy() {
         return this.lazy;
+    }
+
+    public void setLazy(boolean lazy) {
+        this.lazy = lazy;
     }
 
     public boolean getLoading() {
         return this.loading;
     }
 
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+    }
+
     public boolean getSuccess() {
         return this.success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public boolean getDownload() {
         return this.download;
     }
 
+    public void setDownload(boolean download) {
+        this.download = download;
+    }
 
     public static class StringConverter implements PropertyConverter<String[], String> {
         private static final String SPLIT = "##Cimoc##";

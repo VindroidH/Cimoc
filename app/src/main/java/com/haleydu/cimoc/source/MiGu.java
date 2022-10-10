@@ -18,7 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class MiGu extends MangaParser {
         //天 => JUU1JUE0JUE5
         //好吧,搞出来了
         //天 ===utf-8===> \xE5\xA4\xA9 ===\x->%=====> %E5%A1%A9 ===base64=====> JUU1JUE0JUE5
-        byte[] keywordByte = keyword.getBytes(Charset.forName("UTF-8"));
+        byte[] keywordByte = keyword.getBytes(StandardCharsets.UTF_8);
         String keyPre = "";
         for (byte k : keywordByte) {
             keyPre += "%" + String.format("%02x", k);
@@ -112,7 +112,7 @@ public class MiGu extends MangaParser {
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
         Matcher m = Pattern.compile("<a stat='.*?' href=\"(?:.*?)(\\d+)\\.html\" class=\"item ellipsis\" title=\"(.*?)\" data-opusname=\"(?:.*?)\" data-index=\"(?:.*?)\" data-url=\"(?:.*?)\" target=\"_blank\">").matcher(html);
-        int i=0;
+        int i = 0;
         while (m.find()) {
             list.add(new Chapter(Long.parseLong(sourceComic + "000" + i++), sourceComic, m.group(2), m.group(1)));
         }

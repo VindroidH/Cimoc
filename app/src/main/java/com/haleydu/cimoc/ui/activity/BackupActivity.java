@@ -68,7 +68,8 @@ public class BackupActivity extends BackActivity implements BackupView {
         }
     }
 
-    @OnClick(R.id.backup_save_settings) void onSaveSettingsClick() {
+    @OnClick(R.id.backup_save_settings)
+    void onSaveSettingsClick() {
         showProgressDialog();
         if (PermissionUtils.hasStoragePermission(this)) {
             mPresenter.saveSettings();
@@ -77,7 +78,8 @@ public class BackupActivity extends BackActivity implements BackupView {
         }
     }
 
-    @OnClick(R.id.backup_restore_comic) void onRestoreFavoriteClick() {
+    @OnClick(R.id.backup_restore_comic)
+    void onRestoreFavoriteClick() {
         showProgressDialog();
         if (PermissionUtils.hasStoragePermission(this)) {
             mPresenter.loadComicFile();
@@ -96,7 +98,8 @@ public class BackupActivity extends BackActivity implements BackupView {
         }
     }
 
-    @OnClick(R.id.backup_restore_settings) void onRestoreSettingsClick() {
+    @OnClick(R.id.backup_restore_settings)
+    void onRestoreSettingsClick() {
         showProgressDialog();
         if (PermissionUtils.hasStoragePermission(this)) {
             mPresenter.loadSettingsFile();
@@ -105,7 +108,8 @@ public class BackupActivity extends BackActivity implements BackupView {
         }
     }
 
-    @OnClick(R.id.backup_clear_record) void onClearRecordClick() {
+    @OnClick(R.id.backup_clear_record)
+    void onClearRecordClick() {
         showProgressDialog();
         if (PermissionUtils.hasStoragePermission(this)) {
             mPresenter.loadClearBackupFile();

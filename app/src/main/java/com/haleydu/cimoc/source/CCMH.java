@@ -29,13 +29,14 @@ public class CCMH extends MangaParser {
 
     public static final int TYPE = 23;
     public static final String DEFAULT_TITLE = "CC漫画";
-
-    public static Source getDefaultSource() {
-        return new Source(null, DEFAULT_TITLE, TYPE, true);
-    }
+    private String _cid, _path;
 
     public CCMH(Source source) {
         init(source, null);
+    }
+
+    public static Source getDefaultSource() {
+        return new Source(null, DEFAULT_TITLE, TYPE, true);
     }
 
     @Override
@@ -70,9 +71,6 @@ public class CCMH extends MangaParser {
                 String cid = node.hrefWithSplit("a", 1);
                 String title = node.textWithSplit("a", "\\s+", 0);
                 String cover = node.src("a > img");
-//                if (cover.startsWith("//")) cover = "https:" + cover;
-//                String update = node.text(".itemTxt > p.txtItme:eq(3)");
-//                boolean finish = node.textWithSplit("a","\\s+",1) == "完结";
                 String author = node.textWithSplit("a", "\\s+", 2);
                 return new Comic(TYPE, cid, title, cover, "", author);
             }
@@ -89,7 +87,6 @@ public class CCMH extends MangaParser {
         filter.add(new UrlFilter("m.50mh.com", "manhua\\/(\\w+)", 1));
     }
 
-
     @Override
     public Request getInfoRequest(String cid) {
         String url = StringUtils.format("http://m.ccmh6.com/manhua/%s", cid);
@@ -105,7 +102,6 @@ public class CCMH extends MangaParser {
         String intro = body.text(".intro");
         String title = body.text(".other > div > strong");
         String cover = body.src(".cover > img");
-//        if (cover.startsWith("//")) cover = "https:" + cover;
         String author = body.textWithSplit(".other", "\\s+|：", 8);
         String update = body.textWithSplit(".other", "\\s+|：", 12)
                 .replace("[", "").replace("]", "");
@@ -118,7 +114,7 @@ public class CCMH extends MangaParser {
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
         Node body = new Node(html);
-        int i=0;
+        int i = 0;
         for (Node node : body.list(".list > a")) {
             String title = node.attr("title");
             String path = node.hrefWithSplit(2);
@@ -127,8 +123,6 @@ public class CCMH extends MangaParser {
 
         return Lists.reverse(list);
     }
-
-    private String _cid, _path;
 
     @Override
     public Request getImagesRequest(String cid, String path) {
@@ -156,7 +150,7 @@ public class CCMH extends MangaParser {
         for (int i = 0; i < pageCount; i++) {
             Long comicChapter = chapter.getId();
             Long id = Long.parseLong(comicChapter + "000" + i);
-            list.add(new ImageUrl(id, comicChapter, i+1, StringUtils.format("http://m.ccmh6.com/manhua/%s/%s.html?p=%d", _cid, _path, i + 1), true));
+            list.add(new ImageUrl(id, comicChapter, i + 1, StringUtils.format("http://m.ccmh6.com/manhua/%s/%s.html?p=%d", _cid, _path, i + 1), true));
         }
         return list;
     }

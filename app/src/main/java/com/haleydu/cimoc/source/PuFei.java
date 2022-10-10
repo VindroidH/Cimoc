@@ -12,7 +12,6 @@ import com.haleydu.cimoc.parser.NodeIterator;
 import com.haleydu.cimoc.parser.SearchIterator;
 import com.haleydu.cimoc.parser.UrlFilter;
 import com.haleydu.cimoc.soup.Node;
-import com.haleydu.cimoc.ui.activity.ResultActivity;
 import com.haleydu.cimoc.utils.DecryptionUtils;
 import com.haleydu.cimoc.utils.StringUtils;
 
@@ -102,7 +101,7 @@ public class PuFei extends MangaParser {
     @Override
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list("#chapterList2 > ul > li > a")) {
             String title = node.attr("title");
             String path = node.hrefWithSplit(2);

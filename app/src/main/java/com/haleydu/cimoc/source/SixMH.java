@@ -35,12 +35,12 @@ public class SixMH extends MangaParser {
     private static final String website = "www.sixmh6.com";
     private static String ChapterHtml;
 
-    public static Source getDefaultSource() {
-        return new Source(null, DEFAULT_TITLE, TYPE, true);
-    }
-
     public SixMH(Source source) {
         init(source, null);
+    }
+
+    public static Source getDefaultSource() {
+        return new Source(null, DEFAULT_TITLE, TYPE, true);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class SixMH extends MangaParser {
 
     @Override
     public Request getInfoRequest(String cid) {
-        String url = "http://" + website  + cid ;
+        String url = "http://" + website + cid;
         return new Request.Builder().url(url).build();
     }
 
@@ -102,10 +102,10 @@ public class SixMH extends MangaParser {
 
     @Override
     public Request getChapterRequest(String html, String cid) {
-        String url = "http://"+website+"/bookchapter/";
+        String url = "http://" + website + "/bookchapter/";
         Node body = new Node(html);
-        String id = body.attr("a#zhankai","data-id");
-        String id2 =body.attr("a#zhankai","data-vid");
+        String id = body.attr("a#zhankai", "data-id");
+        String id2 = body.attr("a#zhankai", "data-vid");
 
         RequestBody requestBody = new FormBody.Builder().add("id", id).add("id2", id2).build();
         return new Request.Builder().url(url).post(requestBody).build();
@@ -136,7 +136,7 @@ public class SixMH extends MangaParser {
 
     @Override
     public Request getImagesRequest(String cid, String path) {
-        String url = StringUtils.format("http://%s%s%s.html", website, cid,path);
+        String url = StringUtils.format("http://%s%s%s.html", website, cid, path);
         return new Request.Builder().url(url).build();
     }
 
@@ -169,7 +169,7 @@ public class SixMH extends MangaParser {
 
     @Override
     public Headers getHeader() {
-        return Headers.of("Referer", "http://"+website);
+        return Headers.of("Referer", "http://" + website);
     }
 
 }

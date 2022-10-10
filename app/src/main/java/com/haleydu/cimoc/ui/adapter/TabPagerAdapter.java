@@ -1,10 +1,10 @@
 package com.haleydu.cimoc.ui.adapter;
 
+import com.haleydu.cimoc.ui.fragment.BaseFragment;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import com.haleydu.cimoc.ui.fragment.BaseFragment;
 
 /**
  * Created by Hiroshi on 2016/10/11.
@@ -12,8 +12,8 @@ import com.haleydu.cimoc.ui.fragment.BaseFragment;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
-    private BaseFragment[] fragment;
-    private String[] title;
+    private final BaseFragment[] fragment;
+    private final String[] title;
 
     public TabPagerAdapter(FragmentManager manager, BaseFragment[] fragment, String[] title) {
         super(manager);

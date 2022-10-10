@@ -1,7 +1,5 @@
 package com.haleydu.cimoc.presenter;
 
-import android.util.Log;
-
 import com.haleydu.cimoc.core.Backup;
 import com.haleydu.cimoc.core.Download;
 import com.haleydu.cimoc.core.Manga;
@@ -106,14 +104,14 @@ public class DetailPresenter extends BasePresenter<DetailView> {
     }
 
     public void preLoad() {
-        if(mComic.getId()==null) {
+        if (mComic.getId() == null) {
             return;
         }
-        mCompositeSubscription.add(mChapterManager.getListChapter(Long.parseLong(mComic.getSource()+"000"+mComic.getId()))
+        mCompositeSubscription.add(mChapterManager.getListChapter(Long.parseLong(mComic.getSource() + "000" + mComic.getId()))
                 .doOnNext(new Action1<List<Chapter>>() {
                     @Override
                     public void call(List<Chapter> list) {
-                        if (mComic.getId() != null && list.size()!=0) {
+                        if (mComic.getId() != null && list.size() != 0) {
                             updateChapterList(list);
                         }
                     }
@@ -122,8 +120,8 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                 .subscribe(new Action1<List<Chapter>>() {
                     @Override
                     public void call(List<Chapter> list) {
-                        if (list != null && list.size()!=0){
-                            mBaseView.onPreLoadSuccess(list,mComic);
+                        if (list != null && list.size() != 0) {
+                            mBaseView.onPreLoadSuccess(list, mComic);
                         }
                     }
                 }, new Action1<Throwable>() {

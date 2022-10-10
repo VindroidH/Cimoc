@@ -1,9 +1,8 @@
 package com.haleydu.cimoc.ui.activity.settings;
 
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.component.DialogCaller;
 import com.haleydu.cimoc.global.ClickEvents;
@@ -13,6 +12,7 @@ import com.haleydu.cimoc.ui.fragment.BaseFragment;
 import com.haleydu.cimoc.ui.fragment.config.PageConfigFragment;
 import com.haleydu.cimoc.ui.fragment.config.StreamConfigFragment;
 
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 /**
@@ -41,7 +41,7 @@ public class ReaderConfigActivity extends BackActivity implements DialogCaller {
         mTabLayout.setupWithViewPager(mViewPager);
         boolean isStream = mViewPager.getCurrentItem() == 1;
         if (isStream) {
-            mKeyArray =  ClickEvents.getStreamClickEvents();
+            mKeyArray = ClickEvents.getStreamClickEvents();
             mChoiceArray = ClickEvents.getStreamClickEventChoice(mPreference);
         } else {
             mKeyArray = ClickEvents.getPageClickEvents();
@@ -49,13 +49,14 @@ public class ReaderConfigActivity extends BackActivity implements DialogCaller {
         }
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
                 boolean isStream = position == 1;
                 if (isStream) {
-                    mKeyArray =  ClickEvents.getStreamClickEvents();
+                    mKeyArray = ClickEvents.getStreamClickEvents();
                     mChoiceArray = ClickEvents.getStreamClickEventChoice(mPreference);
                 } else {
                     mKeyArray = ClickEvents.getPageClickEvents();
@@ -64,7 +65,8 @@ public class ReaderConfigActivity extends BackActivity implements DialogCaller {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) { }
+            public void onPageScrollStateChanged(int state) {
+            }
         });
     }
 

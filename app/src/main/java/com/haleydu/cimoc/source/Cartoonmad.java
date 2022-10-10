@@ -33,6 +33,7 @@ public class Cartoonmad extends MangaParser {
 
     public static final int TYPE = 54;
     public static final String DEFAULT_TITLE = "动漫狂";
+    private String _cid, _path;
 
     public Cartoonmad(Source source) {
         init(source, null);
@@ -106,7 +107,7 @@ public class Cartoonmad extends MangaParser {
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
         Matcher mChapter = Pattern.compile("<a href=(.*?) target=_blank>(.*?)<\\/a>&nbsp;").matcher(html);
-        int i=0;
+        int i = 0;
         while (mChapter.find()) {
             String title = mChapter.group(2);
             String path = mChapter.group(1);
@@ -114,8 +115,6 @@ public class Cartoonmad extends MangaParser {
         }
         return Lists.reverse(list);
     }
-
-    private String _cid, _path;
 
     @Override
     public Request getImagesRequest(String cid, String path) {
@@ -126,7 +125,7 @@ public class Cartoonmad extends MangaParser {
     }
 
     @Override
-    public List<ImageUrl> parseImages(String html,Chapter chapter) {
+    public List<ImageUrl> parseImages(String html, Chapter chapter) {
         List<ImageUrl> list = new ArrayList<>();
         Matcher pageMatcher = Pattern.compile("<a class=onpage>.*<a class=pages href=(.*)\\d{3}\\.html>(.*?)<\\/a>").matcher(html);
         if (!pageMatcher.find()) return null;

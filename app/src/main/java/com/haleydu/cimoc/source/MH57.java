@@ -109,7 +109,7 @@ public class MH57 extends MangaParser {
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
         Node body = new Node(html);
-        int i=0;
+        int i = 0;
         for (Node node : body.list("#chapterList > ul > li > a")) {
             String title = node.text();
             String path = node.hrefWithSplit(1);
@@ -136,7 +136,7 @@ public class MH57 extends MangaParser {
                 int size = array.length();
                 for (int i = 0; i != size; ++i) {
                     String url = array.getString(i);
-                    if(url.indexOf("http://") == -1){
+                    if (url.indexOf("http://") == -1) {
                         url = servers[0] + url;
                     }
                     Long comicChapter = chapter.getId();

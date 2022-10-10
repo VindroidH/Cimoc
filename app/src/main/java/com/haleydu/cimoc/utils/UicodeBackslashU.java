@@ -11,6 +11,7 @@ public final class UicodeBackslashU {
 
     /**
      * 把 \\u 开头的单字转成汉字，如 \\u6B65 ->　步
+     *
      * @param str
      * @return
      */
@@ -19,12 +20,13 @@ public final class UicodeBackslashU {
                 .append(str.substring(2, 6));
         Integer codeInteger = Integer.decode(sb.toString());
         int code = codeInteger.intValue();
-        char c = (char)code;
+        char c = (char) code;
         return String.valueOf(c);
     }
 
     /**
      * 字符串是否以Unicode字符开头。约定Unicode字符以 \\u开头。
+     *
      * @param str 字符串
      * @return true表示以Unicode字符开头.
      */
@@ -47,6 +49,7 @@ public final class UicodeBackslashU {
 
     /**
      * 字符串中，所有以 \\u 开头的UNICODE字符串，全部替换成汉字
+     *
      * @param str
      * @return
      */
@@ -58,7 +61,7 @@ public final class UicodeBackslashU {
         // 1. 如果剩余字符串是Unicode字符开头，就把Unicode转换成汉字，加到StringBuilder中。然后跳过这个Unicode字符。
         // 2.反之， 如果剩余字符串不是Unicode字符开头，把普通字符加入StringBuilder，向右跳过1.
         int length = str.length();
-        for (int i = 0; i < length;) {
+        for (int i = 0; i < length; ) {
             String tmpStr = str.substring(i);
             if (isStartWithUnicode(tmpStr)) { // 分支1
                 sb.append(ustartToCn(tmpStr));

@@ -9,7 +9,6 @@ import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.source.Animx2;
 import com.haleydu.cimoc.source.BaiNian;
-import com.haleydu.cimoc.source.BuKa;
 import com.haleydu.cimoc.source.Cartoonmad;
 import com.haleydu.cimoc.source.ChuiXue;
 import com.haleydu.cimoc.source.DM5;
@@ -61,7 +60,6 @@ public class BrowserFilter extends BaseActivity {
         List<Integer> list = new ArrayList<>();
 
         list.add(Dmzjv2.TYPE);
-        list.add(BuKa.TYPE);
         list.add(PuFei.TYPE);
         list.add(Cartoonmad.TYPE);
         list.add(Animx2.TYPE);

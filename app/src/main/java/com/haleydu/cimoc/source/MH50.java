@@ -38,20 +38,27 @@ public class MH50 extends MangaParser {
 
     public static final int TYPE = 80;
     public static final String DEFAULT_TITLE = "漫画堆";
-    public static final String  baseUrl = "https://m.manhuadai.com";
-
-    public static Source getDefaultSource() {
-        return new Source(null, DEFAULT_TITLE, TYPE, true);
-    }
+    public static final String baseUrl = "https://m.manhuadai.com";
+    private final String[] server = {
+            "https://mhcdn.manhuazj.com",
+            "https://manga8.mlxsc.com",
+            "https://manga9.mlxsc.com",
+            "https://img01.eshanyao.com",
+            "https://imgdm.eshanyao.com/"
+    };
 
     public MH50(Source source) {
         init(source, new Category());
     }
 
+    public static Source getDefaultSource() {
+        return new Source(null, DEFAULT_TITLE, TYPE, true);
+    }
+
     @Override
     public Request getSearchRequest(String keyword, int page) {
         if (page == 1) {
-            String url = StringUtils.format(baseUrl+"/search/?keywords=%s&page=%d", keyword, page);
+            String url = StringUtils.format(baseUrl + "/search/?keywords=%s&page=%d", keyword, page);
             return HttpUtils.getSimpleMobileRequest(url);
         }
         return null;
@@ -108,7 +115,7 @@ public class MH50 extends MangaParser {
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
         Node body = new Node(html);
-        int i=0;
+        int i = 0;
         for (Node node : body.list(".chapter-warp > ul > li > a")) {
             String title = node.text();
             String path = StringUtils.split(node.href(), "/", 3);
@@ -123,14 +130,6 @@ public class MH50 extends MangaParser {
         String url = StringUtils.format(baseUrl + "/manhua/%s/%s", cid, path);
         return HttpUtils.getSimpleMobileRequest(url);
     }
-
-    private final String[] server = {
-            "https://mhcdn.manhuazj.com",
-            "https://manga8.mlxsc.com",
-            "https://manga9.mlxsc.com",
-            "https://img01.eshanyao.com",
-            "https://imgdm.eshanyao.com/"
-    };
 
     @Nullable
     private String decrypt(String code) {
@@ -166,7 +165,7 @@ public class MH50 extends MangaParser {
     }
 
     @Override
-    public List<ImageUrl> parseImages(String html,Chapter chapter) {
+    public List<ImageUrl> parseImages(String html, Chapter chapter) {
         List<ImageUrl> list = new LinkedList<>();
 
         //该章节的所有图片url，aes加密
@@ -217,6 +216,11 @@ public class MH50 extends MangaParser {
             }
         }
         return list;
+    }
+
+    @Override
+    public Headers getHeader() {
+        return Headers.of("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36");
     }
 
     private static class Category extends MangaCategory {
@@ -392,10 +396,5 @@ public class MH50 extends MangaParser {
             list.add(Pair.create("2020年", "2020nian"));
             return list;
         }
-    }
-
-    @Override
-    public Headers getHeader() {
-        return Headers.of("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36");
     }
 }

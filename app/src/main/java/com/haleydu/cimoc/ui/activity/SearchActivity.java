@@ -1,11 +1,6 @@
 package com.haleydu.cimoc.ui.activity;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -16,6 +11,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.misc.Switcher;
@@ -24,7 +21,6 @@ import com.haleydu.cimoc.presenter.BasePresenter;
 import com.haleydu.cimoc.presenter.SearchPresenter;
 import com.haleydu.cimoc.ui.adapter.AutoCompleteAdapter;
 import com.haleydu.cimoc.ui.fragment.dialog.MultiAdpaterDialogFragment;
-import com.haleydu.cimoc.ui.fragment.dialog.MultiDialogFragment;
 import com.haleydu.cimoc.ui.view.SearchView;
 import com.haleydu.cimoc.utils.CollectionUtils;
 import com.haleydu.cimoc.utils.HintUtils;
@@ -33,6 +29,8 @@ import com.haleydu.cimoc.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.AppCompatCheckBox;
 import butterknife.BindView;
 import butterknife.OnClick;
 

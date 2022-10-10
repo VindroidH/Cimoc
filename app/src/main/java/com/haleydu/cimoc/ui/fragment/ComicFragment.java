@@ -1,16 +1,12 @@
 package com.haleydu.cimoc.ui.fragment;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.ColorRes;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.material.tabs.TabLayout;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.component.ThemeResponsive;
 import com.haleydu.cimoc.manager.PreferenceManager;
@@ -32,8 +28,10 @@ import com.haleydu.cimoc.utils.HintUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+import androidx.annotation.ColorRes;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 /**
@@ -110,13 +108,6 @@ public class ComicFragment extends BaseFragment implements ComicView {
             case R.id.comic_search:
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 startActivity(intent);
-                break;
-            case R.id.comic_bbs:
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.home_page_gitter_url)));
-                try {
-                    startActivity(intent);
-                } catch (Exception e) {
-                }
                 break;
             case R.id.comic_cancel_highlight:
                 ((FavoriteFragment) mTabAdapter.getItem(1)).cancelAllHighlight();

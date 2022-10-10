@@ -6,7 +6,6 @@ import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -32,6 +31,7 @@ import com.haleydu.cimoc.utils.ThemeUtils;
 import java.io.File;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
@@ -102,18 +102,14 @@ public class SettingsActivity extends BackActivity implements SettingsView {
     CheckBoxPreference mConnectOnlyWifi;
     @BindView(R.id.settings_other_loadcover_only_wifi)
     CheckBoxPreference mLoadCoverOnlyWifi;
-    @BindView(R.id.settings_firebase_event)
-    CheckBoxPreference mFireBaseEvent;
-    @BindView(R.id.settings_other_reduce_ad)
-    CheckBoxPreference mReduceAd;
 
     private SettingsPresenter mPresenter;
 
     private String mStoragePath;
     private String mTempStorage;
 
-    private int[] mResultArray = new int[6];
-    private Intent mResultIntent = new Intent();
+    private final int[] mResultArray = new int[6];
+    private final Intent mResultIntent = new Intent();
 
     @Override
     protected BasePresenter initPresenter() {
@@ -141,9 +137,7 @@ public class SettingsActivity extends BackActivity implements SettingsView {
         mCheckSoftwareUpdate.bindPreference(PreferenceManager.PREF_OTHER_CHECK_SOFTWARE_UPDATE, true);
         mConnectOnlyWifi.bindPreference(PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false);
         mLoadCoverOnlyWifi.bindPreference(PreferenceManager.PREF_OTHER_LOADCOVER_ONLY_WIFI, false);
-        mFireBaseEvent.bindPreference(PreferenceManager.PREF_OTHER_FIREBASE_EVENT, true);
-        mReduceAd.bindPreference(PreferenceManager.PREF_OTHER_REDUCE_AD, false);
-        mOtherShowTopbar.bindPreference(PreferenceManager.PREF_OTHER_SHOW_TOPBAR,false);
+        mOtherShowTopbar.bindPreference(PreferenceManager.PREF_OTHER_SHOW_TOPBAR, false);
         mReaderMode.bindPreference(getSupportFragmentManager(), PreferenceManager.PREF_READER_MODE,
                 PreferenceManager.READER_MODE_PAGE, R.array.reader_mode_items, DIALOG_REQUEST_READER_MODE);
         mOtherLaunch.bindPreference(getSupportFragmentManager(), PreferenceManager.PREF_OTHER_LAUNCH,
@@ -272,8 +266,6 @@ public class SettingsActivity extends BackActivity implements SettingsView {
         mCheckSoftwareUpdate.setColorStateList(stateList);
         mConnectOnlyWifi.setColorStateList(stateList);
         mLoadCoverOnlyWifi.setColorStateList(stateList);
-        mFireBaseEvent.setColorStateList(stateList);
-        mReduceAd.setColorStateList(stateList);
         mOtherShowTopbar.setColorStateList(stateList);
         mReaderCloseAutoResizeImage.setColorStateList(stateList);
         mReaderVolumeKeyControls.setColorStateList(stateList);

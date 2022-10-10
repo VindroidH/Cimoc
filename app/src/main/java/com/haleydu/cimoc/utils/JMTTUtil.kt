@@ -4,18 +4,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Rect
-import android.util.Log
-import okhttp3.MediaType
-import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.ResponseBody
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import kotlin.math.floor
 
 class JMTTUtil {
 
-     public fun decodeImage(img: InputStream): ByteArray {
+    fun decodeImage(img: InputStream): ByteArray {
         // 使用bitmap进行图片处理
         val input = BitmapFactory.decodeStream(img)
         // 漫画高度 and width

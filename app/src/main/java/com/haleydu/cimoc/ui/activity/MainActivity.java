@@ -8,35 +8,20 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.ColorRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StyleRes;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.os.Environment;
 import android.provider.Settings;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.google.android.material.navigation.NavigationView;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.component.ThemeResponsive;
@@ -54,10 +39,17 @@ import com.haleydu.cimoc.ui.fragment.recyclerview.SourceFragment;
 import com.haleydu.cimoc.ui.view.MainView;
 import com.haleydu.cimoc.utils.HintUtils;
 import com.haleydu.cimoc.utils.PermissionUtils;
-
 import com.king.app.updater.constant.Constants;
-import butterknife.BindView;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import butterknife.BindView;
 
 
 /**
@@ -68,7 +60,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
 
     private static final int DIALOG_REQUEST_NOTICE = 0;
     private static final int DIALOG_REQUEST_PERMISSION = 1;
-    //private static final int DIALOG_REQUEST_LOGOUT = 2;
 
     private static final int REQUEST_ACTIVITY_SETTINGS = 0;
 
@@ -97,11 +88,9 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     private BaseFragment mCurrentFragment;
     private boolean night;
 
-    private Update update = new Update();
-    private String versionName,content,mUrl,md5;
+    private final Update update = new Update();
+    private String versionName, content, mUrl, md5;
     private int versionCode;
-    //auth0
-//    private Auth0 auth0;
 
     @Override
     protected BasePresenter initPresenter() {
@@ -117,71 +106,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         initFragment();
     }
 
-//    private void login() {
-//        HintUtils.showToast(MainActivity.this, R.string.user_login_tips);
-//        WebAuthProvider.init(auth0)
-//            .withScheme("demo")
-//            .withScope("openid profile email")
-//            .withAudience(String.format("https://%s/userinfo", getString(R.string.com_auth0_domain)))
-//            .start(MainActivity.this, new AuthCallback() {
-//                @Override
-//                public void onFailure(@NonNull final Dialog dialog) {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            dialog.show();
-//                        }
-//                    });
-//                }
-//
-//                @Override
-//                public void onFailure(final AuthenticationException exception) {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-////                            Toast.makeText(MainActivity.this, "Error: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-//                            HintUtils.showToast(MainActivity.this, R.string.user_login_failed);
-//                        }
-//                    });
-//                }
-//
-//                @Override
-//                public void onSuccess(@NonNull final Credentials credentials) {
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-////                            Toast.makeText(MainActivity.this, "Logged in: " + credentials.getAccessToken(), Toast.LENGTH_LONG).show();
-//                            HintUtils.showToast(MainActivity.this, R.string.user_login_sucess);
-//                            mPreference.putString(PreferenceManager.PREFERENCES_USER_TOCKEN, credentials.getAccessToken());
-//                            getUesrInfo();
-//                        }
-//                    });
-//                }
-//            });
-//    }
-//
-//    private void logoutShowDialog(){
-//        MessageDialogFragment fragment = MessageDialogFragment.newInstance(R.string.user_login_logout,
-//            R.string.user_login_logout_tips, true, DIALOG_REQUEST_LOGOUT);
-//        fragment.show(getSupportFragmentManager(), null);
-//    }
-//
-//    private void logout() {
-//        HintUtils.showToast(MainActivity.this, R.string.user_login_logout_sucess);
-//        mPreference.putString(PreferenceManager.PREFERENCES_USER_EMAIL, "");
-//        mPreference.putString(PreferenceManager.PREFERENCES_USER_TOCKEN, "");
-//        mPreference.putString(PreferenceManager.PREFERENCES_USER_NAME, "");
-//        mPreference.putString(PreferenceManager.PREFERENCES_USER_ID, "");
-//    }
-//
-//    private void loginout() {
-//        if (mPreference.getString(PreferenceManager.PREFERENCES_USER_ID, "") == "") {
-//            login();
-//        } else {
-//            logoutShowDialog();
-//        }
-//    }
-
     @Override
     protected void initData() {
         mPresenter.loadLast();
@@ -196,45 +120,8 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         }
         mPresenter.getSourceBaseUrl();
 
-        showAuthorNotice();
         showPermission();
-        getMh50KeyIv();
-
     }
-
-
-//    public void getUesrInfo() {
-//        String accessTocken = mPreference.getString(PreferenceManager.PREFERENCES_USER_TOCKEN, null);
-//        if (accessTocken != null) {
-//            AuthenticationAPIClient authentication = new AuthenticationAPIClient(auth0);
-//            authentication
-//                .userInfo(accessTocken)
-//                .start(new BaseCallback<UserProfile, AuthenticationException>() {
-//                    @Override
-//                    public void onSuccess(UserProfile information) {
-//                        //user information received
-//                        mPreference.putString(PreferenceManager.PREFERENCES_USER_EMAIL, information.getEmail());
-//                        mPreference.putString(PreferenceManager.PREFERENCES_USER_NAME, information.getName());
-//                        mPreference.putString(PreferenceManager.PREFERENCES_USER_ID, (String) information.getExtraInfo().get("sub"));
-//                    }
-//
-//                    @Override
-//                    public void onFailure(AuthenticationException error) {
-//                        //user information request failed
-//                        HintUtils.showToast(MainActivity.this, R.string.user_login_failed);
-//                    }
-//                });
-//        } else {
-//            HintUtils.showToast(MainActivity.this, R.string.user_login_failed);
-//        }
-//    }
-
-//    @Override
-//    protected void initUser() {
-//        //auth0
-//        auth0 = new Auth0(this);
-//        auth0.setOIDCConformant(true);
-//    }
 
     private void initDrawerToggle() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, 0, 0) {
@@ -354,21 +241,12 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
             switch (itemId) {
                 case R.id.drawer_comic:
                 case R.id.drawer_source:
-//                case R.id.drawer_tag:
                     mCheckItem = itemId;
                     getSupportFragmentManager().beginTransaction().hide(mCurrentFragment).commit();
                     if (mToolbar != null) {
                         mToolbar.setTitle(item.getTitle().toString());
                     }
                     mDrawerLayout.closeDrawer(GravityCompat.START);
-                    break;
-                case R.id.drawer_comiclist:
-                    Intent intentBaidu = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.home_page_comiclist_url)));
-                    try {
-                        startActivity(intentBaidu);
-                    } catch (Exception e) {
-                        showSnackbar(R.string.about_resource_fail);
-                    }
                     break;
                 case R.id.drawer_comicUpdate:
                     update.startUpdate(versionName, content, mUrl, versionCode, md5);
@@ -386,9 +264,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
                 case R.id.drawer_backup:
                     startActivity(new Intent(MainActivity.this, BackupActivity.class));
                     break;
-//                case R.id.user_info:
-//                    loginout();
-//                    break;
             }
         }
         return true;
@@ -418,19 +293,14 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         switch (requestCode) {
             case DIALOG_REQUEST_NOTICE:
                 mPreference.putBoolean(PreferenceManager.PREF_MAIN_NOTICE, true);
-                //showPermission();
                 break;
             case DIALOG_REQUEST_PERMISSION:
-                //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 com.king.app.updater.util.PermissionUtils.verifyReadAndWritePermissions(this, Constants.RE_CODE_STORAGE_PERMISSION);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
                     startActivity(intent);
                 }
                 break;
-//            case DIALOG_REQUEST_LOGOUT:
-//                logout();
-//                break;
             default:
                 break;
         }
@@ -463,10 +333,9 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     @Override
     public void onUpdateReady() {
         HintUtils.showToast(this, R.string.main_ready_update);
-        if (mPreference.getBoolean(PreferenceManager.PREF_OTHER_CHECK_SOFTWARE_UPDATE, true)){
+        if (mPreference.getBoolean(PreferenceManager.PREF_OTHER_CHECK_SOFTWARE_UPDATE, true)) {
             mNavigationView.getMenu().findItem(R.id.drawer_comicUpdate).setVisible(true);
         }
-//        Update.update(this);
     }
 
     @Override
@@ -479,7 +348,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         if (mPreference.getBoolean(PreferenceManager.PREF_OTHER_CHECK_SOFTWARE_UPDATE, true)) {
             mNavigationView.getMenu().findItem(R.id.drawer_comicUpdate).setVisible(true);
             update.startUpdate(versionName, content, mUrl, versionCode, md5);
-        }else {
+        } else {
             HintUtils.showToast(this, R.string.main_ready_update);
         }
     }
@@ -529,69 +398,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         for (int i = 0; i < mFragmentArray.size(); ++i) {
             ((ThemeResponsive) mFragmentArray.valueAt(i)).onThemeChange(primary, accent);
         }
-    }
-
-    private void showAuthorNotice() {
-        FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(3600)
-                .build();
-        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config);
-        mFirebaseRemoteConfig.fetchAndActivate()
-                .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Boolean> task) {
-                        if (task.isSuccessful()) {
-                            boolean updated = task.getResult();
-                            Log.d("FireBase_FirstOpenMsg", "Config params updated: " + updated);
-                        } else {
-                            Log.d("FireBase_FirstOpenMsg", "Config params updated Failed. ");
-                        }
-
-                        String showMsg = mFirebaseRemoteConfig.getString("first_open_msg");
-                        if (!mPreference.getBoolean(PreferenceManager.PREF_MAIN_NOTICE, false)
-                                || showMsg.compareTo(mPreference.getString(PreferenceManager.PREF_MAIN_NOTICE_LAST, "")) != 0) {
-                            mPreference.putString(PreferenceManager.PREF_MAIN_NOTICE_LAST, showMsg);
-                            MessageDialogFragment fragment = MessageDialogFragment.newInstance(R.string.main_notice,
-                                    showMsg, false, DIALOG_REQUEST_NOTICE);
-                            fragment.show(getSupportFragmentManager(), null);
-                        }
-                    }
-                });
-    }
-
-    private void getMh50KeyIv() {
-        FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(60*60)
-                .build();
-        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config);
-        mFirebaseRemoteConfig.fetchAndActivate()
-                .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Boolean> task) {
-                        if (task.isSuccessful()) {
-                            boolean updated = task.getResult();
-                            Log.d("FireBase_FirstOpenMsg", "Config params updated: " + updated);
-                        } else {
-                            Log.d("FireBase_FirstOpenMsg", "Config params updated Failed. ");
-                        }
-
-                        String mh50_key = mFirebaseRemoteConfig.getString("mh50_key_msg");
-                        String mh50_iv = mFirebaseRemoteConfig.getString("mh50_iv_msg");
-
-                        if (!mh50_key.equals(mPreference.getString(PreferenceManager.PREFERENCES_MH50_KEY_MSG, "KA58ZAQ321oobbG8"))){
-                            mPreference.putString(PreferenceManager.PREFERENCES_MH50_KEY_MSG, mh50_key);
-                            Toast.makeText(MainActivity.this,"漫画堆key已更新",Toast.LENGTH_LONG).show();
-                        }
-                        if (!mh50_iv.equals(mPreference.getString(PreferenceManager.PREFERENCES_MH50_IV_MSG, "A1B2C3DEF1G321o8"))){
-                            mPreference.putString(PreferenceManager.PREFERENCES_MH50_IV_MSG, mh50_iv);
-                            Toast.makeText(MainActivity.this,"漫画堆iv已更新",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
     }
 
     private void showPermission() {

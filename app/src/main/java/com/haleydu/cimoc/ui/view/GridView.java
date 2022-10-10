@@ -2,7 +2,6 @@ package com.haleydu.cimoc.ui.view;
 
 import com.haleydu.cimoc.component.DialogCaller;
 import com.haleydu.cimoc.component.ThemeResponsive;
-import com.haleydu.cimoc.model.MiniComic;
 
 import java.util.List;
 

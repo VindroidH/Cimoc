@@ -27,13 +27,15 @@ public class ChuiXue extends MangaParser {
 
     public static final int TYPE = 69;
     public static final String DEFAULT_TITLE = "吹雪漫画";
-
-    public static Source getDefaultSource() {
-        return new Source(null, DEFAULT_TITLE, TYPE, true);
-    }
+    private String _cid = "";
+    private String _path = "";
 
     public ChuiXue(Source source) {
         init(source, null);
+    }
+
+    public static Source getDefaultSource() {
+        return new Source(null, DEFAULT_TITLE, TYPE, true);
     }
 
     @Override
@@ -55,7 +57,6 @@ public class ChuiXue extends MangaParser {
     protected void initUrlFilterList() {
         filter.add(new UrlFilter("www.chuixue.net"));
     }
-
 
     @Override
     public SearchIterator getSearchIterator(String html, int page) {
@@ -95,7 +96,7 @@ public class ChuiXue extends MangaParser {
     @Override
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list("#play_0 > ul > li > a")) {
             String title = node.attr("title");
             String path = node.hrefWithSplit(2);
@@ -103,9 +104,6 @@ public class ChuiXue extends MangaParser {
         }
         return list;
     }
-
-    private String _cid = "";
-    private String _path = "";
 
     @Override
     public Request getImagesRequest(String cid, String path) {
@@ -129,7 +127,7 @@ public class ChuiXue extends MangaParser {
                     String s_full = array[i].trim();
                     int index = s_full.indexOf("=");
                     String s = s_full.substring(index + 2, s_full.length() - 1);
-                    list.add(new ImageUrl(id, comicChapter,i + 1, "http://chuixue1.tianshigege.com/" + s, false));
+                    list.add(new ImageUrl(id, comicChapter, i + 1, "http://chuixue1.tianshigege.com/" + s, false));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

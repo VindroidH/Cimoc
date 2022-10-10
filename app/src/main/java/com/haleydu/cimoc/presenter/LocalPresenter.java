@@ -1,6 +1,5 @@
 package com.haleydu.cimoc.presenter;
 
-import androidx.collection.LongSparseArray;
 import android.util.Pair;
 
 import com.haleydu.cimoc.core.Local;
@@ -21,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+import androidx.collection.LongSparseArray;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;

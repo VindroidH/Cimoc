@@ -2,11 +2,12 @@ package com.haleydu.cimoc.ui.widget;
 
 import android.content.Context;
 import android.os.SystemClock;
-import androidx.appcompat.widget.AppCompatTextView;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 
 import java.util.Calendar;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * Created by Hiroshi on 2016/7/16.
@@ -18,7 +19,7 @@ public class MiniClockText extends AppCompatTextView {
     private Calendar mCalendar;
     private boolean mAttached = false;
 
-    private Runnable mTicker = new Runnable() {
+    private final Runnable mTicker = new Runnable() {
         @Override
         public void run() {
             mCalendar.setTimeInMillis(System.currentTimeMillis());

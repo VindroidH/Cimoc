@@ -1,7 +1,6 @@
 package com.haleydu.cimoc.ui.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 
@@ -10,13 +9,15 @@ import com.haleydu.cimoc.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by Hiroshi on 2016/12/14.
  */
 
 public class AutoCompleteAdapter extends ArrayAdapter<String> {
 
-    private CustomFilter mFilter;
+    private final CustomFilter mFilter;
 
     public AutoCompleteAdapter(Context context) {
         super(context, R.layout.item_spinner);

@@ -1,13 +1,9 @@
 package com.haleydu.cimoc.manager;
 
-import android.util.Log;
-
 import com.haleydu.cimoc.component.AppGetter;
 import com.haleydu.cimoc.model.Chapter;
 import com.haleydu.cimoc.model.ChapterDao;
 import com.haleydu.cimoc.model.ChapterDao.Properties;
-import com.haleydu.cimoc.model.Comic;
-import com.haleydu.cimoc.model.ComicDao;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -22,7 +18,7 @@ public class ChapterManager {
 
     private static ChapterManager mInstance;
 
-    private ChapterDao mChapterDao;
+    private final ChapterDao mChapterDao;
 
     private ChapterManager(AppGetter getter) {
         mChapterDao = getter.getAppInstance().getDaoSession().getChapterDao();
@@ -54,9 +50,9 @@ public class ChapterManager {
                 .list();
     }
 
-    public List<Chapter> getChapter(String path,String title) {
+    public List<Chapter> getChapter(String path, String title) {
         return mChapterDao.queryBuilder()
-                .where(ChapterDao.Properties.Path.eq(path),ChapterDao.Properties.Title.eq(title))
+                .where(ChapterDao.Properties.Path.eq(path), ChapterDao.Properties.Title.eq(title))
                 .list();
     }
 
@@ -81,15 +77,15 @@ public class ChapterManager {
     }
 
     public void insertOrReplace(List<Chapter> chapterList) {
-        for (Chapter chapter:chapterList) {
-            if (chapter.getId()!=null) {
+        for (Chapter chapter : chapterList) {
+            if (chapter.getId() != null) {
                 mChapterDao.insertOrReplace(chapter);
             }
         }
     }
 
     public void update(Chapter chapter) {
-        if (chapter.getId()!=null) {
+        if (chapter.getId() != null) {
             mChapterDao.update(chapter);
         }
     }

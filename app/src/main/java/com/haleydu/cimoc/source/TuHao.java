@@ -28,12 +28,12 @@ public class TuHao extends MangaParser {
     public static final String DEFAULT_TITLE = "土豪漫画";
     private static final String website = "tuhao456.com";
 
-    public static Source getDefaultSource() {
-        return new Source(null, DEFAULT_TITLE, TYPE, true);
-    }
-
     public TuHao(Source source) {
         init(source, null);
+    }
+
+    public static Source getDefaultSource() {
+        return new Source(null, DEFAULT_TITLE, TYPE, true);
     }
 
     @Override

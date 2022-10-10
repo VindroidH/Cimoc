@@ -2,20 +2,13 @@ package com.haleydu.cimoc.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
 import com.haleydu.cimoc.global.Extra;
-import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.presenter.BasePresenter;
@@ -27,6 +20,8 @@ import com.haleydu.cimoc.ui.view.ResultView;
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**
@@ -44,6 +39,12 @@ public class ResultActivity extends BackActivity implements ResultView, BaseAdap
      * Extra: 格式 图源
      */
     public static final int LAUNCH_MODE_CATEGORY = 1;
+    // 建个Map把漫源搜索的上一个请求的url存下来，最后利用Activity生命周期清掉
+    //
+    // 解决重复加载列表问题思路：
+    // 在新的一次请求（上拉加载）前检查新Url与上一次请求的是否一致。
+    // 一致则返回空请求，达到阻断请求的目的；不一致则更新Map中存的Url，Map中不存在则新建
+    public static SparseArray<String> searchUrls = new SparseArray<>();
     @BindView(R.id.result_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.result_layout)
@@ -75,13 +76,6 @@ public class ResultActivity extends BackActivity implements ResultView, BaseAdap
         intent.putExtra(Extra.EXTRA_STRICT, strictSearch);
         return intent;
     }
-
-    // 建个Map把漫源搜索的上一个请求的url存下来，最后利用Activity生命周期清掉
-    //
-    // 解决重复加载列表问题思路：
-    // 在新的一次请求（上拉加载）前检查新Url与上一次请求的是否一致。
-    // 一致则返回空请求，达到阻断请求的目的；不一致则更新Map中存的Url，Map中不存在则新建
-    public static SparseArray<String> searchUrls = new SparseArray<>();
 
     @Override
     protected BasePresenter initPresenter() {
@@ -164,16 +158,6 @@ public class ResultActivity extends BackActivity implements ResultView, BaseAdap
     public void onSearchSuccess(Comic comic) {
         hideProgressBar();
         mResultAdapter.add(comic);
-        if(App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_FIREBASE_EVENT, true)) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.CHARACTER, getIntent().getStringExtra(Extra.EXTRA_KEYWORD));
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "bySearch");
-            bundle.putString(FirebaseAnalytics.Param.CONTENT, comic.getTitle());
-            bundle.putInt(FirebaseAnalytics.Param.SOURCE, comic.getSource());
-            bundle.putBoolean(FirebaseAnalytics.Param.SUCCESS, true);
-            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
-        }
     }
 
     @Override
@@ -192,15 +176,6 @@ public class ResultActivity extends BackActivity implements ResultView, BaseAdap
     public void onSearchError() {
         hideProgressBar();
         showSnackbar(R.string.result_empty);
-        if(App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_FIREBASE_EVENT, true)) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.CHARACTER, getIntent().getStringExtra(Extra.EXTRA_KEYWORD));
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "bySearch");
-            bundle.putString(FirebaseAnalytics.Param.CONTENT, getString(R.string.result_empty));
-            bundle.putBoolean(FirebaseAnalytics.Param.SUCCESS, false);
-            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
-        }
     }
 
     @Override

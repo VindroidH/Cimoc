@@ -36,7 +36,7 @@ public class ScaleDragDetector implements ScaleGestureDetector.OnScaleGestureLis
     private boolean mIsDragging;
     private float mLastTouchX;
     private float mLastTouchY;
-    private OnScaleDragGestureListener mListener;
+    private final OnScaleDragGestureListener mListener;
 
     public ScaleDragDetector(Context context, OnScaleDragGestureListener listener) {
         final ViewConfiguration configuration = ViewConfiguration

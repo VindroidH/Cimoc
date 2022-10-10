@@ -112,7 +112,7 @@ public class Tencent extends MangaParser {
     @Override
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list("ul.normal > li.chapter-item")) {
             String title = node.text("a");
             String path = node.href("a").substring("/chapter/index/id/518333/cid/".length());
@@ -130,7 +130,7 @@ public class Tencent extends MangaParser {
     }
 
     private String splice(String str, int from, int length) {
-        return str.substring(0, from) + str.substring(from + length, str.length());
+        return str.substring(0, from) + str.substring(from + length);
     }
 
     private String decodeData(String str, String nonce) {

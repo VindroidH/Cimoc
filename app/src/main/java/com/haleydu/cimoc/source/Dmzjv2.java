@@ -1,6 +1,5 @@
 package com.haleydu.cimoc.source;
 
-import android.util.Log;
 import android.util.Pair;
 
 import com.haleydu.cimoc.model.Chapter;
@@ -10,11 +9,9 @@ import com.haleydu.cimoc.model.Source;
 import com.haleydu.cimoc.parser.JsonIterator;
 import com.haleydu.cimoc.parser.MangaCategory;
 import com.haleydu.cimoc.parser.MangaParser;
-import com.haleydu.cimoc.parser.NodeIterator;
 import com.haleydu.cimoc.parser.SearchIterator;
 import com.haleydu.cimoc.parser.UrlFilter;
 import com.haleydu.cimoc.soup.Node;
-import com.haleydu.cimoc.utils.LogUtil;
 import com.haleydu.cimoc.utils.StringUtils;
 import com.haleydu.cimoc.utils.UicodeBackslashU;
 
@@ -69,7 +66,7 @@ public class Dmzjv2 extends MangaParser {
     public SearchIterator getSearchIterator(String html, int page) {
         try {
             String JsonString = StringUtils.match("var serchArry=(\\[\\{.*?\\}\\])", html, 1);
-            String decodeJsonString = UicodeBackslashU.unicodeToCn(JsonString).replace("\\/","/");
+            String decodeJsonString = UicodeBackslashU.unicodeToCn(JsonString).replace("\\/", "/");
             return new JsonIterator(new JSONArray(decodeJsonString)) {
                 @Override
                 protected Comic parse(JSONObject object) {
@@ -77,7 +74,7 @@ public class Dmzjv2 extends MangaParser {
                         String cid = object.getString("comic_py");
                         String title = object.getString("name");
                         String cover = object.getString("cover");
-                        cover = "https://images.dmzj.com/"+cover;
+                        cover = "https://images.dmzj.com/" + cover;
                         String author = object.optString("authors");
                         long time = Long.parseLong(object.getString("last_updatetime")) * 1000;
                         String update = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date(time));
@@ -125,8 +122,8 @@ public class Dmzjv2 extends MangaParser {
             String JsonArrayString = StringUtils.match("initIntroData\\((.*)\\);", html, 1);
             String decodeJsonArrayString = UicodeBackslashU.unicodeToCn(JsonArrayString);
             JSONArray allJsonArray = new JSONArray(decodeJsonArrayString);
-            int k=0;
-            for (int i=0;i<allJsonArray.length();i++){
+            int k = 0;
+            for (int i = 0; i < allJsonArray.length(); i++) {
                 JSONArray JSONArray = allJsonArray.getJSONObject(i).getJSONArray("data");
                 String tag = allJsonArray.getJSONObject(i).getString("title");
                 for (int j = 0; j != JSONArray.length(); ++j) {
@@ -134,8 +131,8 @@ public class Dmzjv2 extends MangaParser {
                     String title = chapter.getString("chapter_name");
                     String comic_id = chapter.getString("comic_id");
                     String chapter_id = chapter.getString("id");
-                    String path = comic_id + "/" +chapter_id;
-                    list.add(new Chapter(Long.parseLong(sourceComic + "000" + k++), sourceComic, tag+" "+title, path));
+                    String path = comic_id + "/" + chapter_id;
+                    list.add(new Chapter(Long.parseLong(sourceComic + "000" + k++), sourceComic, tag + " " + title, path));
                 }
             }
 

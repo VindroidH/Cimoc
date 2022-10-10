@@ -3,7 +3,6 @@ package com.haleydu.cimoc.source;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
 import com.haleydu.cimoc.model.Chapter;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.ImageUrl;
@@ -15,10 +14,6 @@ import com.haleydu.cimoc.parser.UrlFilter;
 import com.haleydu.cimoc.soup.Node;
 import com.haleydu.cimoc.utils.DecryptionUtils;
 import com.haleydu.cimoc.utils.StringUtils;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -37,12 +32,12 @@ public class ManHuaDB extends MangaParser {
     public static final int TYPE = 46;
     public static final String DEFAULT_TITLE = "漫画DB";
 
-    public static Source getDefaultSource() {
-        return new Source(null, DEFAULT_TITLE, TYPE, true);
-    }
-
     public ManHuaDB(Source source) {
         init(source, null);
+    }
+
+    public static Source getDefaultSource() {
+        return new Source(null, DEFAULT_TITLE, TYPE, true);
     }
 
     @Override
@@ -105,7 +100,7 @@ public class ManHuaDB extends MangaParser {
     @Override
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list("#comic-book-list > div > ol > li > a")) {
             String title = node.attr("title");
             String path = node.hrefWithSplit(2);
@@ -131,7 +126,7 @@ public class ManHuaDB extends MangaParser {
             final String jsonStr = DecryptionUtils.base64Decrypt(base64Data);
             final JSONArray imageList = JSON.parseArray(jsonStr);
 
-            for(int i = 0; i < imageList.size(); i++ ) {
+            for (int i = 0; i < imageList.size(); i++) {
                 Long comicChapter = chapter.getId();
                 Long id = Long.parseLong(comicChapter + "000" + i);
 

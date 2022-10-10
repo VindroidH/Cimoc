@@ -49,7 +49,7 @@ public class QiMiaoMH extends MangaParser {
     public Request getSearchRequest(String keyword, int page) {
         String url = "";
         if (page == 1) {
-            url = StringUtils.format(baseUrl+"/action/Search?keyword=%s", keyword);
+            url = StringUtils.format(baseUrl + "/action/Search?keyword=%s", keyword);
         }
         return new Request.Builder().url(url).build();
     }
@@ -70,7 +70,7 @@ public class QiMiaoMH extends MangaParser {
 
     @Override
     public String getUrl(String cid) {
-        return baseUrl+cid;
+        return baseUrl + cid;
     }
 
     @Override
@@ -87,11 +87,11 @@ public class QiMiaoMH extends MangaParser {
     @Override
     public Comic parseInfo(String html, Comic comic) {
         Node body = new Node(html);
-        String title = body.attr(".ctdbLeft > a","title");
-        String cover = body.attr(".ctdbLeft > a > img","src");
+        String title = body.attr(".ctdbLeft > a", "title");
+        String cover = body.attr(".ctdbLeft > a > img", "src");
         String intro = body.text("#worksDesc").trim();
-        String author = body.text(".detailBox > .author").replace("作者","").trim();
-        String update = body.text(".updeteStatus > .date").replace("更新：","").trim();
+        String author = body.text(".detailBox > .author").replace("作者", "").trim();
+        String update = body.text(".updeteStatus > .date").replace("更新：", "").trim();
         String statusStr = body.text("a.status");
         boolean status = isFinish(statusStr);
         comic.setInfo(title, cover, update, intro, author, status);
@@ -101,9 +101,9 @@ public class QiMiaoMH extends MangaParser {
     @Override
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list(".comic-content-list > ul.comic-content-c")) {
-            String title = node.attr("li.cimg > a","title");
+            String title = node.attr("li.cimg > a", "title");
             String path = node.href("li.cimg > a");
             list.add(new Chapter(Long.parseLong(sourceComic + "000" + i++), sourceComic, title, path));
         }
@@ -146,7 +146,7 @@ public class QiMiaoMH extends MangaParser {
 
     @Override
     public String parseCheck(String html) {
-        return new Node(html).text(".updeteStatus > .date").replace("更新：","").trim();
+        return new Node(html).text(".updeteStatus > .date").replace("更新：", "").trim();
     }
 
     @Override

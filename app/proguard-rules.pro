@@ -105,21 +105,6 @@ public static java.lang.String TABLENAME;
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
 
-#mongodb
--dontwarn javax.**
--dontwarn java.lang.management.**
--dontwarn io.netty.**
--dontwarn org.ietf.jgss.**
--dontwarn org.slf4j.**
--dontwarn org.xerial.snappy.**
-
--keep class javax.** { *; }
--keep class java.lang.management.** { *; }
--keep class io.netty.** { *; }
--keep class org.ietf.jgss.** { *; }
--keep class org.slf4j.** { *; }
--keep class org.xerial.snappy.** { *; }
-
 # guava
 -dontwarn com.google.common.base.**
 -keep class com.google.common.base.** {*;}

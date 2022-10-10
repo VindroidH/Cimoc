@@ -4,9 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
-import androidx.annotation.NonNull;
-import androidx.core.view.GestureDetectorCompat;
-import androidx.core.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -14,6 +11,10 @@ import android.view.ViewParent;
 
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.core.view.MotionEventCompat;
 
 /**
  * https://github.com/ongakuer/PhotoDraweeView
@@ -125,7 +126,7 @@ public class PhotoDraweeView extends RetryDraweeView implements OnScaleDragGestu
 
     public void update(Long id) {
         Object tag = getTag();
-        if (tag == null || !tag.equals(id) ) {
+        if (tag == null || !tag.equals(id)) {
             setTag(id);
             resetMatrix();
         }

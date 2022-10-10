@@ -1,8 +1,6 @@
 package com.haleydu.cimoc.ui.activity;
 
 import android.graphics.Point;
-import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.manager.PreferenceManager;
@@ -13,6 +11,8 @@ import com.haleydu.cimoc.ui.widget.ZoomableRecyclerView;
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Hiroshi on 2016/8/5.
@@ -115,12 +115,14 @@ public class StreamReaderActivity extends ReaderActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         if (turn == PreferenceManager.READER_TURN_ATB) {
-            mRecyclerView.smoothScrollBy(0, -point.y+point.y/5);
+            mRecyclerView.smoothScrollBy(0, -point.y + point.y / 5);
         } else {
             mRecyclerView.smoothScrollBy(-point.x, 0);
         }
         if (mLayoutManager.findFirstVisibleItemPosition() == 0) {
-            loadPrev();
+            if (!mPresenter.loadPrev()) {
+                onPrevLoadNone();
+            }
         }
     }
 
@@ -129,12 +131,14 @@ public class StreamReaderActivity extends ReaderActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         if (turn == PreferenceManager.READER_TURN_ATB) {
-            mRecyclerView.smoothScrollBy(0, point.y-point.y/5);
+            mRecyclerView.smoothScrollBy(0, point.y - point.y / 5);
         } else {
             mRecyclerView.smoothScrollBy(point.x, 0);
         }
         if (mLayoutManager.findLastVisibleItemPosition() == mReaderAdapter.getItemCount() - 1) {
-            loadNext();
+            if (!mPresenter.loadNext()) {
+                onNextLoadNone();
+            }
         }
     }
 

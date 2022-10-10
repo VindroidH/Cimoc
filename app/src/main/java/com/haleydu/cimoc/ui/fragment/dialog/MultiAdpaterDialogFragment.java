@@ -15,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import androidx.fragment.app.DialogFragment;
 
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.component.DialogCaller;
@@ -26,11 +25,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MultiAdpaterDialogFragment extends DialogFragment implements DialogInterface.OnClickListener{
+import androidx.fragment.app.DialogFragment;
+
+public class MultiAdpaterDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
 
     private boolean[] mCheckArray;
     private SimpleAdapter adapter;
-    private ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>();
+    private final ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>();
     private View getlistview;
 
     public static MultiAdpaterDialogFragment newInstance(int title, String[] item, boolean[] check, int requestCode) {
@@ -88,7 +89,7 @@ public class MultiAdpaterDialogFragment extends DialogFragment implements Dialog
         builder.setTitle(getArguments().getInt(DialogCaller.EXTRA_DIALOG_TITLE))
                 .setView(getlistview)
                 .setPositiveButton(R.string.dialog_positive, this)
-                .setNeutralButton(R.string.comic_inverse_selection,this);
+                .setNeutralButton(R.string.comic_inverse_selection, this);
         return builder.create();
     }
 
@@ -111,17 +112,17 @@ public class MultiAdpaterDialogFragment extends DialogFragment implements Dialog
                 bundle.putBooleanArray(DialogCaller.EXTRA_DIALOG_RESULT_VALUE, mCheckArray);
                 DialogCaller target = (DialogCaller) (getTargetFragment() != null ? getTargetFragment() : getActivity());
                 target.onDialogResult(requestCode, bundle);
-                isCloseDialog(dialogInterface,true);
+                isCloseDialog(dialogInterface, true);
                 break;
             case Dialog.BUTTON_NEUTRAL:
-                for (int i=0;i<mCheckArray.length;i++){
-                    mCheckArray[i]=!mCheckArray[i];
+                for (int i = 0; i < mCheckArray.length; i++) {
+                    mCheckArray[i] = !mCheckArray[i];
                 }
                 adapter.notifyDataSetChanged();
-                isCloseDialog(dialogInterface,false);
+                isCloseDialog(dialogInterface, false);
                 break;
             default:
-                isCloseDialog(dialogInterface,true);
+                isCloseDialog(dialogInterface, true);
                 break;
         }
     }
@@ -144,7 +145,8 @@ public class MultiAdpaterDialogFragment extends DialogFragment implements Dialog
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) convertView = LinearLayout.inflate(getActivity(), R.layout.item_select_mutil, null);
+            if (convertView == null)
+                convertView = LinearLayout.inflate(getActivity(), R.layout.item_select_mutil, null);
             CheckBox ckBox = (CheckBox) convertView.findViewById(R.id.item_select_checkbox_mutil);
             if (mCheckArray[position] == true) {
                 ckBox.setChecked(true);

@@ -1,7 +1,5 @@
 package com.haleydu.cimoc.presenter;
 
-import androidx.collection.LongSparseArray;
-
 import com.haleydu.cimoc.core.Download;
 import com.haleydu.cimoc.manager.ComicManager;
 import com.haleydu.cimoc.manager.SourceManager;
@@ -18,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import androidx.collection.LongSparseArray;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;

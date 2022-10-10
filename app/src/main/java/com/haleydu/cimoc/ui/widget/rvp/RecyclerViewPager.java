@@ -4,10 +4,6 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.os.Build;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -15,6 +11,11 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 
 import java.lang.reflect.Field;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * RecyclerViewPager
@@ -37,7 +38,7 @@ public class RecyclerViewPager extends RecyclerView {
     private RecyclerViewPagerAdapter<?> mViewPagerAdapter;
     private float mTouchSpan;
     private OnPageChangedListener mOnPageChangedListener;
-    private GlobalLayoutListener mGlobalLayoutListener = new GlobalLayoutListener();
+    private final GlobalLayoutListener mGlobalLayoutListener = new GlobalLayoutListener();
     private int mSmoothScrollTargetPosition = -1;
     private int mPositionBeforeScroll = -1;
     private float mTriggerOffset = 0.05f;

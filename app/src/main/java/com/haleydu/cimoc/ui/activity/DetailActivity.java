@@ -3,19 +3,12 @@ package com.haleydu.cimoc.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.google.common.collect.Lists;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.fresco.ControllerBuilderSupplierFactory;
 import com.haleydu.cimoc.fresco.ImagePipelineFactoryBuilder;
@@ -38,6 +31,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.OnClick;
 
 import static com.haleydu.cimoc.utils.interpretationUtils.isReverseOrder;
@@ -148,14 +144,6 @@ public class DetailActivity extends CoordinatorActivity implements DetailView {
                     break;
                 case R.id.detail_search_title:
                     if (!StringUtils.isEmpty(mPresenter.getComic().getTitle())) {
-                        if(App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_FIREBASE_EVENT, true)) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString(FirebaseAnalytics.Param.CONTENT, mPresenter.getComic().getTitle());
-                            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "byTitle");
-                            bundle.putInt(FirebaseAnalytics.Param.SOURCE, mPresenter.getComic().getSource());
-                            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
-                        }
                         intent = ResultActivity.createIntent(this, mPresenter.getComic().getTitle(), null, ResultActivity.LAUNCH_MODE_SEARCH);
                         startActivity(intent);
                     } else {
@@ -177,27 +165,10 @@ public class DetailActivity extends CoordinatorActivity implements DetailView {
                     intent.putExtra(Intent.EXTRA_TEXT, url);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(Intent.createChooser(intent, url));
-
-                    // firebase analytics
-                    if(App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_FIREBASE_EVENT, true)) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString(FirebaseAnalytics.Param.CONTENT, url);
-                        bundle.putInt(FirebaseAnalytics.Param.SOURCE, mPresenter.getComic().getSource());
-                        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE, bundle);
-                    }
                     break;
                 case R.id.detail_reverse_list:
                     mDetailAdapter.reverse();
                     break;
-//                case R.id.detail_disqus:
-//                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.home_page_cimqus_url) + "/cimoc/" + mPresenter.getComic().getTitle()));
-//                    try {
-//                        startActivity(intent);
-//                    } catch (Exception e) {
-//                        showSnackbar(R.string.about_resource_fail);
-//                    }
-//                    break;
             }
         }
         return super.onOptionsItemSelected(item);
@@ -338,23 +309,13 @@ public class DetailActivity extends CoordinatorActivity implements DetailView {
             mDetailAdapter.addAll(list);
             mDetailAdapter.notifyDataSetChanged();
         }
-        if(App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_FIREBASE_EVENT, true)) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.CONTENT, mPresenter.getComic().getTitle());
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Title");
-            bundle.putInt(FirebaseAnalytics.Param.SOURCE, mPresenter.getComic().getSource());
-            bundle.putBoolean(FirebaseAnalytics.Param.SUCCESS, true);
-            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
-        }
     }
 
     @Override
     public void onPreLoadSuccess(List<Chapter> list, Comic comic) {
-        hideProgressBar();
-        if (isReverseOrder(comic)){
+        if (isReverseOrder(comic)) {
             mDetailAdapter.addAll(Lists.reverse(list));
-        }else {
+        } else {
             mDetailAdapter.addAll(list);
         }
         mDetailAdapter.setInfo(comic.getCover(), comic.getTitle(), comic.getAuthor(),
@@ -374,19 +335,8 @@ public class DetailActivity extends CoordinatorActivity implements DetailView {
 
     @Override
     public void onParseError() {
-        if(App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_FIREBASE_EVENT, true)) {
-            Bundle bundle = new Bundle();
-            bundle.putString(FirebaseAnalytics.Param.CONTENT, mPresenter.getComic().getTitle());
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Title");
-            bundle.putInt(FirebaseAnalytics.Param.SOURCE, mPresenter.getComic().getSource());
-            bundle.putBoolean(FirebaseAnalytics.Param.SUCCESS, false);
-            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
-        }
         hideProgressBar();
         showSnackbar(R.string.common_parse_error);
-
-
     }
 
     private void increment() {

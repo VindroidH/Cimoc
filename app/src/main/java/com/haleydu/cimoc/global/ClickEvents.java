@@ -28,11 +28,6 @@ public class ClickEvents {
 
     private static String[] mEventTitle;
 
-    public enum JoyLocks {
-        LT,
-        RT
-    }
-
     public static String[] getPageClickEvents() {
         return new String[]{
                 PreferenceManager.PREF_READER_PAGE_CLICK_LEFT,
@@ -140,7 +135,7 @@ public class ClickEvents {
         if (!manager.getBoolean(PreferenceManager.PREF_READER_VOLUME_KEY_CONTROLS_PAGE_TURNING, false)) {
             manager.putInt(PreferenceManager.PREF_READER_STREAM_CLICK_UP, EVENT_NULL);
             manager.putInt(PreferenceManager.PREF_READER_STREAM_CLICK_DOWN, EVENT_NULL);
-        }else {
+        } else {
             manager.putInt(PreferenceManager.PREF_READER_STREAM_CLICK_UP, EVENT_PREV_PAGE);
             manager.putInt(PreferenceManager.PREF_READER_STREAM_CLICK_DOWN, EVENT_NEXT_PAGE);
         }
@@ -191,6 +186,11 @@ public class ClickEvents {
             mEventTitle = context.getResources().getStringArray(R.array.event_items);
         }
         return mEventTitle[value];
+    }
+
+    public enum JoyLocks {
+        LT,
+        RT
     }
 
 }

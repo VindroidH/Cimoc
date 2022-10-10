@@ -8,13 +8,12 @@ import android.util.Log;
  */
 public class LogUtil {
 
+    private static final String TAG = "Haleydu";
+    public static boolean isDebug = true;// 是否需要打印bug，在application的onCreate函数里面初始化
     private LogUtil() {
         /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");
     }
-
-    public static boolean isDebug = true;// 是否需要打印bug，在application的onCreate函数里面初始化
-    private static final String TAG = "Haleydu";
 
     // 下面四个是默认tag的函数
     public static void i(String msg) {

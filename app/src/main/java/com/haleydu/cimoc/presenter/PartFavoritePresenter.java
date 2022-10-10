@@ -1,7 +1,5 @@
 package com.haleydu.cimoc.presenter;
 
-import androidx.collection.LongSparseArray;
-
 import com.haleydu.cimoc.manager.ComicManager;
 import com.haleydu.cimoc.manager.TagManager;
 import com.haleydu.cimoc.manager.TagRefManager;
@@ -15,6 +13,7 @@ import com.haleydu.cimoc.ui.view.PartFavoriteView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.collection.LongSparseArray;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;

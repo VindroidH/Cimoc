@@ -1,7 +1,5 @@
 package com.haleydu.cimoc.source;
 
-import android.util.Log;
-
 import com.haleydu.cimoc.model.Chapter;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.ImageUrl;
@@ -12,7 +10,6 @@ import com.haleydu.cimoc.parser.SearchIterator;
 import com.haleydu.cimoc.parser.UrlFilter;
 import com.haleydu.cimoc.soup.Node;
 import com.haleydu.cimoc.utils.DecryptionUtils;
-import com.haleydu.cimoc.utils.LogUtil;
 import com.haleydu.cimoc.utils.StringUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -88,7 +85,7 @@ public class MH517 extends MangaParser {
         Node body = new Node(html);
         String title = body.attr("div#Cover > img", "title");
         String cover = body.src("div#Cover > img");
-        String update = body.text("span.date" );
+        String update = body.text("span.date");
         String author = body.text("");
         String intro = body.text("p.txtDesc");
         boolean status = false;
@@ -99,7 +96,7 @@ public class MH517 extends MangaParser {
     @Override
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list("#mh-chapter-list-ol-0 > li")) {
             String title = node.text("a > span");
             String path = node.hrefWithSplit("a", 2);

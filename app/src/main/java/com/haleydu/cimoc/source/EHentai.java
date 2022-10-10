@@ -74,7 +74,7 @@ public class EHentai extends MangaParser {
         String intro = body.text("#gj");
         String author = body.text("#taglist > table > tbody > tr > td:eq(1) > div > a[id^=ta_artist]");
 //        String cover = body.href("#gdt > .gdtm > div > a");
-        String cover = "https://github.com/Haleydu/Cimoc/raw/release-tci/screenshot/icon.png";
+        String cover = "https://github.com/VindroidH/Cimoc/raw/release-tci/screenshot/icon.png";
         comic.setInfo(title, cover, update, intro, author, true);
         return comic;
     }
@@ -86,36 +86,10 @@ public class EHentai extends MangaParser {
         String length = body.textWithSplit("#gdd > table > tbody > tr:eq(5) > td:eq(1)", " ", 0);
         int size = Integer.parseInt(length) % 40 == 0 ? Integer.parseInt(length) / 40 : Integer.parseInt(length) / 40 + 1;
         for (int i = 0; i != size; ++i) {
-            list.add( new Chapter(Long.parseLong(sourceComic + "000" + i), sourceComic,"Ch" + i, String.valueOf(i)));
+            list.add(new Chapter(Long.parseLong(sourceComic + "000" + i), sourceComic, "Ch" + i, String.valueOf(i)));
         }
         return list;
     }
-
-//    @Override
-//    public Request getRecentRequest(int page) {
-//        String url = StringUtils.format("http://g.e-hentai.org/?page=%d", (page - 1));
-//        return new Request.Builder().url(url).build();
-//    }
-
-//    @Override
-//    public List<Comic> parseRecent(String html, int page) {
-//        List<Comic> list = new LinkedList<>();
-//        Node body = new Node(html);
-//        for (Node node : body.list("table.itg > tbody > tr[class^=gtr]")) {
-//            String cid = node.hrefWithSubString("td:eq(2) > div > div:eq(2) > a", 24, -2);
-//            String title = node.text("td:eq(2) > div > div:eq(2) > a");
-//            String cover = node.attr("td:eq(2) > div > div:eq(0) > img", "src");
-//            if (cover == null) {
-//                String temp = node.textWithSubstring("td:eq(2) > div > div:eq(0)", 14).split("~", 2)[0];
-//                cover = "http://ehgt.org/".concat(temp);
-//            }
-//            String update = node.textWithSubstring("td:eq(1)", 0, 10);
-//            String author = StringUtils.match("\\[(.*?)\\]", title, 1);
-//            title = title.replaceFirst("\\[.*?\\]\\s*", "");
-//            list.add(new Comic(TYPE, cid, title, cover, update, author));
-//        }
-//        return list;
-//    }
 
     @Override
     public Request getImagesRequest(String cid, String path) {

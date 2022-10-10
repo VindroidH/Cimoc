@@ -11,7 +11,6 @@ import com.haleydu.cimoc.parser.JsonIterator;
 import com.haleydu.cimoc.parser.MangaParser;
 import com.haleydu.cimoc.parser.SearchIterator;
 import com.haleydu.cimoc.parser.UrlFilter;
-import com.haleydu.cimoc.soup.Node;
 import com.haleydu.cimoc.utils.StringUtils;
 import com.haleydu.cimoc.utils.UicodeBackslashU;
 
@@ -48,7 +47,7 @@ public class DmzjFix extends MangaParser {
     }
 
     @Override
-    public Request getSearchRequest(String keyword, int page) throws UnsupportedEncodingException, Exception {
+    public Request getSearchRequest(String keyword, int page) throws Exception {
         if (page == 1) {
             String url = StringUtils.format("https://m.dmzj.com/search/%s.html", keyword);
             return new Request.Builder().url(url).build();

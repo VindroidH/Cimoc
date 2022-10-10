@@ -3,9 +3,6 @@ package com.haleydu.cimoc.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,10 +22,11 @@ import com.haleydu.cimoc.ui.fragment.dialog.MultiDialogFragment;
 import com.haleydu.cimoc.ui.view.PartFavoriteView;
 import com.haleydu.cimoc.utils.HintUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**

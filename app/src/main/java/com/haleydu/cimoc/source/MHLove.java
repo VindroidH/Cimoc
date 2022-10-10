@@ -12,7 +12,6 @@ import com.haleydu.cimoc.utils.DecryptionUtils;
 import com.haleydu.cimoc.utils.StringUtils;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,12 +29,12 @@ public class MHLove extends MangaParser {
     public static final String DEFAULT_TITLE = "漫画Love";
     public static final String baseUrl = "http://www.php06.com";
 
-    public static Source getDefaultSource() {
-        return new Source(null, DEFAULT_TITLE, TYPE, false);
-    }
-
     public MHLove(Source source) {
         init(source, null);
+    }
+
+    public static Source getDefaultSource() {
+        return new Source(null, DEFAULT_TITLE, TYPE, false);
     }
 
     @Override
@@ -43,7 +42,7 @@ public class MHLove extends MangaParser {
         if (page != 1) {
             return null;
         }
-        String url = StringUtils.format(baseUrl+"/statics/search.aspx?key=%s", keyword);
+        String url = StringUtils.format(baseUrl + "/statics/search.aspx?key=%s", keyword);
         return new Request.Builder()
                 .addHeader("Referer", baseUrl)
                 .url(url)
@@ -59,7 +58,7 @@ public class MHLove extends MangaParser {
                 String cover = node.attr("img", "src");
                 String title = node.text("h4").trim();
                 String cid = node.attr(".mh-works-info > a", "href");
-                String update = node.text(".mh-up-time.fr").replace("最后更新时间：","");
+                String update = node.text(".mh-up-time.fr").replace("最后更新时间：", "");
                 return new Comic(TYPE, cid, title, cover, update, null);
             }
         };
@@ -88,7 +87,7 @@ public class MHLove extends MangaParser {
     @Override
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list("#mh-chapter-list-ol-0 > li > a")) {
             String title = node.text();
             String path = node.href();
@@ -112,7 +111,7 @@ public class MHLove extends MangaParser {
                 str = DecryptionUtils.base64Decrypt(str);
                 String[] array = str.split("\\$qingtiandy\\$");
                 String preUrl = "";
-                if(!array[0].contains("http")){
+                if (!array[0].contains("http")) {
                     preUrl = "http://www.9qv.cn";
                 }
                 for (int i = 0; i != array.length; ++i) {

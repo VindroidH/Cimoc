@@ -1,10 +1,7 @@
 package com.haleydu.cimoc.parser;
 
 import com.haleydu.cimoc.model.Comic;
-import com.haleydu.cimoc.soup.Node;
 
-import java.util.List;
-import java.util.ListIterator;
 import java.util.regex.Matcher;
 
 /**
@@ -13,7 +10,7 @@ import java.util.regex.Matcher;
 
 public abstract class RegexIterator implements SearchIterator {
 
-    private Matcher match;
+    private final Matcher match;
 
     protected RegexIterator(Matcher match) {
         this.match = match;
@@ -21,7 +18,7 @@ public abstract class RegexIterator implements SearchIterator {
 
     @Override
     public boolean hasNext() {
-        return  match.find();
+        return match.find();
     }
 
     @Override

@@ -2,9 +2,9 @@ package com.haleydu.cimoc.utils;
 
 public class pictureUtils {
 
-    public static boolean isPictureFormat(String suffix){
+    public static boolean isPictureFormat(String suffix) {
         suffix = suffix.toLowerCase();
-        if (suffix.equals("bmp") ||
+        return suffix.equals("bmp") ||
                 suffix.equals("jpg") ||
                 suffix.equals("png") ||
                 suffix.equals("tif") ||
@@ -23,9 +23,6 @@ public class pictureUtils {
                 suffix.equals("ai") ||
                 suffix.equals("raw") ||
                 suffix.equals("wmf") ||
-                suffix.equals("webp")){
-            return true;
-        }
-        return false;
+                suffix.equals("webp");
     }
 }

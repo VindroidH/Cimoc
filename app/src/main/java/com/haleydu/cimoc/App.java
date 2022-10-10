@@ -6,11 +6,6 @@ import android.content.res.Resources;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.multidex.MultiDex;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -43,10 +38,10 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import okhttp3.OkHttpClient;
-import xcrash.XCrash;
-
+import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
+import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by Hiroshi on 2016/7/5.
@@ -60,28 +55,85 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
     public static int mLargePixels;
 
     private static OkHttpClient mHttpClient;
-
-    private DocumentFile mDocumentFile;
     private static PreferenceManager mPreferenceManager;
+    private static WifiManager manager_wifi;
+    private static App mApp;
+    private static Activity sActivity;
+    // 默认Github源
+    private static String UPDATE_CURRENT_URL = "https://api.github.com/repos/VindroidH/Cimoc/releases/latest";
+    private DocumentFile mDocumentFile;
     private ControllerBuilderProvider mBuilderProvider;
-    
     private RecyclerView.RecycledViewPool mRecycledPool;
     private DaoSession mDaoSession;
     private ActivityLifecycle mActivityLifecycle;
 
+    public static Context getAppContext() {
+        return mApp;
+    }
 
-    private static WifiManager manager_wifi;
-    private static App mApp;
-    private static Activity sActivity;
+    public static Resources getAppResources() {
+        return mApp.getResources();
+    }
 
-    // 默认Github源
-    private static String UPDATE_CURRENT_URL = "https://api.github.com/repos/Haleydu/Cimoc/releases/latest";
-    private static final String CRASH_FILE_PATH = "/Cimoc/Log/crash";
+    public static Activity getActivity() {
+        return sActivity;
+    }
+
+    public static WifiManager getManager_wifi() {
+        return manager_wifi;
+    }
+
+    public static PreferenceManager getPreferenceManager() {
+        return mPreferenceManager;
+    }
+
+    public static String getUpdateCurrentUrl() {
+        return UPDATE_CURRENT_URL;
+    }
+
+    public static void setUpdateCurrentUrl(String updateCurrentUrl) {
+        UPDATE_CURRENT_URL = updateCurrentUrl;
+    }
+
+    public static OkHttpClient getHttpClient() {
+
+        //OkHttpClient返回null实现"仅WiFi联网"，后面要注意空指针处理
+        if (!manager_wifi.isWifiEnabled() && mPreferenceManager.getBoolean(PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
+            return null;
+        }
+
+        if (mHttpClient == null) {
+
+            // 3.OkHttp访问https的Client实例
+            mHttpClient = new OkHttpClient().newBuilder()
+                    .sslSocketFactory(createSSLSocketFactory())
+                    .hostnameVerifier(new TrustAllHostnameVerifier())
+                    .followRedirects(true)
+                    .followSslRedirects(true)
+                    .retryOnConnectionFailure(true)
+                    .build();
+        }
+
+        return mHttpClient;
+    }
+
+    private static SSLSocketFactory createSSLSocketFactory() {
+        SSLSocketFactory ssfFactory = null;
+
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
+
+            ssfFactory = sc.getSocketFactory();
+        } catch (Exception e) {
+        }
+
+        return ssfFactory;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //initXCrash();
         Thread.setDefaultUncaughtExceptionHandler(this);
         mActivityLifecycle = new ActivityLifecycle();
         registerActivityLifecycleCallbacks(mActivityLifecycle);
@@ -162,22 +214,6 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
         return this;
     }
 
-    public static Context getAppContext() {
-        return mApp;
-    }
-
-    public static Resources getAppResources() {
-        return mApp.getResources();
-    }
-
-    public static Activity getActivity() {
-        return sActivity;
-    }
-
-    public static WifiManager getManager_wifi() {
-        return manager_wifi;
-    }
-
     private void initPixels() {
         DisplayMetrics metrics = new DisplayMetrics();
         ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
@@ -204,10 +240,6 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
         return mDaoSession;
     }
 
-    public static PreferenceManager getPreferenceManager() {
-        return mPreferenceManager;
-    }
-
     public RecyclerView.RecycledViewPool getGridRecycledPool() {
         if (mRecycledPool == null) {
             mRecycledPool = new RecyclerView.RecycledViewPool();
@@ -228,36 +260,6 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
-    }
-
-    public static void setUpdateCurrentUrl(String updateCurrentUrl) {
-        UPDATE_CURRENT_URL = updateCurrentUrl;
-    }
-
-    public static String getUpdateCurrentUrl() {
-        return UPDATE_CURRENT_URL;
-    }
-
-    public static OkHttpClient getHttpClient() {
-
-        //OkHttpClient返回null实现"仅WiFi联网"，后面要注意空指针处理
-        if (!manager_wifi.isWifiEnabled() && mPreferenceManager.getBoolean(PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
-            return null;
-        }
-
-        if (mHttpClient == null) {
-
-            // 3.OkHttp访问https的Client实例
-            mHttpClient = new OkHttpClient().newBuilder()
-                    .sslSocketFactory(createSSLSocketFactory())
-                    .hostnameVerifier(new TrustAllHostnameVerifier())
-                    .followRedirects(true)
-                    .followSslRedirects(true)
-                    .retryOnConnectionFailure(true)
-                    .build();
-        }
-
-        return mHttpClient;
     }
 
     // 1.实现X509TrustManager接口
@@ -282,31 +284,5 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
         public boolean verify(String hostname, SSLSession session) {
             return true;
         }
-    }
-
-    private static SSLSocketFactory createSSLSocketFactory() {
-        SSLSocketFactory ssfFactory = null;
-
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
-
-            ssfFactory = sc.getSocketFactory();
-        } catch (Exception e) {
-        }
-
-        return ssfFactory;
-    }
-
-    private void initXCrash(){
-        //异常捕捉框架,xcrash的native捕捉会导致系统死机，将之去掉不使用20200817
-        XCrash.InitParameters initParameters = new XCrash.InitParameters();
-        //不处理native层的崩溃异常
-        initParameters.setLogDir(Environment.getExternalStorageDirectory().getAbsolutePath()+CRASH_FILE_PATH);
-        initParameters.disableNativeCrashHandler();
-        //java崩溃异常文件的最大数量
-        initParameters.setJavaLogCountMax(200);
-        initParameters.setJavaDumpAllThreadsCountMax(25);
-        XCrash.init(this, initParameters);
     }
 }

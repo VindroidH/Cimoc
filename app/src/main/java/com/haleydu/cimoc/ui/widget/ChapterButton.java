@@ -6,10 +6,11 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
-import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import com.haleydu.cimoc.R;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * Created by Hiroshi on 2016/10/2.

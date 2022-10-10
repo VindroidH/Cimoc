@@ -7,7 +7,6 @@ import com.haleydu.cimoc.core.Download;
 import com.haleydu.cimoc.core.Local;
 import com.haleydu.cimoc.core.Manga;
 import com.haleydu.cimoc.core.Storage;
-import com.haleydu.cimoc.manager.ChapterManager;
 import com.haleydu.cimoc.manager.ComicManager;
 import com.haleydu.cimoc.manager.ImageUrlManager;
 import com.haleydu.cimoc.manager.SourceManager;
@@ -41,7 +40,6 @@ public class ReaderPresenter extends BasePresenter<ReaderView> {
 
     private ReaderChapterManger mReaderChapterManger;
     private ImageUrlManager mImageUrlManager;
-    private ChapterManager mChapterManager;
     private ComicManager mComicManager;
     private SourceManager mSourceManager;
     private Comic mComic;
@@ -56,7 +54,6 @@ public class ReaderPresenter extends BasePresenter<ReaderView> {
         mComicManager = ComicManager.getInstance(mBaseView);
         mSourceManager = SourceManager.getInstance(mBaseView);
         mImageUrlManager = ImageUrlManager.getInstance(mBaseView);
-        mChapterManager = ChapterManager.getInstance(mBaseView);
     }
 
     @Override
@@ -100,32 +97,36 @@ public class ReaderPresenter extends BasePresenter<ReaderView> {
         }
     }
 
-    public void loadNext() {
+    public boolean loadNext() {
         if (status == LOAD_NULL && isShowNext) {
             Chapter chapter = mReaderChapterManger.getNextChapter();
             if (chapter != null) {
                 status = LOAD_NEXT;
                 images(getObservable(chapter));
                 mBaseView.onNextLoading();
+                return true;
             } else {
                 isShowNext = false;
-                mBaseView.onNextLoadNone();
+                return false;
             }
         }
+        return false;
     }
 
-    public void loadPrev() {
+    public boolean loadPrev() {
         if (status == LOAD_NULL && isShowPrev) {
             Chapter chapter = mReaderChapterManger.getPrevChapter();
             if (chapter != null) {
                 status = LOAD_PREV;
                 images(getObservable(chapter));
                 mBaseView.onPrevLoading();
+                return true;
             } else {
                 isShowPrev = false;
-                mBaseView.onPrevLoadNone();
+                return false;
             }
         }
+        return false;
     }
 
     private Observable<List<ImageUrl>> getObservable(Chapter chapter) {
@@ -184,8 +185,8 @@ public class ReaderPresenter extends BasePresenter<ReaderView> {
 
     private String buildPictureName(String title, int page, String url) {
         String suffix = StringUtils.split(url, "\\.", -1);
-        String suffixOriginal= suffix.split("\\?")[0].toLowerCase();
-        if (!pictureUtils.isPictureFormat(suffixOriginal)){
+        String suffixOriginal = suffix.split("\\?")[0].toLowerCase();
+        if (!pictureUtils.isPictureFormat(suffixOriginal)) {
             suffixOriginal = "jpg";
         }
         suffix = suffixOriginal;
@@ -239,14 +240,14 @@ public class ReaderPresenter extends BasePresenter<ReaderView> {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        try{
+                        try {
                             Chapter chapter;
                             List<ImageUrl> list;
                             switch (status) {
                                 case LOAD_INIT:
                                     chapter = mReaderChapterManger.moveNext();
                                     list = mImageUrlManager.getListImageUrl(chapter.getId());
-                                    if (list!=null && list.size()!=0) {
+                                    if (list != null && list.size() != 0) {
                                         chapter.setCount(list.size());
                                         if (!chapter.getTitle().equals(mComic.getTitle())) {
                                             mComic.setChapter(chapter.getTitle());
@@ -259,7 +260,7 @@ public class ReaderPresenter extends BasePresenter<ReaderView> {
                                 case LOAD_PREV:
                                     chapter = mReaderChapterManger.movePrev();
                                     list = mImageUrlManager.getListImageUrl(chapter.getId());
-                                    if (list!=null && list.size()!=0) {
+                                    if (list != null && list.size() != 0) {
                                         chapter.setCount(list.size());
                                         mBaseView.onPrevLoadSuccess(list);
                                     }
@@ -267,7 +268,7 @@ public class ReaderPresenter extends BasePresenter<ReaderView> {
                                 case LOAD_NEXT:
                                     chapter = mReaderChapterManger.moveNext();
                                     list = mImageUrlManager.getListImageUrl(chapter.getId());
-                                    if (list!=null && list.size()!=0) {
+                                    if (list != null && list.size() != 0) {
                                         chapter.setCount(list.size());
                                         mBaseView.onNextLoadSuccess(list);
                                     }
@@ -286,7 +287,7 @@ public class ReaderPresenter extends BasePresenter<ReaderView> {
 
     private static class ReaderChapterManger {
 
-        private Chapter[] array;
+        private final Chapter[] array;
         private int index;
         private int prev;
         private int next;

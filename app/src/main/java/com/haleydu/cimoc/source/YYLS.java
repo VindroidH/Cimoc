@@ -30,7 +30,7 @@ public class YYLS extends MangaParser {
     public static final String DEFAULT_TITLE = "YYLS";
 
     private String _cid = "";
-    private String Baseurl = "http://8comic.se/";
+    private final String Baseurl = "http://8comic.se/";
 
     public YYLS(Source source) {
         init(source, new Category());
@@ -91,7 +91,7 @@ public class YYLS extends MangaParser {
     @Override
     public List<Chapter> parseChapter(String html, Comic comic, Long sourceComic) {
         List<Chapter> list = new LinkedList<>();
-        int i=0;
+        int i = 0;
         for (Node node : new Node(html).list("div.entry-content.rich-content a")) {
             String title = node.text();
             String path = node.href();
@@ -120,7 +120,7 @@ public class YYLS extends MangaParser {
         for (int i = 1; i <= page; ++i) {
             Long comicChapter = chapter.getId();
             Long id = Long.parseLong(comicChapter + "000" + i);
-            list.add(new ImageUrl(id,comicChapter,i, StringUtils.format("%s//%03d.jpg", pageMatcher.group(1), i), false));
+            list.add(new ImageUrl(id, comicChapter, i, StringUtils.format("%s//%03d.jpg", pageMatcher.group(1), i), false));
         }
         return list;
     }
@@ -148,6 +148,11 @@ public class YYLS extends MangaParser {
             list.add(new Comic(TYPE, cid, title, cover, update, null));
         }
         return list;
+    }
+
+    @Override
+    public Headers getHeader() {
+        return Headers.of("Referer", "http://8comic.se".concat(_cid));
     }
 
     private static class Category extends MangaCategory {
@@ -180,11 +185,6 @@ public class YYLS extends MangaParser {
             return list;
         }
 
-    }
-
-    @Override
-    public Headers getHeader() {
-        return Headers.of("Referer", "http://8comic.se".concat(_cid));
     }
 
 

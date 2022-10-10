@@ -3,16 +3,11 @@ package com.haleydu.cimoc.ui.adapter;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.model.Task;
 import com.haleydu.cimoc.utils.StringUtils;
@@ -22,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**

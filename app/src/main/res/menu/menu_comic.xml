@@ -12,11 +12,6 @@
         android:title="@string/comic_filter"
         app:showAsAction="never" />
     <item
-        android:id="@+id/comic_bbs"
-        android:icon="@drawable/ic_chat_bubble_white_24dp"
-        android:title="@string/comic_bbs"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/comic_cancel_highlight"
         android:title="@string/comic_cancel_highlight"
         app:showAsAction="never" />

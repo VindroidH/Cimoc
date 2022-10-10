@@ -12,8 +12,16 @@ public class UpdateJson {
         return versionName;
     }
 
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
+    }
+
     public int getVersionCode() {
         return versionCode;
+    }
+
+    public void setVersionCode(int versionCode) {
+        this.versionCode = versionCode;
     }
 
     public String getContent() {
@@ -28,24 +36,16 @@ public class UpdateJson {
         return md5;
     }
 
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
-    }
-
-    public void setVersionCode(int versionCode) {
-        this.versionCode = versionCode;
-    }
-
-    public void setMd5(String md5) {
-        this.md5 = md5;
     }
 
 }

@@ -7,8 +7,48 @@ import com.haleydu.cimoc.model.Source;
 import com.haleydu.cimoc.model.SourceDao;
 import com.haleydu.cimoc.model.SourceDao.Properties;
 import com.haleydu.cimoc.parser.Parser;
-import com.haleydu.cimoc.source.*;
+import com.haleydu.cimoc.source.Animx2;
+import com.haleydu.cimoc.source.BaiNian;
+import com.haleydu.cimoc.source.CCMH;
+import com.haleydu.cimoc.source.Cartoonmad;
+import com.haleydu.cimoc.source.ChuiXue;
+import com.haleydu.cimoc.source.CopyMH;
+import com.haleydu.cimoc.source.DM5;
+import com.haleydu.cimoc.source.Dmzj;
+import com.haleydu.cimoc.source.DmzjFix;
+import com.haleydu.cimoc.source.Dmzjv2;
+import com.haleydu.cimoc.source.EHentai;
+import com.haleydu.cimoc.source.GuFeng;
+import com.haleydu.cimoc.source.HHAAZZ;
+import com.haleydu.cimoc.source.Hhxxee;
+import com.haleydu.cimoc.source.HotManga;
+import com.haleydu.cimoc.source.IKanman;
+import com.haleydu.cimoc.source.JMTT;
+import com.haleydu.cimoc.source.Locality;
+import com.haleydu.cimoc.source.MH160;
+import com.haleydu.cimoc.source.MH50;
+import com.haleydu.cimoc.source.MH517;
+import com.haleydu.cimoc.source.MH57;
+import com.haleydu.cimoc.source.MHLove;
+import com.haleydu.cimoc.source.ManHuaDB;
+import com.haleydu.cimoc.source.MangaBZ;
+import com.haleydu.cimoc.source.MangaNel;
+import com.haleydu.cimoc.source.Mangakakalot;
+import com.haleydu.cimoc.source.Manhuatai;
+import com.haleydu.cimoc.source.MiGu;
+import com.haleydu.cimoc.source.Null;
+import com.haleydu.cimoc.source.Ohmanhua;
+import com.haleydu.cimoc.source.PuFei;
+import com.haleydu.cimoc.source.QiManWu;
+import com.haleydu.cimoc.source.QiMiaoMH;
+import com.haleydu.cimoc.source.SixMH;
+import com.haleydu.cimoc.source.Tencent;
+import com.haleydu.cimoc.source.TuHao;
+import com.haleydu.cimoc.source.U17;
+import com.haleydu.cimoc.source.Webtoon;
 import com.haleydu.cimoc.source.WebtoonDongManManHua;
+import com.haleydu.cimoc.source.YKMH;
+import com.haleydu.cimoc.source.YYLS;
 
 import java.util.List;
 
@@ -22,8 +62,8 @@ public class SourceManager {
 
     private static SourceManager mInstance;
 
-    private SourceDao mSourceDao;
-    private SparseArray<Parser> mParserArray = new SparseArray<>();
+    private final SourceDao mSourceDao;
+    private final SparseArray<Parser> mParserArray = new SparseArray<>();
 
     private SourceManager(AppGetter getter) {
         mSourceDao = getter.getAppInstance().getDaoSession().getSourceDao();
@@ -90,9 +130,6 @@ public class SourceManager {
                 case HHAAZZ.TYPE:
                     parser = new HHAAZZ(source);
                     break;
-                case CCTuku.TYPE:
-                    parser = new CCTuku(source);
-                    break;
                 case U17.TYPE:
                     parser = new U17(source);
                     break;
@@ -102,9 +139,6 @@ public class SourceManager {
                 case Webtoon.TYPE:
                     parser = new Webtoon(source);
                     break;
-//                case HHSSEE.TYPE:
-//                    parser = new HHSSEE(source);
-//                    break;
                 case MH57.TYPE:
                     parser = new MH57(source);
                     break;
@@ -127,9 +161,6 @@ public class SourceManager {
                     break;
                 case Tencent.TYPE:
                     parser = new Tencent(source);
-                    break;
-                case BuKa.TYPE:
-                    parser = new BuKa(source);
                     break;
                 case EHentai.TYPE:
                     parser = new EHentai(source);

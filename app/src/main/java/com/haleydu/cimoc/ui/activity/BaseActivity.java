@@ -2,9 +2,6 @@ package com.haleydu.cimoc.ui.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -18,6 +15,9 @@ import com.haleydu.cimoc.ui.widget.ViewUtils;
 import com.haleydu.cimoc.utils.HintUtils;
 import com.haleydu.cimoc.utils.ThemeUtils;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

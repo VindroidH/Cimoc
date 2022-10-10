@@ -4,10 +4,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
-
-import androidx.annotation.IntDef;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,6 +28,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
+import androidx.annotation.IntDef;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**
@@ -132,7 +130,7 @@ public class ReaderAdapter extends BaseAdapter<ImageUrl> {
         ImageRequest[] request = new ImageRequest[urls.length];
         for (int i = 0; i != urls.length; ++i) {
             final String url = urls[i];
-            if (url==null){
+            if (url == null) {
                 continue;
             }
             ImageRequestBuilder imageRequestBuilder = ImageRequestBuilder

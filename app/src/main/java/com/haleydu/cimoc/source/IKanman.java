@@ -111,7 +111,7 @@ public class IKanman extends MangaParser {
         if (!StringUtils.isEmpty(baseText)) {
             body = new Node(DecryptionUtils.LZ64Decrypt(baseText));
         }
-        int i=0;
+        int i = 0;
         for (Node node : body.list("div.chapter-list")) {
             List<Node> uls = node.list("ul");
             Collections.reverse(uls);

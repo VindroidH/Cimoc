@@ -5,12 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.view.View;
@@ -25,6 +19,10 @@ import com.haleydu.cimoc.ui.widget.ChapterButton;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**
@@ -32,23 +30,20 @@ import butterknife.BindView;
  */
 public class DetailAdapter extends BaseAdapter<Chapter> {
 
-    private PipelineDraweeControllerBuilderSupplier mControllerSupplier;
-
     public String title;
+    public String intro;
+    Paint textPaint;
+    Paint paint;
+    private PipelineDraweeControllerBuilderSupplier mControllerSupplier;
     private String cover;
     private String update;
     private String author;
-    public String intro;
     private Boolean finish;
     //漫画源中倒序
     private Boolean isReverseOrder;
     //用户手动调整顺序
     private Boolean Reversed = false;
-
     private String last;
-    Paint textPaint;
-
-    Paint paint;
 
     public DetailAdapter(Context context, List<Chapter> list) {
         super(context, list);
@@ -107,10 +102,7 @@ public class DetailAdapter extends BaseAdapter<Chapter> {
                             float baseline = (rect.bottom + rect.top - fontMetrics.bottom - fontMetrics.top) / 2;
                             textPaint.setTextAlign(Paint.Align.CENTER);
                             c.drawText(getGroupName(position), rect.centerX(), baseline, textPaint);
-
-
-                        }  //                            c.drawRect(0, view.getTop() - 1, parent.getWidth(), view.getTop(), mLinePaint);
-
+                        }
                     }
                 }
             }

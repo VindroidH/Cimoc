@@ -3,8 +3,6 @@ package com.haleydu.cimoc.ui.fragment.config;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.RequiresApi;
-
 import android.view.View;
 
 import com.haleydu.cimoc.R;

@@ -31,12 +31,14 @@ import static com.haleydu.cimoc.manager.PreferenceManager.READER_ORIENTATION_AUT
 
 public class EventSettingsActivity extends BaseActivity implements DialogCaller {
 
+    private final float thredhold = 0.3f;
     @BindViews({R.id.event_left, R.id.event_top, R.id.event_middle, R.id.event_bottom, R.id.event_right})
     List<Button> mButtonList;
-
     private int[] mChoiceArray;
     private String[] mKeyArray;
     private boolean isLong;
+    private final boolean[] JoyLock = {false, false};
+    private final int[] JoyEvent = {7, 8};
 
     public static Intent createIntent(Context context, boolean isLong, int orientation, boolean isStream) {
         Intent intent = new Intent(context, EventSettingsActivity.class);
@@ -53,7 +55,7 @@ public class EventSettingsActivity extends BaseActivity implements DialogCaller 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-        final int oArray[] = {ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED};
+        final int[] oArray = {ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED};
         int value = oArray[getIntent().getIntExtra(Extra.EXTRA_IS_PORTRAIT, READER_ORIENTATION_AUTO)];
         setRequestedOrientation(value);
     }
@@ -156,17 +158,13 @@ public class EventSettingsActivity extends BaseActivity implements DialogCaller 
         return super.onGenericMotionEvent(event);
     }
 
-    private boolean JoyLock[] = {false, false};
-    private int JoyEvent[] = {7, 8};
-    private final float thredhold = 0.3f;
-
     private void checkKey(float val, ClickEvents.JoyLocks joy) {
         //unlock
         if (JoyLock[joy.ordinal()] && val < this.thredhold) {
             JoyLock[joy.ordinal()] = false;
         }
         //lock
-        if(!JoyLock[joy.ordinal()] && val > this.thredhold){
+        if (!JoyLock[joy.ordinal()] && val > this.thredhold) {
             JoyLock[joy.ordinal()] = true;
             showEventList(JoyEvent[joy.ordinal()]);
         }

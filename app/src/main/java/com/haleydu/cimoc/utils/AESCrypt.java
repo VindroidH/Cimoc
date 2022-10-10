@@ -5,6 +5,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,6 +37,9 @@ public final class AESCrypt {
     public static boolean DEBUG_LOG_ENABLED = false;
 
 
+    private AESCrypt() {
+    }
+
     /**
      * Generates SHA256 hash of the password which is used as key
      *
@@ -44,7 +48,7 @@ public final class AESCrypt {
      */
     private static SecretKeySpec generateKey(final String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         final MessageDigest digest = MessageDigest.getInstance(HASH_ALGORITHM);
-        byte[] bytes = password.getBytes("UTF-8");
+        byte[] bytes = password.getBytes(StandardCharsets.UTF_8);
         digest.update(bytes, 0, bytes.length);
         byte[] key = digest.digest();
 
@@ -54,13 +58,11 @@ public final class AESCrypt {
         return secretKeySpec;
     }
 
-
     /**
      * Encrypt and encode message using 256-bit AES with key generated from password.
      *
-     *
      * @param password used to generated key
-     * @param message the thing you want to encrypt assumed String UTF-8
+     * @param message  the thing you want to encrypt assumed String UTF-8
      * @return Base64 encoded CipherText
      * @throws GeneralSecurityException if problems occur during encryption
      */
@@ -85,11 +87,11 @@ public final class AESCrypt {
         }
     }
 
-
     /**
      * More flexible AES encrypt that doesn't encode
-     * @param key AES key typically 128, 192 or 256 bit
-     * @param iv Initiation Vector
+     *
+     * @param key     AES key typically 128, 192 or 256 bit
+     * @param iv      Initiation Vector
      * @param message in bytes (assumed it's already been decoded)
      * @return Encrypted cipher text (not encoded)
      * @throws GeneralSecurityException if something goes wrong during encryption
@@ -106,11 +108,10 @@ public final class AESCrypt {
         return cipherText;
     }
 
-
     /**
      * Decrypt and decode ciphertext using 256-bit AES with key generated from password
      *
-     * @param password used to generated key
+     * @param password                used to generated key
      * @param base64EncodedCipherText the encrpyted message encoded with base64
      * @return message in Plain text (String UTF-8)
      * @throws GeneralSecurityException if there's an issue decrypting
@@ -141,12 +142,11 @@ public final class AESCrypt {
         }
     }
 
-
     /**
      * More flexible AES decrypt that doesn't encode
      *
-     * @param key AES key typically 128, 192 or 256 bit
-     * @param iv Initiation Vector
+     * @param key               AES key typically 128, 192 or 256 bit
+     * @param iv                Initiation Vector
      * @param decodedCipherText in bytes (assumed it's already been decoded)
      * @return Decrypted message cipher text (not encoded)
      * @throws GeneralSecurityException if something goes wrong during encryption
@@ -163,9 +163,6 @@ public final class AESCrypt {
         return decryptedBytes;
     }
 
-
-
-
     private static void log(String what, byte[] bytes) {
         if (DEBUG_LOG_ENABLED)
             Log.d(TAG, what + "[" + bytes.length + "] [" + bytesToHex(bytes) + "]");
@@ -176,9 +173,9 @@ public final class AESCrypt {
             Log.d(TAG, what + "[" + value.length() + "] [" + value + "]");
     }
 
-
     /**
      * Converts byte array to hexidecimal useful for logging and fault finding
+     *
      * @param bytes
      * @return
      */
@@ -193,8 +190,5 @@ public final class AESCrypt {
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
-    }
-
-    private AESCrypt() {
     }
 }

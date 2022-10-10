@@ -4,13 +4,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
+
+import com.haleydu.cimoc.R;
+
 import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationCompat;
-
-import com.haleydu.cimoc.App;
-import com.haleydu.cimoc.R;
 
 /**
  * Created by Hiroshi on 2018/2/11.
@@ -18,9 +17,9 @@ import com.haleydu.cimoc.R;
 
 public class NotificationWrapper {
 
-    private NotificationManager mManager;
-    private NotificationCompat.Builder mBuilder;
-    private int mId;
+    private final NotificationManager mManager;
+    private final NotificationCompat.Builder mBuilder;
+    private final int mId;
 
     public NotificationWrapper(Context context, String id, @DrawableRes int icon, boolean ongoing) {
         String title = context.getString(R.string.app_name);

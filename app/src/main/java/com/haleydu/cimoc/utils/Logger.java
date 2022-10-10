@@ -6,12 +6,11 @@ import java.util.Locale;
 
 
 public class Logger {
-    private static boolean isShow = true;
-
     private static final String TAG = Logger.class.getSimpleName();
     private static final String PRE = "###";
     private static final String SPACE = "====================================================================================================";
     private static final int MAX_LENGTH = 1024;
+    private static boolean isShow = true;
 
     /**
      * 初始化Log参数，默认开启

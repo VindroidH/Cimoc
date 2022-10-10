@@ -2,19 +2,18 @@ package com.haleydu.cimoc.ui.activity;
 
 import android.os.Build;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.model.ImageUrl;
 import com.haleydu.cimoc.ui.adapter.ReaderAdapter;
 import com.haleydu.cimoc.ui.widget.rvp.RecyclerViewPager;
 import com.haleydu.cimoc.ui.widget.rvp.RecyclerViewPager.OnPageChangedListener;
-import com.haleydu.cimoc.utils.HintUtils;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Hiroshi on 2016/7/7.
@@ -83,7 +82,6 @@ public class PageReaderActivity extends ReaderActivity implements OnPageChangedL
     public void onPrevLoadSuccess(List<ImageUrl> list) {
         mReaderAdapter.addAll(0, list);
         ((RecyclerViewPager) mRecyclerView).refreshPosition();
-        HintUtils.showToast(this, R.string.reader_load_success);
     }
 
     @Override
@@ -100,7 +98,9 @@ public class PageReaderActivity extends ReaderActivity implements OnPageChangedL
         hideControl();
         int position = getCurPosition();
         if (position == 0) {
-            mPresenter.loadPrev();
+            if (!mPresenter.loadPrev()) {
+                onPrevLoadNone();
+            }
         } else {
             mRecyclerView.smoothScrollToPosition(position - 1);
         }
@@ -111,7 +111,9 @@ public class PageReaderActivity extends ReaderActivity implements OnPageChangedL
         hideControl();
         int position = getCurPosition();
         if (position == mReaderAdapter.getItemCount() - 1) {
-            mPresenter.loadNext();
+            if (!mPresenter.loadNext()) {
+                onNextLoadNone();
+            }
         } else {
             mRecyclerView.smoothScrollToPosition(position + 1);
         }

@@ -8,8 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -57,6 +55,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -107,7 +107,7 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
     private boolean mShowTopbar;
     private int[] mClickArray;
     private int[] mLongClickArray;
-    private BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
@@ -120,6 +120,9 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
     };
     private int _source;
     private boolean _local;
+    private final boolean[] JoyLock = {false, false};
+    private final int[] JoyEvent = {7, 8};
+    private float mControllerTrigThreshold = 0.3f;
 
     public static Intent createIntent(Context context, long id, List<Chapter> list, int mode) {
         Intent intent = getIntent(context, mode);
@@ -258,7 +261,7 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
             long id = getIntent().getLongExtra(Extra.EXTRA_ID, -1);
             List<Chapter> list = getIntent().getParcelableArrayListExtra(Extra.EXTRA_CHAPTER);
             mPresenter.loadInit(id, Objects.requireNonNull(list).toArray(new Chapter[list.size()]));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -359,7 +362,7 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
     @Override
     public void onPicturePaging(ImageUrl image) {
         int pos = mReaderAdapter.getPositionById(image.getId());
-        mReaderAdapter.add(pos + 1, new ImageUrl(image.getId()+900,image.getComicChapter(),image.getNum(), image.getUrls(),
+        mReaderAdapter.add(pos + 1, new ImageUrl(image.getId() + 900, image.getComicChapter(), image.getNum(), image.getUrls(),
                 image.getChapter(), ImageUrl.STATE_PAGE_2, false));
     }
 
@@ -387,14 +390,12 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
     public void onNextLoadSuccess(List<ImageUrl> list) {
         setReaderAdapter(list);
         mReaderAdapter.addAll(list);
-        HintUtils.showToast(this, R.string.reader_load_success);
     }
 
     @Override
     public void onPrevLoadSuccess(List<ImageUrl> list) {
         setReaderAdapter(list);
         mReaderAdapter.addAll(0, list);
-        HintUtils.showToast(this, R.string.reader_load_success);
     }
 
     @Override
@@ -446,7 +447,6 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
 
     @Override
     public void onPrevLoading() {
-        HintUtils.showToast(this, R.string.reader_load_prev);
     }
 
     @Override
@@ -456,7 +456,6 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
 
     @Override
     public void onNextLoading() {
-        HintUtils.showToast(this, R.string.reader_load_next);
     }
 
     @Override
@@ -546,11 +545,6 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
         }
         return super.onGenericMotionEvent(event);
     }
-
-    private boolean[] JoyLock = {false, false};
-    private int[] JoyEvent = {7, 8};
-    private float mControllerTrigThreshold = 0.3f;
-
 
     private void checkKey(float val, ClickEvents.JoyLocks joy) {
         //unlock

@@ -11,7 +11,7 @@ import rx.functions.Func1;
 
 public class ToAnotherList<T, R> implements Observable.Transformer<List<T>, List<R>> {
 
-    private Func1<T, R> func;
+    private final Func1<T, R> func;
 
     public ToAnotherList(Func1<T, R> func) {
         this.func = func;

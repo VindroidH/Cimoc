@@ -2,7 +2,6 @@ package com.haleydu.cimoc.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Rect;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -15,6 +14,7 @@ import com.haleydu.cimoc.ui.widget.ChapterButton;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**

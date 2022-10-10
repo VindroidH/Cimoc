@@ -1,9 +1,10 @@
 package com.haleydu.cimoc.utils;
 
 import android.content.Context;
-import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Created by Hiroshi on 2016/9/22.

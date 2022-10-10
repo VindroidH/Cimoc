@@ -14,11 +14,11 @@ import com.haleydu.cimoc.manager.SourceManager;
  */
 public class ControllerBuilderProvider {
 
-    private Context mContext;
-    private SparseArray<PipelineDraweeControllerBuilderSupplier> mSupplierArray;
-    private SparseArray<ImagePipeline> mPipelineArray;
-    private SourceManager.HeaderGetter mHeaderGetter;
-    private boolean mCover;
+    private final Context mContext;
+    private final SparseArray<PipelineDraweeControllerBuilderSupplier> mSupplierArray;
+    private final SparseArray<ImagePipeline> mPipelineArray;
+    private final SourceManager.HeaderGetter mHeaderGetter;
+    private final boolean mCover;
 
     public ControllerBuilderProvider(Context context, SourceManager.HeaderGetter getter, boolean cover) {
         mSupplierArray = new SparseArray<>();

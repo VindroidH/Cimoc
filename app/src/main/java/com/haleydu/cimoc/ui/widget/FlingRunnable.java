@@ -2,8 +2,9 @@ package com.haleydu.cimoc.ui.widget;
 
 import android.content.Context;
 import android.graphics.RectF;
-import androidx.core.widget.ScrollerCompat;
 import android.view.View;
+
+import androidx.core.widget.ScrollerCompat;
 
 /**
  * Created by Hiroshi on 2017/5/27.

@@ -2,7 +2,6 @@ package com.haleydu.cimoc.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.appcompat.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -14,6 +13,7 @@ import com.haleydu.cimoc.ui.adapter.CategoryAdapter;
 
 import java.util.List;
 
+import androidx.appcompat.widget.AppCompatSpinner;
 import butterknife.BindViews;
 import butterknife.OnClick;
 

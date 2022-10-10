@@ -35,6 +35,7 @@ public class QiManWu extends MangaParser {
     public static final int TYPE = 53;
     public static final String DEFAULT_TITLE = "奇漫屋";
     public static final String baseUrl = "http://qiman6.com";
+    private static String ChapterHtml;
 
     public QiManWu(Source source) {
         init(source, null);
@@ -89,8 +90,6 @@ public class QiManWu extends MangaParser {
         String url = baseUrl.concat(cid);
         return new Request.Builder().url(url).build();
     }
-
-    private static String ChapterHtml;
 
     @Override
     public Comic parseInfo(String html, Comic comic) {

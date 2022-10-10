@@ -49,7 +49,7 @@ public class OkHttpNetworkFetcher extends
     private static final String IMAGE_SIZE = "image_size";
     private final OkHttpClient mOkHttpClient;
     private Executor mCancellationExecutor;
-    private Headers mHeaders;
+    private final Headers mHeaders;
 
     /**
      * @param okHttpClient client to use

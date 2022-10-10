@@ -3,11 +3,10 @@ package com.haleydu.cimoc.ui.adapter;
 import android.content.Context;
 import android.graphics.Rect;
 import android.net.Uri;
-import java.util.List;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
@@ -20,7 +19,12 @@ import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.model.MiniComic;
 import com.haleydu.cimoc.utils.FrescoUtils;
+
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**

@@ -3,7 +3,6 @@ package com.haleydu.cimoc.ui.widget.preference;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.manager.PreferenceManager;
 
-import butterknife.ButterKnife;
+import androidx.appcompat.widget.AppCompatCheckBox;
 
 /**
  * Created by Hiroshi on 2017/1/10.
@@ -23,7 +22,7 @@ import butterknife.ButterKnife;
 public class CheckBoxPreference extends FrameLayout implements View.OnClickListener {
 
     private AppCompatCheckBox mCheckBox;
-    private PreferenceManager mPreferenceManager;
+    private final PreferenceManager mPreferenceManager;
     private String mPreferenceKey;
 
     public CheckBoxPreference(Context context) {
