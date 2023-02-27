@@ -127,14 +127,14 @@ public class QiManWu extends MangaParser {
             for (Node node : new Node(ChapterHtml).list("div.catalog-list > ul > li")) {
                 String title = node.text("a");
                 String path = node.attr("li", "data-id");
-                list.add(new Chapter(Long.parseLong(sourceComic + "000" + k++), sourceComic, title, path));
+                list.add(new Chapter(Long.parseLong(sourceComic + "00" + k++), sourceComic, title, path));
             }
             JSONArray array = new JSONArray(html);
             for (int i = 0; i != array.length(); ++i) {
                 JSONObject chapter = array.getJSONObject(i);
                 String title = chapter.getString("name");
                 String path = chapter.getString("id");
-                list.add(new Chapter(Long.parseLong(sourceComic + "000" + k++), sourceComic, title, path));
+                list.add(new Chapter(Long.parseLong(sourceComic + "00" + k++), sourceComic, title, path));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,7 +162,7 @@ public class QiManWu extends MangaParser {
             String[] array = str1.split(",");
             for (int i = 0; i != array.length; ++i) {
                 Long comicChapter = chapter.getId();
-                Long id = Long.parseLong(comicChapter + "000" + i);
+                Long id = Long.parseLong(comicChapter + "00" + i);
                 list.add(new ImageUrl(id, comicChapter, i + 1, array[i], false));
             }
         } catch (Exception e) {

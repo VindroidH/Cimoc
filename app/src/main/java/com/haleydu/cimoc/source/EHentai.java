@@ -86,7 +86,7 @@ public class EHentai extends MangaParser {
         String length = body.textWithSplit("#gdd > table > tbody > tr:eq(5) > td:eq(1)", " ", 0);
         int size = Integer.parseInt(length) % 40 == 0 ? Integer.parseInt(length) / 40 : Integer.parseInt(length) / 40 + 1;
         for (int i = 0; i != size; ++i) {
-            list.add(new Chapter(Long.parseLong(sourceComic + "000" + i), sourceComic, "Ch" + i, String.valueOf(i)));
+            list.add(new Chapter(Long.parseLong(sourceComic + "00" + i), sourceComic, "Ch" + i, String.valueOf(i)));
         }
         return list;
     }
@@ -104,7 +104,7 @@ public class EHentai extends MangaParser {
         int count = 0;
         for (Node node : body.list("#gdt > div > div > a")) {
             Long comicChapter = chapter.getId();
-            Long id = Long.parseLong(comicChapter + "000" + count);
+            Long id = Long.parseLong(comicChapter + "00" + count);
             list.add(new ImageUrl(id, comicChapter, ++count, node.href(), true));
         }
         return list;

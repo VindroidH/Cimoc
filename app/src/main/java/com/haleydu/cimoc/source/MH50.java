@@ -119,7 +119,7 @@ public class MH50 extends MangaParser {
         for (Node node : body.list(".chapter-warp > ul > li > a")) {
             String title = node.text();
             String path = StringUtils.split(node.href(), "/", 3);
-            list.add(new Chapter(Long.parseLong(sourceComic + "000" + i++), sourceComic, title, path));
+            list.add(new Chapter(Long.parseLong(sourceComic + "00" + i++), sourceComic, title, path));
         }
 
         return Lists.reverse(list);
@@ -184,7 +184,7 @@ public class MH50 extends MangaParser {
                 imageUrl = imageUrl.replace("%", "%25");
             }
             Long comicChapter = chapter.getId();
-            Long id = Long.parseLong(comicChapter + "000" + i);
+            Long id = Long.parseLong(comicChapter + "00" + i);
             list.add(new ImageUrl(id, comicChapter, i + 1, imageUrl, false));
         }
         return list;

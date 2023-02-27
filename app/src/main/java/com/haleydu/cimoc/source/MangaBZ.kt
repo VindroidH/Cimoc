@@ -79,7 +79,7 @@ class MangaBZ(source: Source?) : MangaParser() {
             var title = node.text()
             if (title == "") title = node.attr("title")
             val path = node.href().trim('/')
-            list.add(Chapter((sourceComic.toString() + "000" + i++).toLong(), sourceComic, title, path))
+            list.add(Chapter((sourceComic.toString() + "00" + i++).toLong(), sourceComic, title, path))
         }
         return list
     }
@@ -113,7 +113,7 @@ class MangaBZ(source: Source?) : MangaParser() {
             for (i in 1..pageCount) {
                 val url = "http://www.mangabz.com/$_path/chapterimage.ashx?cid=$cid&page=$i&key=&_cid=$cid&_mid=$mid&_sign=$sign&_dt="
                 val comicChapter = chapter.id
-                val id = (comicChapter.toString() + "000" + i).toLong()
+                val id = (comicChapter.toString() + "00" + i).toLong()
                 list.add(ImageUrl(id, comicChapter, i + 1, url, true))
             }
         } catch (e: Exception) {

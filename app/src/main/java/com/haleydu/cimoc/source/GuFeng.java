@@ -100,7 +100,7 @@ public class GuFeng extends MangaParser {
         for (Node node : new Node(html).list("ul[id^=chapter-list] > li > a")) {
             String title = node.text();
             String path = node.hrefWithSplit(2);
-            list.add(new Chapter(Long.parseLong(sourceComic + "000" + i++), sourceComic, title, path));
+            list.add(new Chapter(Long.parseLong(sourceComic + "00" + i++), sourceComic, title, path));
         }
         return list;
     }
@@ -125,7 +125,7 @@ public class GuFeng extends MangaParser {
                     // 去掉首末两端的双引号和反斜杠
                     String s = array[i].substring(1, array[i].length() - 1).replace("\\", "");
                     Long comicChapter = chapter.getId();
-                    Long id = Long.parseLong(comicChapter + "000" + i);
+                    Long id = Long.parseLong(comicChapter + "00" + i);
                     if (!s.toLowerCase().startsWith("http")) {
                         s = "https://res5.gufengmanhua.com" + s;
                     }

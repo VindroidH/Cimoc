@@ -103,7 +103,7 @@ public class Hhxxee extends MangaParser {
         for (Node node : new Node(html).list(".cVolList > div")) {
             String title = node.text("a");
             String path = node.hrefWithSplit("a", 2);
-            list.add(new Chapter(Long.parseLong(sourceComic + "000" + i++), sourceComic, title, path));
+            list.add(new Chapter(Long.parseLong(sourceComic + "00" + i++), sourceComic, title, path));
         }
         return list;
     }
@@ -127,7 +127,7 @@ public class Hhxxee extends MangaParser {
                 String[] array = str.split("\\|");
                 for (int i = 0; i != array.length; ++i) {
                     Long comicChapter = chapter.getId();
-                    Long id = Long.parseLong(comicChapter + "000" + i);
+                    Long id = Long.parseLong(comicChapter + "00" + i);
                     list.add(new ImageUrl(id, comicChapter, i + 1, servers[getPictureServers(array[i])] + array[i], false));
                 }
             } catch (Exception e) {

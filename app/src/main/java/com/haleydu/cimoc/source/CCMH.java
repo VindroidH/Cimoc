@@ -118,7 +118,7 @@ public class CCMH extends MangaParser {
         for (Node node : body.list(".list > a")) {
             String title = node.attr("title");
             String path = node.hrefWithSplit(2);
-            list.add(new Chapter(Long.parseLong(sourceComic + "000" + i++), sourceComic, title, path));
+            list.add(new Chapter(Long.parseLong(sourceComic + "00" + i++), sourceComic, title, path));
         }
 
         return Lists.reverse(list);
@@ -149,7 +149,7 @@ public class CCMH extends MangaParser {
 
         for (int i = 0; i < pageCount; i++) {
             Long comicChapter = chapter.getId();
-            Long id = Long.parseLong(comicChapter + "000" + i);
+            Long id = Long.parseLong(comicChapter + "00" + i);
             list.add(new ImageUrl(id, comicChapter, i + 1, StringUtils.format("http://m.ccmh6.com/manhua/%s/%s.html?p=%d", _cid, _path, i + 1), true));
         }
         return list;

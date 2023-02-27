@@ -85,7 +85,7 @@ public class Manga {
                         if (request != null) {
                             html = getResponseBody(App.getHttpClient(), request);
                         }
-                        Long sourceComic = Long.parseLong(comic.getSource() + "000" + (comic.getId() == null ? "00" : comic.getId()));
+                        Long sourceComic = Long.parseLong(comic.getSource() + "00" + (comic.getId() == null ? "00" : comic.getId()));
                         list = parser.parseChapter(html, comic, sourceComic);
                         if (list == null) {
                             list = parser.parseChapter(html);

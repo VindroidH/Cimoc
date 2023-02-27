@@ -105,11 +105,11 @@ public class JMTT extends MangaParser {
         int i = 0;
         String startTitle = body.text(".col.btn.btn-primary.dropdown-toggle.reading").trim();
         String startPath = body.href(".col.btn.btn-primary.dropdown-toggle.reading");
-        list.add(new Chapter(Long.parseLong(sourceComic + "000" + i++), sourceComic, startTitle, startPath));
+        list.add(new Chapter(Long.parseLong(sourceComic + "00" + i++), sourceComic, startTitle, startPath));
         for (Node node : body.list("#episode-block > div > div.episode > ul > a")) {
             String title = node.text("li").trim();
             String path = node.href();
-            list.add(new Chapter(Long.parseLong(sourceComic + "000" + i++), sourceComic, title, path));
+            list.add(new Chapter(Long.parseLong(sourceComic + "00" + i++), sourceComic, title, path));
         }
         return Lists.reverse(list);
     }
@@ -128,7 +128,7 @@ public class JMTT extends MangaParser {
             int i = 0;
             for (Node node : new Node(html).list("img.lazy_img")) {
                 Long comicChapter = chapter.getId();
-                Long id = Long.parseLong(comicChapter + "000" + i);
+                Long id = Long.parseLong(comicChapter + "00" + i);
 
                 String img1 = node.attr("img", "src");
                 String img2 = node.attr("img", "data-original");
