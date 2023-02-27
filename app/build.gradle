@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.greenrobot.greendao'
 
-def buildVersion = 1072700
-def version = "v1.7.27"
+def buildVersion = 1072800
+def version = "v1.7.28"
 
 android {
     compileSdkVersion 30
@@ -22,7 +22,6 @@ android {
         versionName version
         resConfigs "en", "zh"
         multiDexEnabled true
-
     }
     signingConfigs {
         release {
