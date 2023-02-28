@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.greenrobot.greendao'
 
-def buildVersion = 1072800
-def version = "v1.7.28"
+def buildVersion = 1072900
+def version = "v1.7.29"
 
 android {
     compileSdkVersion 30
