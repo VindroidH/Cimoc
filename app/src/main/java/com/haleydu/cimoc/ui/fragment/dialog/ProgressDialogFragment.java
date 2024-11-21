@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.rx.RxBus;
 import com.haleydu.cimoc.rx.RxEvent;
 import com.haleydu.cimoc.utils.ThemeUtils;
@@ -29,9 +30,9 @@ import rx.subscriptions.CompositeSubscription;
 
 public class ProgressDialogFragment extends DialogFragment {
 
-    @BindView(R.id.dialog_progress_bar)
+    @BindView(R2.id.dialog_progress_bar)
     ProgressBar mProgressBar;
-    @BindView(R.id.dialog_progress_text)
+    @BindView(R2.id.dialog_progress_text)
     TextView mTextView;
 
     private Unbinder unbinder;

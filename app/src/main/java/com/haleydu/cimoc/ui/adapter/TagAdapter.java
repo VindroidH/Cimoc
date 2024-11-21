@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.model.Tag;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public class TagAdapter extends BaseAdapter<Tag> {
     }
 
     static class TagHolder extends BaseViewHolder {
-        @BindView(R.id.item_tag_title)
+        @BindView(R2.id.item_tag_title)
         TextView tagTitle;
 
         TagHolder(final View view) {

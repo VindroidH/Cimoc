@@ -13,6 +13,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.model.Comic;
@@ -77,15 +78,15 @@ public class ResultAdapter extends BaseAdapter<Comic> {
     }
 
     class ResultViewHolder extends BaseViewHolder {
-        @BindView(R.id.result_comic_image)
+        @BindView(R2.id.result_comic_image)
         SimpleDraweeView comicImage;
-        @BindView(R.id.result_comic_title)
+        @BindView(R2.id.result_comic_title)
         TextView comicTitle;
-        @BindView(R.id.result_comic_author)
+        @BindView(R2.id.result_comic_author)
         TextView comicAuthor;
-        @BindView(R.id.result_comic_update)
+        @BindView(R2.id.result_comic_update)
         TextView comicUpdate;
-        @BindView(R.id.result_comic_source)
+        @BindView(R2.id.result_comic_source)
         TextView comicSource;
 
         ResultViewHolder(View view) {

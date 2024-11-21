@@ -24,6 +24,7 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.component.ThemeResponsive;
 import com.haleydu.cimoc.core.Update;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
@@ -65,11 +66,11 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
 
     private static final int FRAGMENT_NUM = 3;
 
-    @BindView(R.id.main_layout)
+    @BindView(R2.id.main_layout)
     DrawerLayout mDrawerLayout;
-    @BindView(R.id.main_navigation_view)
+    @BindView(R2.id.main_navigation_view)
     NavigationView mNavigationView;
-    @BindView(R.id.main_fragment_container)
+    @BindView(R2.id.main_fragment_container)
     FrameLayout mFrameLayout;
 
     private TextView mLastText;

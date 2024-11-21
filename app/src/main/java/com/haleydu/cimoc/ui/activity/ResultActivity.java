@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.manager.SourceManager;
@@ -45,9 +46,9 @@ public class ResultActivity extends BackActivity implements ResultView, BaseAdap
     // 在新的一次请求（上拉加载）前检查新Url与上一次请求的是否一致。
     // 一致则返回空请求，达到阻断请求的目的；不一致则更新Map中存的Url，Map中不存在则新建
     public static SparseArray<String> searchUrls = new SparseArray<>();
-    @BindView(R.id.result_recycler_view)
+    @BindView(R2.id.result_recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R.id.result_layout)
+    @BindView(R2.id.result_layout)
     FrameLayout mLayoutView;
     private ResultAdapter mResultAdapter;
     private LinearLayoutManager mLayoutManager;

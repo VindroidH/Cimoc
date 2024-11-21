@@ -14,6 +14,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.manager.SourceManager;
@@ -182,13 +183,13 @@ public class GridAdapter extends BaseAdapter<Object> {
     }
 
     static class GridHolder extends BaseViewHolder {
-        @BindView(R.id.item_grid_image)
+        @BindView(R2.id.item_grid_image)
         SimpleDraweeView comicImage;
-        @BindView(R.id.item_grid_title)
+        @BindView(R2.id.item_grid_title)
         TextView comicTitle;
-        @BindView(R.id.item_grid_subtitle)
+        @BindView(R2.id.item_grid_subtitle)
         TextView comicSource;
-        @BindView(R.id.item_grid_symbol)
+        @BindView(R2.id.item_grid_symbol)
         View comicHighlight;
 
         GridHolder(View view) {

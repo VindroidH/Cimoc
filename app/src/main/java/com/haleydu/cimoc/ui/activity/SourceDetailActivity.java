@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.presenter.BasePresenter;
 import com.haleydu.cimoc.presenter.SourceDetailPresenter;
@@ -19,11 +20,11 @@ import butterknife.OnClick;
 
 public class SourceDetailActivity extends BackActivity implements SourceDetailView {
 
-    @BindView(R.id.source_detail_type)
+    @BindView(R2.id.source_detail_type)
     Option mSourceType;
-    @BindView(R.id.source_detail_title)
+    @BindView(R2.id.source_detail_title)
     Option mSourceTitle;
-    @BindView(R.id.source_detail_favorite)
+    @BindView(R2.id.source_detail_favorite)
     Option mSourceFavorite;
     private SourceDetailPresenter mPresenter;
 

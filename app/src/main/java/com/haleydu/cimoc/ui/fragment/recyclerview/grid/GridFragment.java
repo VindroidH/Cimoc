@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.MiniComic;
@@ -40,7 +41,7 @@ public abstract class GridFragment extends RecyclerViewFragment implements GridV
     protected static final int DIALOG_REQUEST_OPERATION = 0;
     protected GridAdapter mGridAdapter;
     protected long mSavedId = -1;
-    @BindView(R.id.grid_action_button)
+    @BindView(R2.id.grid_action_button)
     FloatingActionButton mActionButton;
 
     @Override

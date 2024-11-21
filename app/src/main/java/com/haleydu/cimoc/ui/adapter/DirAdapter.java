@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class DirAdapter extends BaseAdapter<String> {
     }
 
     static class DirHolder extends BaseAdapter.BaseViewHolder {
-        @BindView(R.id.item_dir_title)
+        @BindView(R2.id.item_dir_title)
         TextView mDirTitle;
 
         DirHolder(View view) {

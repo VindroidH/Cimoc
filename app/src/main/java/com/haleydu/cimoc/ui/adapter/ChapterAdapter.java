@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.misc.Switcher;
 import com.haleydu.cimoc.model.Chapter;
 import com.haleydu.cimoc.ui.widget.ChapterButton;
@@ -90,9 +91,9 @@ public class ChapterAdapter extends BaseAdapter<Switcher<Chapter>> {
     }
 
     static class ItemHolder extends BaseAdapter.BaseViewHolder {
-        @BindView(R.id.item_select_title)
+        @BindView(R2.id.item_select_title)
         TextView chapterTitle;
-        @BindView(R.id.item_select_checkbox)
+        @BindView(R2.id.item_select_checkbox)
         CheckBox chapterChoice;
 
         ItemHolder(View view) {
@@ -101,7 +102,7 @@ public class ChapterAdapter extends BaseAdapter<Switcher<Chapter>> {
     }
 
     static class ButtonHolder extends BaseAdapter.BaseViewHolder {
-        @BindView(R.id.item_chapter_button)
+        @BindView(R2.id.item_chapter_button)
         ChapterButton chapterButton;
 
         ButtonHolder(View view) {

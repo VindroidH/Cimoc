@@ -7,6 +7,7 @@ import android.view.WindowManager;
 
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.BasePresenter;
 import com.haleydu.cimoc.ui.fragment.dialog.ProgressDialogFragment;
@@ -28,10 +29,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     protected PreferenceManager mPreference;
     @Nullable
-    @BindView(R.id.custom_night_mask)
+    @BindView(R2.id.custom_night_mask)
     View mNightMask;
     @Nullable
-    @BindView(R.id.custom_toolbar)
+    @BindView(R2.id.custom_toolbar)
     Toolbar mToolbar;
     private ProgressDialogFragment mProgressDialog;
     private BasePresenter mBasePresenter;

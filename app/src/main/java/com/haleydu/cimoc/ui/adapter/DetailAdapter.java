@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilderSupplier;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.model.Chapter;
 import com.haleydu.cimoc.ui.widget.ChapterButton;
 
@@ -248,7 +249,7 @@ public class DetailAdapter extends BaseAdapter<Chapter> {
     }
 
     static class ChapterHolder extends BaseViewHolder {
-        @BindView(R.id.item_chapter_button)
+        @BindView(R2.id.item_chapter_button)
         ChapterButton chapterButton;
 
         ChapterHolder(View view) {
@@ -257,17 +258,17 @@ public class DetailAdapter extends BaseAdapter<Chapter> {
     }
 
     class HeaderHolder extends BaseViewHolder {
-        @BindView(R.id.item_header_comic_image)
+        @BindView(R2.id.item_header_comic_image)
         SimpleDraweeView mComicImage;
-        @BindView(R.id.item_header_comic_title)
+        @BindView(R2.id.item_header_comic_title)
         TextView mComicTitle;
-        @BindView(R.id.item_header_comic_intro)
+        @BindView(R2.id.item_header_comic_intro)
         TextView mComicIntro;
-        @BindView(R.id.item_header_comic_status)
+        @BindView(R2.id.item_header_comic_status)
         TextView mComicStatus;
-        @BindView(R.id.item_header_comic_update)
+        @BindView(R2.id.item_header_comic_update)
         TextView mComicUpdate;
-        @BindView(R.id.item_header_comic_author)
+        @BindView(R2.id.item_header_comic_author)
         TextView mComicAuthor;
 
         HeaderHolder(View view) {

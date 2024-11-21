@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.tabs.TabLayout;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.component.ThemeResponsive;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.manager.TagManager;
@@ -42,9 +43,9 @@ public class ComicFragment extends BaseFragment implements ComicView {
 
     private static final int DIALOG_REQUEST_FILTER = 0;
 
-    @BindView(R.id.comic_tab_layout)
+    @BindView(R2.id.comic_tab_layout)
     TabLayout mTabLayout;
-    @BindView(R.id.comic_view_pager)
+    @BindView(R2.id.comic_view_pager)
     ViewPager mViewPager;
 
     private ComicPresenter mPresenter;

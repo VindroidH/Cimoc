@@ -112,7 +112,7 @@ public class Update {
             public void onClick(View v) {
                 mAppUpdater = new AppUpdater.Builder()
                         .setApkMD5(md5)//支持MD5校验，如果缓存APK的MD5与此MD5相同，则直接取本地缓存安装，推荐使用MD5校验的方式
-                        .serUrl(mUrl)
+                        .setUrl(mUrl)
                         .setVersionCode(versionCode)//支持versionCode校验，设置versionCode之后，新版本versionCode相同的apk只下载一次,优先取本地缓存,推荐使用MD5校验的方式
                         .setVibrate(true)  //振动
                         .setFilename("Cimoc_" + versionName + ".apk")

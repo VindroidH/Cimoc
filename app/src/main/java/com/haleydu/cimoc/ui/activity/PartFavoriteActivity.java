@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.manager.TagManager;
@@ -39,7 +40,7 @@ public class PartFavoriteActivity extends BackActivity implements PartFavoriteVi
     private static final int DIALOG_REQUEST_DELETE = 0;
     private static final int DIALOG_REQUEST_ADD = 1;
 
-    @BindView(R.id.part_favorite_recycler_view)
+    @BindView(R2.id.part_favorite_recycler_view)
     RecyclerView mRecyclerView;
 
     private PartFavoritePresenter mPresenter;

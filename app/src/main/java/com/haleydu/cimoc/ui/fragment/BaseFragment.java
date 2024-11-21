@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.BasePresenter;
 import com.haleydu.cimoc.ui.activity.BaseActivity;
@@ -30,7 +31,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     protected PreferenceManager mPreference;
     @Nullable
-    @BindView(R.id.custom_progress_bar)
+    @BindView(R2.id.custom_progress_bar)
     ProgressBar mProgressBar;
     private Unbinder unbinder;
     private BasePresenter mBasePresenter;

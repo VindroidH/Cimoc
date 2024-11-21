@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.component.DialogCaller;
 import com.haleydu.cimoc.global.ClickEvents;
 import com.haleydu.cimoc.manager.PreferenceManager;
@@ -33,22 +34,22 @@ public class PageConfigFragment extends BaseFragment implements DialogCaller {
     private static final int OPERATION_VOLUME_UP = 0;
     private static final int OPERATION_VOLUME_DOWN = 1;
 
-    @BindView(R.id.settings_reader_load_prev)
+    @BindView(R2.id.settings_reader_load_prev)
     CheckBoxPreference mReaderLoadPrev;
-    @BindView(R.id.settings_reader_load_next)
+    @BindView(R2.id.settings_reader_load_next)
     CheckBoxPreference mReaderLoadNext;
-    @BindView(R.id.settings_reader_ban_turn)
+    @BindView(R2.id.settings_reader_ban_turn)
     CheckBoxPreference mReaderBanTurn;
-    @BindView(R.id.settings_reader_quick_turn)
+    @BindView(R2.id.settings_reader_quick_turn)
     CheckBoxPreference mReaderQuickTurn;
-    @BindView(R.id.settings_reader_orientation)
+    @BindView(R2.id.settings_reader_orientation)
     ChoicePreference mReaderOrientation;
-    @BindView(R.id.settings_reader_turn)
+    @BindView(R2.id.settings_reader_turn)
     ChoicePreference mReaderTurn;
-    @BindView(R.id.settings_reader_trigger)
+    @BindView(R2.id.settings_reader_trigger)
     SliderPreference mReaderTrigger;
 
-//    @BindView(R.id.settings_reader_volume_click_event) View mReaderVolumeEvent;
+//    @BindView(R2.id.settings_reader_volume_click_event) View mReaderVolumeEvent;
 
     @Override
     protected void initView() {

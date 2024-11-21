@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.BackupPresenter;
 import com.haleydu.cimoc.presenter.BasePresenter;
@@ -28,9 +29,9 @@ public class BackupActivity extends BackActivity implements BackupView {
     private static final int DIALOG_REQUEST_RESTORE_SETTINGS = 2;
     private static final int DIALOG_REQUEST_RESTORE_CLEAR = 3;
 
-    @BindView(R.id.backup_layout)
+    @BindView(R2.id.backup_layout)
     View mLayoutView;
-    @BindView(R.id.backup_save_comic_auto)
+    @BindView(R2.id.backup_save_comic_auto)
     CheckBoxPreference mSaveComicAuto;
 
     private BackupPresenter mPresenter;

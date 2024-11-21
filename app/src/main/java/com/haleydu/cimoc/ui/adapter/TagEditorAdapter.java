@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.misc.Switcher;
 import com.haleydu.cimoc.model.Tag;
 
@@ -51,9 +52,9 @@ public class TagEditorAdapter extends BaseAdapter<Switcher<Tag>> {
     }
 
     static class TagHolder extends BaseAdapter.BaseViewHolder {
-        @BindView(R.id.item_select_title)
+        @BindView(R2.id.item_select_title)
         TextView tagTitle;
-        @BindView(R.id.item_select_checkbox)
+        @BindView(R2.id.item_select_checkbox)
         CheckBox tagChoice;
 
         TagHolder(View view) {

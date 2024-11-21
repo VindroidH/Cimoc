@@ -3,6 +3,7 @@ package com.haleydu.cimoc.ui.fragment.recyclerview;
 import android.view.View;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.ui.adapter.BaseAdapter;
 import com.haleydu.cimoc.ui.fragment.BaseFragment;
 
@@ -16,7 +17,7 @@ import butterknife.BindView;
 public abstract class RecyclerViewFragment extends BaseFragment implements BaseAdapter.OnItemClickListener,
         BaseAdapter.OnItemLongClickListener {
 
-    @BindView(R.id.recycler_view_content)
+    @BindView(R2.id.recycler_view_content)
     protected RecyclerView mRecyclerView;
 
     @Override

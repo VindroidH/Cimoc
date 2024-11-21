@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.model.Source;
 
 import java.util.List;
@@ -88,9 +89,9 @@ public class SourceAdapter extends BaseAdapter<Source> {
     }
 
     static class SourceHolder extends BaseViewHolder {
-        @BindView(R.id.item_source_title)
+        @BindView(R2.id.item_source_title)
         TextView sourceTitle;
-        @BindView(R.id.item_source_switch)
+        @BindView(R2.id.item_source_switch)
         SwitchCompat sourceSwitch;
 
         SourceHolder(final View view) {

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.misc.Switcher;
 import com.haleydu.cimoc.model.Source;
@@ -42,13 +43,13 @@ public class SearchActivity extends BackActivity implements SearchView, TextView
 
     private final static int DIALOG_REQUEST_SOURCE = 0;
 
-    @BindView(R.id.search_text_layout)
+    @BindView(R2.id.search_text_layout)
     TextInputLayout mInputLayout;
-    @BindView(R.id.search_keyword_input)
+    @BindView(R2.id.search_keyword_input)
     AppCompatAutoCompleteTextView mEditText;
-    @BindView(R.id.search_action_button)
+    @BindView(R2.id.search_action_button)
     FloatingActionButton mActionButton;
-    @BindView(R.id.search_strict_checkbox)
+    @BindView(R2.id.search_strict_checkbox)
     AppCompatCheckBox mCheckBox;
 
     private ArrayAdapter<String> mArrayAdapter;

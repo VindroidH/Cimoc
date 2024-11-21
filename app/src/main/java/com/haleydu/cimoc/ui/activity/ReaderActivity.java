@@ -23,6 +23,7 @@ import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.fresco.ControllerBuilderSupplierFactory;
 import com.haleydu.cimoc.fresco.ImagePipelineFactoryBuilder;
 import com.haleydu.cimoc.global.ClickEvents;
@@ -80,25 +81,25 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
     protected int mode;
     protected boolean mLoadPrev;
     protected boolean mLoadNext;
-    @BindView(R.id.reader_chapter_title)
+    @BindView(R2.id.reader_chapter_title)
     TextView mChapterTitle;
-    @BindView(R.id.reader_chapter_page)
+    @BindView(R2.id.reader_chapter_page)
     TextView mChapterPage;
-    @BindView(R.id.reader_battery)
+    @BindView(R2.id.reader_battery)
     TextView mBatteryText;
-    @BindView(R.id.reader_progress_layout)
+    @BindView(R2.id.reader_progress_layout)
     View mProgressLayout;
-    @BindView(R.id.reader_back_layout)
+    @BindView(R2.id.reader_back_layout)
     View mBackLayout;
-    @BindView(R.id.reader_info_layout)
+    @BindView(R2.id.reader_info_layout)
     View mInfoLayout;
-    @BindView(R.id.reader_seek_bar)
+    @BindView(R2.id.reader_seek_bar)
     ReverseSeekBar mSeekBar;
-    @BindView(R.id.reader_loading)
+    @BindView(R2.id.reader_loading)
     TextView mLoadingText;
-    @BindView(R.id.reader_recycler_view)
+    @BindView(R2.id.reader_recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R.id.reader_box)
+    @BindView(R2.id.reader_box)
     RelativeLayout mReaderBox;
     private boolean isSavingPicture = false;
 

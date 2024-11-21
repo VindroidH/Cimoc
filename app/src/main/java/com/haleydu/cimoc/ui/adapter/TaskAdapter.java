@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.model.Task;
 import com.haleydu.cimoc.utils.StringUtils;
 
@@ -130,15 +131,15 @@ public class TaskAdapter extends BaseAdapter<Task> {
     }
 
     static class TaskHolder extends BaseViewHolder {
-        @BindView(R.id.task_page)
+        @BindView(R2.id.task_page)
         TextView taskPage;
-        @BindView(R.id.task_title)
+        @BindView(R2.id.task_title)
         TextView taskTitle;
-        @BindView(R.id.task_state)
+        @BindView(R2.id.task_state)
         TextView taskState;
-        @BindView(R.id.task_progress)
+        @BindView(R2.id.task_progress)
         ProgressBar taskProgress;
-        @BindView(R.id.task_last)
+        @BindView(R2.id.task_last)
         View taskLast;
 
         TaskHolder(View view, int color) {

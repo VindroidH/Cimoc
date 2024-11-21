@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.Constants;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.AboutPresenter;
 import com.haleydu.cimoc.presenter.BasePresenter;
@@ -29,11 +30,11 @@ import butterknife.OnClick;
 
 public class AboutActivity extends BackActivity implements AboutView, AdapterView.OnItemSelectedListener {
 
-    @BindView(R.id.about_update_summary)
+    @BindView(R2.id.about_update_summary)
     TextView mUpdateText;
-    @BindView(R.id.about_version_name)
+    @BindView(R2.id.about_version_name)
     TextView mVersionName;
-    @BindView(R.id.about_layout)
+    @BindView(R2.id.about_layout)
     View mLayoutView;
 
     private AboutPresenter mPresenter;

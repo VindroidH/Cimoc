@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.utils.ThemeUtils;
 
 import androidx.annotation.Nullable;
@@ -17,7 +18,7 @@ import butterknife.BindView;
 public abstract class BackActivity extends BaseActivity {
 
     @Nullable
-    @BindView(R.id.custom_progress_bar)
+    @BindView(R2.id.custom_progress_bar)
     ProgressBar mProgressBar;
 
     @Override

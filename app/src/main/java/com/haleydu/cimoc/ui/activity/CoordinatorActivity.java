@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.ui.adapter.BaseAdapter;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -18,13 +19,13 @@ import butterknife.BindView;
 public abstract class CoordinatorActivity extends BackActivity implements
         BaseAdapter.OnItemClickListener, BaseAdapter.OnItemLongClickListener {
 
-    @BindView(R.id.coordinator_action_button)
+    @BindView(R2.id.coordinator_action_button)
     FloatingActionButton mActionButton;
-    @BindView(R.id.coordinator_action_button2)
+    @BindView(R2.id.coordinator_action_button2)
     FloatingActionButton mActionButton2;
-    @BindView(R.id.coordinator_recycler_view)
+    @BindView(R2.id.coordinator_recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R.id.coordinator_layout)
+    @BindView(R2.id.coordinator_layout)
     CoordinatorLayout mLayoutView;
 
     @Override

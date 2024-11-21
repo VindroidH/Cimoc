@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.component.DialogCaller;
 import com.haleydu.cimoc.global.ClickEvents;
 import com.haleydu.cimoc.ui.activity.BackActivity;
@@ -21,9 +22,9 @@ import butterknife.BindView;
 
 public class ReaderConfigActivity extends BackActivity implements DialogCaller {
 
-    @BindView(R.id.reader_config_tab_layout)
+    @BindView(R2.id.reader_config_tab_layout)
     TabLayout mTabLayout;
-    @BindView(R.id.reader_config_view_pager)
+    @BindView(R2.id.reader_config_view_pager)
     ViewPager mViewPager;
 
     private String[] mKeyArray;

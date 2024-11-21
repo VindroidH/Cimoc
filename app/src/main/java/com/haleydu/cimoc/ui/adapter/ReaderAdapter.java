@@ -18,6 +18,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
+import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.fresco.processor.MangaPostprocessor;
 import com.haleydu.cimoc.model.ImageUrl;
 import com.haleydu.cimoc.ui.widget.OnTapGestureListener;
@@ -289,7 +290,7 @@ public class ReaderAdapter extends BaseAdapter<ImageUrl> {
     }
 
     public static class ImageHolder extends BaseViewHolder {
-        public @BindView(R.id.reader_image_view)
+        public @BindView(R2.id.reader_image_view)
         RetryDraweeView draweeView;
 
         ImageHolder(View view) {
