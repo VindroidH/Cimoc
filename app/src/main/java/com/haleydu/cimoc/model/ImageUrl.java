@@ -1,11 +1,9 @@
 package com.haleydu.cimoc.model;
 
-import org.greenrobot.greendao.annotation.Convert;
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.converter.PropertyConverter;
+import io.objectbox.annotation.Convert;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.converter.PropertyConverter;
 
 /**
  * Created by Hiroshi on 2016/8/20.
@@ -17,12 +15,11 @@ public class ImageUrl {
     public static final int STATE_PAGE_1 = 1;
     public static final int STATE_PAGE_2 = 2;
 
-    @Id(autoincrement = true)
+    @Id(assignable = true)
     private Long id; // 唯一标识
-    @NotNull
-    private Long comicChapter;
+    private Long comicChapter = 0L;
     private int num;    // 章节的第几页
-    @Convert(columnType = String.class, converter = StringConverter.class)
+//    @Convert(converter = StringConverter.class, dbType = String.class)
     private String[] urls;
     private String chapter; // 所属章节
     private int state;  // 切图时表示状态 这里可以改为编号 比如长图可以切为多张方便加载
@@ -43,8 +40,7 @@ public class ImageUrl {
                 0, 0, lazy, false, false, false);
     }
 
-    @Generated(hash = 254698487)
-    public ImageUrl(Long id, @NotNull Long comicChapter, int num, String[] urls,
+    public ImageUrl(Long id, Long comicChapter, int num, String[] urls,
                     String chapter, int state, int height, int width, boolean lazy, boolean loading,
                     boolean success, boolean download) {
         this.id = id;
@@ -199,7 +195,7 @@ public class ImageUrl {
         @Override
         public String[] convertToEntityProperty(String databaseValue) {
             if (databaseValue == null) {
-                return null;
+                return new String[0];
             } else {
                 return databaseValue.split(SPLIT);
             }

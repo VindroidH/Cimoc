@@ -1,17 +1,16 @@
 package com.haleydu.cimoc.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.BasePresenter;
@@ -22,20 +21,17 @@ import com.haleydu.cimoc.ui.activity.settings.ReaderConfigActivity;
 import com.haleydu.cimoc.ui.fragment.dialog.MessageDialogFragment;
 import com.haleydu.cimoc.ui.fragment.dialog.StorageEditorDialogFragment;
 import com.haleydu.cimoc.ui.view.SettingsView;
+import com.haleydu.cimoc.ui.widget.Option;
 import com.haleydu.cimoc.ui.widget.preference.CheckBoxPreference;
 import com.haleydu.cimoc.ui.widget.preference.ChoicePreference;
 import com.haleydu.cimoc.ui.widget.preference.SliderPreference;
 import com.haleydu.cimoc.utils.ServiceUtils;
-import com.haleydu.cimoc.utils.StringUtils;
 import com.haleydu.cimoc.utils.ThemeUtils;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.core.content.ContextCompat;
-import butterknife.BindView;
-import butterknife.BindViews;
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2016/9/21.
@@ -53,55 +49,30 @@ public class SettingsActivity extends BackActivity implements SettingsView {
     private static final int DIALOG_REQUEST_READER_SCALE_FACTOR = 8;
     private static final int DIALOG_REQUEST_READER_CONTROLLER_TRIG_THRESHOLD = 9;
 
-    @BindViews({R.id.settings_reader_title, R.id.settings_download_title, R.id.settings_other_title, R.id.settings_search_title})
     List<TextView> mTitleList;
-    @BindView(R2.id.settings_layout)
     View mSettingsLayout;
-    @BindView(R2.id.settings_reader_keep_bright)
     CheckBoxPreference mReaderKeepBright;
-    @BindView(R2.id.settings_reader_hide_info)
     CheckBoxPreference mReaderHideInfo;
-    @BindView(R2.id.settings_reader_hide_nav)
     CheckBoxPreference mReaderHideNav;
-    @BindView(R2.id.settings_reader_ban_double_click)
     CheckBoxPreference mReaderBanDoubleClick;
-    @BindView(R2.id.settings_reader_paging)
     CheckBoxPreference mReaderPaging;
-    @BindView(R2.id.settings_reader_closeautoresizeimage)
     CheckBoxPreference mReaderCloseAutoResizeImage;
-    @BindView(R2.id.settings_reader_paging_reverse)
     CheckBoxPreference mReaderPagingReverse;
-    @BindView(R2.id.settings_reader_white_edge)
     CheckBoxPreference mReaderWhiteEdge;
-    @BindView(R2.id.settings_reader_white_background)
     CheckBoxPreference mReaderWhiteBackground;
-    @BindView(R2.id.settings_reader_volume_key)
     CheckBoxPreference mReaderVolumeKeyControls;
-    @BindView(R2.id.settings_search_auto_complete)
     CheckBoxPreference mSearchAutoComplete;
-    @BindView(R2.id.settings_other_check_update)
     CheckBoxPreference mCheckCimocUpdate;
-    @BindView(R2.id.settings_check_update)
     CheckBoxPreference mCheckSoftwareUpdate;
-    @BindView(R2.id.settings_reader_mode)
     ChoicePreference mReaderMode;
-    @BindView(R2.id.settings_other_launch)
     ChoicePreference mOtherLaunch;
-    @BindView(R2.id.settings_other_theme)
     ChoicePreference mOtherTheme;
-    @BindView(R2.id.settings_reader_scale_factor)
     SliderPreference mReaderScaleFactor;
-    @BindView(R2.id.settings_reader_controller_trig_threshold)
     SliderPreference mReaderControllerTrigThreshold;
-    @BindView(R2.id.settings_reader_show_topbar)
     CheckBoxPreference mOtherShowTopbar;
-    @BindView(R2.id.settings_other_night_alpha)
     SliderPreference mOtherNightAlpha;
-    @BindView(R2.id.settings_download_thread)
     SliderPreference mDownloadThread;
-    @BindView(R2.id.settings_other_connect_only_wifi)
     CheckBoxPreference mConnectOnlyWifi;
-    @BindView(R2.id.settings_other_loadcover_only_wifi)
     CheckBoxPreference mLoadCoverOnlyWifi;
 
     private SettingsPresenter mPresenter;
@@ -122,6 +93,73 @@ public class SettingsActivity extends BackActivity implements SettingsView {
     @Override
     protected void initView() {
         super.initView();
+        mTitleList = new ArrayList<>();
+        mTitleList.add(findViewById(R.id.settings_reader_title));
+        mTitleList.add(findViewById(R.id.settings_download_title));
+        mTitleList.add(findViewById(R.id.settings_other_title));
+        mTitleList.add(findViewById(R.id.settings_search_title));
+        mSettingsLayout = findViewById(R.id.settings_layout);
+        mReaderKeepBright = findViewById(R.id.settings_reader_keep_bright);
+        mReaderHideInfo = findViewById(R.id.settings_reader_hide_info);
+        mReaderHideNav = findViewById(R.id.settings_reader_hide_nav);
+        mReaderBanDoubleClick = findViewById(R.id.settings_reader_ban_double_click);
+        mReaderPaging = findViewById(R.id.settings_reader_paging);
+        mReaderCloseAutoResizeImage = findViewById(R.id.settings_reader_closeautoresizeimage);
+        mReaderPagingReverse = findViewById(R.id.settings_reader_paging_reverse);
+        mReaderWhiteEdge = findViewById(R.id.settings_reader_white_edge);
+        mReaderWhiteBackground = findViewById(R.id.settings_reader_white_background);
+        mReaderVolumeKeyControls = findViewById(R.id.settings_reader_volume_key);
+        mCheckCimocUpdate = findViewById(R.id.settings_other_check_update);
+        mSearchAutoComplete = findViewById(R.id.settings_search_auto_complete);
+        mCheckSoftwareUpdate = findViewById(R.id.settings_check_update);
+        mReaderMode = findViewById(R.id.settings_reader_mode);
+        mOtherLaunch = findViewById(R.id.settings_other_launch);
+        mOtherTheme = findViewById(R.id.settings_other_theme);
+        mReaderScaleFactor = findViewById(R.id.settings_reader_scale_factor);
+        mReaderControllerTrigThreshold = findViewById(R.id.settings_reader_controller_trig_threshold);
+        mOtherShowTopbar = findViewById(R.id.settings_reader_show_topbar);
+        mOtherNightAlpha = findViewById(R.id.settings_other_night_alpha);
+        mDownloadThread = findViewById(R.id.settings_download_thread);
+        mConnectOnlyWifi = findViewById(R.id.settings_other_connect_only_wifi);
+        mLoadCoverOnlyWifi = findViewById(R.id.settings_other_loadcover_only_wifi);
+
+        Option settingsReadConfig = findViewById(R.id.settings_reader_config);
+        settingsReadConfig.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ReaderConfigActivity.class);
+            startActivity(intent);
+        });
+
+        Option settingsOtherStorage = findViewById(R.id.settings_other_storage);
+        settingsOtherStorage.setOnClickListener(view -> {
+            if (ServiceUtils.isServiceRunning(this, DownloadService.class)) {
+                showSnackbar(R.string.download_ask_stop);
+            } else {
+                StorageEditorDialogFragment fragment = StorageEditorDialogFragment.newInstance(R.string.settings_other_storage,
+                        mStoragePath, DIALOG_REQUEST_OTHER_STORAGE);
+                fragment.show(getSupportFragmentManager(), null);
+            }
+        });
+
+        Option settingsDownloadScan = findViewById(R.id.settings_download_scan);
+        settingsDownloadScan.setOnClickListener(view -> {
+            if (ServiceUtils.isServiceRunning(this, DownloadService.class)) {
+                showSnackbar(R.string.download_ask_stop);
+            } else {
+                MessageDialogFragment fragment = MessageDialogFragment.newInstance(R.string.dialog_confirm,
+                        R.string.settings_download_scan_confirm, true, DIALOG_REQUEST_DOWNLOAD_SCAN);
+                fragment.show(getSupportFragmentManager(), null);
+            }
+        });
+
+
+        Option settingsOtherClearCache = findViewById(R.id.settings_other_clear_cache);
+        settingsOtherClearCache.setOnClickListener(view -> {
+            showProgressDialog();
+            mPresenter.clearCache();
+            showSnackbar(R.string.common_execute_success);
+            hideProgressDialog();
+        });
+
         mStoragePath = getAppInstance().getDocumentFile().getUri().toString();
         mReaderKeepBright.bindPreference(PreferenceManager.PREF_READER_KEEP_BRIGHT, false);
         mReaderHideInfo.bindPreference(PreferenceManager.PREF_READER_HIDE_INFO, false);
@@ -155,12 +193,7 @@ public class SettingsActivity extends BackActivity implements SettingsView {
                 R.string.settings_download_thread, DIALOG_REQUEST_DOWNLOAD_THREAD);
     }
 
-    @OnClick(R.id.settings_reader_config)
-    void onReaderConfigBtnClick() {
-        Intent intent = new Intent(this, ReaderConfigActivity.class);
-        startActivity(intent);
-    }
-
+    @SuppressLint("WrongConstant")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -168,22 +201,11 @@ public class SettingsActivity extends BackActivity implements SettingsView {
             switch (requestCode) {
                 case DIALOG_REQUEST_OTHER_STORAGE:
                     showProgressDialog();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Uri uri = data.getData();
-                        int flags = data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        getContentResolver().takePersistableUriPermission(uri, flags);
-                        mTempStorage = uri.toString();
-                        mPresenter.moveFiles(DocumentFile.fromTreeUri(this, uri));
-                    } else {
-                        String path = data.getStringExtra(Extra.EXTRA_PICKER_PATH);
-                        if (!StringUtils.isEmpty(path)) {
-                            DocumentFile file = DocumentFile.fromFile(new File(path));
-                            mTempStorage = file.getUri().toString();
-                            mPresenter.moveFiles(file);
-                        } else {
-                            onExecuteFail();
-                        }
-                    }
+                    Uri uri = data.getData();
+                    int flags = data.getFlags() & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    getContentResolver().takePersistableUriPermission(uri, flags);
+                    mTempStorage = uri.toString();
+                    mPresenter.moveFiles(DocumentFile.fromTreeUri(this, uri));
                     break;
             }
         }
@@ -210,8 +232,8 @@ public class SettingsActivity extends BackActivity implements SettingsView {
                     mOtherTheme.setValue(index);
                     int theme = ThemeUtils.getThemeById(index);
                     setTheme(theme);
-                    int primary = ThemeUtils.getResourceId(this, R.attr.colorPrimary);
-                    int accent = ThemeUtils.getResourceId(this, R.attr.colorAccent);
+                    int primary = ThemeUtils.getResourceId(this, androidx.appcompat.R.attr.colorAccent);
+                    int accent = ThemeUtils.getResourceId(this, androidx.appcompat.R.attr.colorAccent);
                     changeTheme(primary, accent);
                     mResultArray[0] = 1;
                     mResultArray[1] = theme;
@@ -270,36 +292,6 @@ public class SettingsActivity extends BackActivity implements SettingsView {
         mOtherShowTopbar.setColorStateList(stateList);
         mReaderCloseAutoResizeImage.setColorStateList(stateList);
         mReaderVolumeKeyControls.setColorStateList(stateList);
-    }
-
-    @OnClick(R.id.settings_other_storage)
-    void onOtherStorageClick() {
-        if (ServiceUtils.isServiceRunning(this, DownloadService.class)) {
-            showSnackbar(R.string.download_ask_stop);
-        } else {
-            StorageEditorDialogFragment fragment = StorageEditorDialogFragment.newInstance(R.string.settings_other_storage,
-                    mStoragePath, DIALOG_REQUEST_OTHER_STORAGE);
-            fragment.show(getSupportFragmentManager(), null);
-        }
-    }
-
-    @OnClick(R.id.settings_download_scan)
-    void onDownloadScanClick() {
-        if (ServiceUtils.isServiceRunning(this, DownloadService.class)) {
-            showSnackbar(R.string.download_ask_stop);
-        } else {
-            MessageDialogFragment fragment = MessageDialogFragment.newInstance(R.string.dialog_confirm,
-                    R.string.settings_download_scan_confirm, true, DIALOG_REQUEST_DOWNLOAD_SCAN);
-            fragment.show(getSupportFragmentManager(), null);
-        }
-    }
-
-    @OnClick(R.id.settings_other_clear_cache)
-    void onOtherCacheClick() {
-        showProgressDialog();
-        mPresenter.clearCache();
-        showSnackbar(R.string.common_execute_success);
-        hideProgressDialog();
     }
 
     @Override

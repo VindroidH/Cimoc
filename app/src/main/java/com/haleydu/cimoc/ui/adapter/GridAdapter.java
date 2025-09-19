@@ -14,7 +14,6 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.manager.SourceManager;
@@ -26,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/7/1.
@@ -183,17 +181,17 @@ public class GridAdapter extends BaseAdapter<Object> {
     }
 
     static class GridHolder extends BaseViewHolder {
-        @BindView(R2.id.item_grid_image)
         SimpleDraweeView comicImage;
-        @BindView(R2.id.item_grid_title)
         TextView comicTitle;
-        @BindView(R2.id.item_grid_subtitle)
         TextView comicSource;
-        @BindView(R2.id.item_grid_symbol)
         View comicHighlight;
 
         GridHolder(View view) {
             super(view);
+            comicImage = view.findViewById(R.id.item_grid_image);
+            comicTitle = view.findViewById(R.id.item_grid_title);
+            comicSource = view.findViewById(R.id.item_grid_subtitle);
+            comicHighlight = view.findViewById(R.id.item_grid_symbol);
         }
     }
 }

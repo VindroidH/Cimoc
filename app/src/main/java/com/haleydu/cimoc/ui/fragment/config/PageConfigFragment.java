@@ -3,22 +3,21 @@ package com.haleydu.cimoc.ui.fragment.config;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.component.DialogCaller;
 import com.haleydu.cimoc.global.ClickEvents;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.ui.activity.settings.EventSettingsActivity;
 import com.haleydu.cimoc.ui.fragment.BaseFragment;
 import com.haleydu.cimoc.ui.fragment.dialog.ChoiceDialogFragment;
+import com.haleydu.cimoc.ui.widget.Option;
 import com.haleydu.cimoc.ui.widget.preference.CheckBoxPreference;
 import com.haleydu.cimoc.ui.widget.preference.ChoicePreference;
 import com.haleydu.cimoc.ui.widget.preference.SliderPreference;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2016/10/13.
@@ -34,30 +33,36 @@ public class PageConfigFragment extends BaseFragment implements DialogCaller {
     private static final int OPERATION_VOLUME_UP = 0;
     private static final int OPERATION_VOLUME_DOWN = 1;
 
-    @BindView(R2.id.settings_reader_load_prev)
     CheckBoxPreference mReaderLoadPrev;
-    @BindView(R2.id.settings_reader_load_next)
     CheckBoxPreference mReaderLoadNext;
-    @BindView(R2.id.settings_reader_ban_turn)
     CheckBoxPreference mReaderBanTurn;
-    @BindView(R2.id.settings_reader_quick_turn)
     CheckBoxPreference mReaderQuickTurn;
-    @BindView(R2.id.settings_reader_orientation)
     ChoicePreference mReaderOrientation;
-    @BindView(R2.id.settings_reader_turn)
     ChoicePreference mReaderTurn;
-    @BindView(R2.id.settings_reader_trigger)
     SliderPreference mReaderTrigger;
-
-//    @BindView(R2.id.settings_reader_volume_click_event) View mReaderVolumeEvent;
 
     @Override
     protected void initView() {
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-//            mReaderVolumeEvent.setVisibility(View.VISIBLE);
-//        } else {
-//            mReaderVolumeEvent.setVisibility(View.GONE);
-//        }
+        mReaderLoadPrev = mView.findViewById(R.id.settings_reader_load_prev);
+        mReaderLoadNext = mView.findViewById(R.id.settings_reader_load_next);
+        mReaderBanTurn = mView.findViewById(R.id.settings_reader_ban_turn);
+        mReaderQuickTurn = mView.findViewById(R.id.settings_reader_quick_turn);
+        mReaderOrientation = mView.findViewById(R.id.settings_reader_orientation);
+        mReaderTurn = mView.findViewById(R.id.settings_reader_turn);
+        mReaderTrigger = mView.findViewById(R.id.settings_reader_trigger);
+        Option readerClickEvent = mView.findViewById(R.id.settings_reader_click_event);
+        readerClickEvent.setOnClickListener(v -> {
+            Intent intent = EventSettingsActivity.createIntent(getActivity(), false,
+                    mReaderOrientation.getValue(), false);
+            startActivity(intent);
+        });
+        Option readerLongClickEvent = mView.findViewById(R.id.settings_reader_long_click_event);
+        readerLongClickEvent.setOnClickListener(v -> {
+            Intent intent = EventSettingsActivity.createIntent(getActivity(), true,
+                    mReaderOrientation.getValue(), false);
+            startActivity(intent);
+        });
+
         mReaderLoadPrev.bindPreference(PreferenceManager.PREF_READER_PAGE_LOAD_PREV, true);
         mReaderLoadNext.bindPreference(PreferenceManager.PREF_READER_PAGE_LOAD_NEXT, true);
         mReaderBanTurn.bindPreference(PreferenceManager.PREF_READER_PAGE_BAN_TURN, false);
@@ -69,23 +74,6 @@ public class PageConfigFragment extends BaseFragment implements DialogCaller {
         mReaderTrigger.bindPreference(requireActivity().getSupportFragmentManager(), this, PreferenceManager.PREF_READER_PAGE_TRIGGER, 10,
                 R.string.settings_reader_trigger, DIALOG_REQUEST_TRIGGER);
     }
-
-    @OnClick({R.id.settings_reader_click_event, R.id.settings_reader_long_click_event})
-    void onReaderEventClick(View view) {
-        boolean isLong = view.getId() == R.id.settings_reader_long_click_event;
-        Intent intent = EventSettingsActivity.createIntent(getActivity(), isLong,
-                mReaderOrientation.getValue(), false);
-        startActivity(intent);
-    }
-
-//    @OnClick(R.id.settings_reader_volume_click_event)
-//    void onReaderVolumeEventClick() {
-//        String[] items = {"音量上键", "音量下键"};
-//        ItemDialogFragment fragment = ItemDialogFragment.newInstance(R.string.common_operation_select,
-//                items, DIALOG_REQUEST_OPERATION);
-//        fragment.setTargetFragment(this, 0);
-//        fragment.show(getSupportFragmentManager(), null);
-//    }
 
     private void showEventList(int index) {
         int[] mChoiceArray = ClickEvents.getPageClickEventChoice(mPreference);

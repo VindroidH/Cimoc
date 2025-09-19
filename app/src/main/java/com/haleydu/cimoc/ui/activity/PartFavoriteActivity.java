@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.manager.TagManager;
@@ -28,7 +27,6 @@ import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/10/11.
@@ -40,7 +38,6 @@ public class PartFavoriteActivity extends BackActivity implements PartFavoriteVi
     private static final int DIALOG_REQUEST_DELETE = 0;
     private static final int DIALOG_REQUEST_ADD = 1;
 
-    @BindView(R2.id.part_favorite_recycler_view)
     RecyclerView mRecyclerView;
 
     private PartFavoritePresenter mPresenter;
@@ -66,6 +63,8 @@ public class PartFavoriteActivity extends BackActivity implements PartFavoriteVi
     @Override
     protected void initView() {
         super.initView();
+        mRecyclerView = findViewById(R.id.part_favorite_recycler_view);
+
         mGridAdapter = new GridAdapter(this, new LinkedList<Object>());
         mGridAdapter.setSymbol(true);
         mGridAdapter.setProvider(((App) getApplication()).getBuilderProvider());

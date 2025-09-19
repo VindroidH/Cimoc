@@ -5,11 +5,13 @@ import com.haleydu.cimoc.model.Task;
 import com.haleydu.cimoc.model.TaskDao;
 import com.haleydu.cimoc.model.TaskDao.Properties;
 
-import org.greenrobot.greendao.query.QueryBuilder;
+import org.greenrobot.daocompat.query.QueryBuilder;
 
+import java.util.Collection;
 import java.util.List;
 
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Hiroshi on 2016/9/4.
@@ -41,27 +43,40 @@ public class TaskManager {
 
     public List<Task> listValid() {
         return mTaskDao.queryBuilder()
-                .where(Properties.Max.notEq(0))
+                .where(Properties.Max.notEqual(0))
                 .list();
     }
 
     public List<Task> list(long key) {
         return mTaskDao.queryBuilder()
-                .where(Properties.Key.eq(key))
+                .where(Properties.Key.equal(key))
                 .list();
     }
 
     public Observable<List<Task>> listInRx(long key) {
+        /*
         return mTaskDao.queryBuilder()
-                .where(Properties.Key.eq(key))
+                .where(Properties.Key.equal(key))
                 .rx()
                 .list();
+         */
+        return Observable.fromCallable(() ->
+                mTaskDao.queryBuilder()
+                        .where(Properties.Key.equal(key))
+                        .list()
+        );
     }
 
     public Observable<List<Task>> listInRx() {
+        /*
         return mTaskDao.queryBuilder()
                 .rx()
                 .list();
+         */
+        return Observable.fromCallable(() ->
+                mTaskDao.queryBuilder()
+                        .list()
+        );
     }
 
     public void insert(Task task) {
@@ -70,7 +85,7 @@ public class TaskManager {
     }
 
     public void insertInTx(Iterable<Task> entities) {
-        mTaskDao.insertInTx(entities);
+        mTaskDao.insertInTx((Collection<Task>) entities);
     }
 
     public void update(Task task) {
@@ -86,14 +101,20 @@ public class TaskManager {
     }
 
     public void deleteInTx(Iterable<Task> entities) {
-        mTaskDao.deleteInTx(entities);
+        mTaskDao.deleteInTx((Collection<Task>) entities);
     }
 
     public void deleteByComicId(long id) {
+        /*
         mTaskDao.queryBuilder()
-                .where(Properties.Key.eq(id))
+                .where(Properties.Key.equal(id))
                 .buildDelete()
                 .executeDeleteWithoutDetachingEntities();
+         */
+        mTaskDao.queryBuilder()
+                .where(Properties.Key.equal(id))
+                .build()
+                .remove();
     }
 
     public void insertIfNotExist(final Iterable<Task> entities) {
@@ -102,7 +123,7 @@ public class TaskManager {
             public void run() {
                 for (Task task : entities) {
                     QueryBuilder<Task> builder = mTaskDao.queryBuilder()
-                            .where(Properties.Key.eq(task.getKey()), Properties.Path.eq(task.getPath()));
+                            .where(Properties.Key.equal(task.getKey()), Properties.Path.equal(task.getPath()));
                     if (builder.unique() == null) {
                         mTaskDao.insert(task);
                     }

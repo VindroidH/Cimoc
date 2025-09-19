@@ -3,14 +3,16 @@ package com.haleydu.cimoc.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.misc.Switcher;
@@ -27,8 +29,6 @@ import java.util.List;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2016/11/14.
@@ -36,8 +36,8 @@ import butterknife.OnClick;
 
 public class ChapterActivity extends BackActivity implements BaseAdapter.OnItemClickListener {
 
-    @BindView(R2.id.chapter_recycler_view)
     RecyclerView mRecyclerView;
+    FloatingActionButton mChapterActionButton;
 
     private ChapterAdapter mChapterAdapter;
     private boolean isAscendMode;
@@ -54,6 +54,31 @@ public class ChapterActivity extends BackActivity implements BaseAdapter.OnItemC
 
     @Override
     protected void initView() {
+        mRecyclerView = findViewById(R.id.chapter_recycler_view);
+        mChapterActionButton = findViewById(R.id.chapter_action_button);
+        mChapterActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<Chapter> list = new ArrayList<>();
+                for (Switcher<Chapter> switcher : mChapterAdapter.getDateSet()) {
+                    if (!switcher.getElement().isDownload() && switcher.isEnable()) {
+                        list.add(switcher.getElement());
+                    }
+                }
+
+                if (list.isEmpty()) {
+                    showSnackbar(R.string.chapter_download_empty);
+                } else if (PermissionUtils.hasStoragePermission(ChapterActivity.this)) {
+                    Intent intent = new Intent();
+                    intent.putParcelableArrayListExtra(Extra.EXTRA_CHAPTER, list);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                } else {
+                    showSnackbar(R.string.chapter_download_perm_fail);
+                }
+            }
+        });
+
         isButtonMode = mPreference.getBoolean(PreferenceManager.PREF_CHAPTER_BUTTON_MODE, false);
         mChapterAdapter = new ChapterAdapter(this, getAdapterList());
         mDecoration = mChapterAdapter.getItemDecoration();
@@ -130,27 +155,6 @@ public class ChapterActivity extends BackActivity implements BaseAdapter.OnItemC
         if (!switcher.getElement().isDownload()) {
             switcher.switchEnable();
             mChapterAdapter.notifyItemChanged(position);
-        }
-    }
-
-    @OnClick(R.id.chapter_action_button)
-    void onActionButtonClick() {
-        ArrayList<Chapter> list = new ArrayList<>();
-        for (Switcher<Chapter> switcher : mChapterAdapter.getDateSet()) {
-            if (!switcher.getElement().isDownload() && switcher.isEnable()) {
-                list.add(switcher.getElement());
-            }
-        }
-
-        if (list.isEmpty()) {
-            showSnackbar(R.string.chapter_download_empty);
-        } else if (PermissionUtils.hasStoragePermission(this)) {
-            Intent intent = new Intent();
-            intent.putParcelableArrayListExtra(Extra.EXTRA_CHAPTER, list);
-            setResult(Activity.RESULT_OK, intent);
-            finish();
-        } else {
-            showSnackbar(R.string.chapter_download_perm_fail);
         }
     }
 

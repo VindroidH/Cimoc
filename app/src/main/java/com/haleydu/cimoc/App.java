@@ -13,19 +13,16 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.haleydu.cimoc.component.AppGetter;
 import com.haleydu.cimoc.core.Storage;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
-import com.haleydu.cimoc.helper.DBOpenHelper;
 import com.haleydu.cimoc.helper.UpdateHelper;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.misc.ActivityLifecycle;
-import com.haleydu.cimoc.model.DaoMaster;
 import com.haleydu.cimoc.model.DaoSession;
+import com.haleydu.cimoc.model.MyObjectBox;
 import com.haleydu.cimoc.saf.DocumentFile;
 import com.haleydu.cimoc.ui.adapter.GridAdapter;
 import com.haleydu.cimoc.utils.DocumentUtils;
 import com.haleydu.cimoc.utils.StringUtils;
-
-import org.greenrobot.greendao.identityscope.IdentityScopeType;
 
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -41,6 +38,8 @@ import javax.net.ssl.X509TrustManager;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 import androidx.recyclerview.widget.RecyclerView;
+
+import io.objectbox.BoxStore;
 import okhttp3.OkHttpClient;
 
 /**
@@ -138,8 +137,13 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
         mActivityLifecycle = new ActivityLifecycle();
         registerActivityLifecycleCallbacks(mActivityLifecycle);
         mPreferenceManager = new PreferenceManager(this);
-        DBOpenHelper helper = new DBOpenHelper(this, "cimoc.db");
-        mDaoSession = new DaoMaster(helper.getWritableDatabase()).newSession(IdentityScopeType.None);
+//        DBOpenHelper helper = new DBOpenHelper(this, "cimoc.db");
+//        mDaoSession = new DaoMaster(helper.getWritableDatabase()).newSession(IdentityScopeType.None);
+        BoxStore boxStore = MyObjectBox.builder()
+                .androidContext(getApplicationContext())
+                .name("cimoc2.db")
+                .build();
+        mDaoSession = new DaoSession(boxStore);
         UpdateHelper.update(mPreferenceManager, getDaoSession());
         Fresco.initialize(this);
         initPixels();

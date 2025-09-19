@@ -2,8 +2,10 @@ package com.haleydu.cimoc.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.misc.Switcher;
@@ -16,8 +18,6 @@ import com.haleydu.cimoc.ui.view.TagEditorView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2016/12/2.
@@ -32,6 +32,22 @@ public class TagEditorActivity extends CoordinatorActivity implements TagEditorV
         Intent intent = new Intent(context, TagEditorActivity.class);
         intent.putExtra(Extra.EXTRA_ID, id);
         return intent;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        FloatingActionButton coordinatorAction = findViewById(R.id.coordinator_action_button);
+        coordinatorAction.setOnClickListener(view -> {
+            showProgressDialog();
+            List<Long> list = new ArrayList<>();
+            for (Switcher<Tag> switcher : mTagAdapter.getDateSet()) {
+                if (switcher.isEnable()) {
+                    list.add(switcher.getElement().getId());
+                }
+            }
+            mPresenter.updateRef(list);
+        });
     }
 
     @Override
@@ -89,18 +105,6 @@ public class TagEditorActivity extends CoordinatorActivity implements TagEditorV
         Switcher<Tag> switcher = mTagAdapter.getItem(position);
         switcher.switchEnable();
         mTagAdapter.notifyItemChanged(position);
-    }
-
-    @OnClick(R.id.coordinator_action_button)
-    void onActionButtonClick() {
-        showProgressDialog();
-        List<Long> list = new ArrayList<>();
-        for (Switcher<Tag> switcher : mTagAdapter.getDateSet()) {
-            if (switcher.isEnable()) {
-                list.add(switcher.getElement().getId());
-            }
-        }
-        mPresenter.updateRef(list);
     }
 
     @Override

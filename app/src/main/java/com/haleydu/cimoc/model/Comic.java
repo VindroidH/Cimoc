@@ -1,10 +1,8 @@
 package com.haleydu.cimoc.model;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Transient;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Transient;
 
 /**
  * Created by Hiroshi on 2016/7/20.
@@ -14,20 +12,14 @@ public class Comic {
 
     @Transient
     public Object note;
-    @Id(autoincrement = true)
+    @Id(assignable = true)
     private Long id;
-    @NotNull
-    private int source;
-    @NotNull
-    private String cid;
-    @NotNull
-    private String title;
-    @NotNull
-    private String cover;
-    @NotNull
-    private boolean highlight;
-    @NotNull
-    private boolean local;
+    private int source = 0;
+    private String cid = "";
+    private String title = "";
+    private String cover = "";
+    private boolean highlight = false;
+    private boolean local = false;
     private String update;
     private Boolean finish;
     private Long favorite;
@@ -57,8 +49,7 @@ public class Comic {
                 null, null, null, download, null, null, null, null, null, null);
     }
 
-    @Generated(hash = 705801731)
-    public Comic(Long id, int source, @NotNull String cid, @NotNull String title, @NotNull String cover, boolean highlight,
+    public Comic(Long id, int source, String cid, String title, String cover, boolean highlight,
                  boolean local, String update, Boolean finish, Long favorite, Long history, Long download, String last, Integer page,
                  String chapter, String url, String intro, String author) {
         this.id = id;
@@ -81,7 +72,6 @@ public class Comic {
         this.author = author;
     }
 
-    @Generated(hash = 1347984162)
     public Comic() {
     }
 

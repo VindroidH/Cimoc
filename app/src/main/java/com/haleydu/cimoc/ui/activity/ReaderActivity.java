@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +25,6 @@ import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.fresco.ControllerBuilderSupplierFactory;
 import com.haleydu.cimoc.fresco.ImagePipelineFactoryBuilder;
 import com.haleydu.cimoc.global.ClickEvents;
@@ -58,8 +59,6 @@ import java.util.Objects;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2016/8/6.
@@ -81,26 +80,17 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
     protected int mode;
     protected boolean mLoadPrev;
     protected boolean mLoadNext;
-    @BindView(R2.id.reader_chapter_title)
     TextView mChapterTitle;
-    @BindView(R2.id.reader_chapter_page)
     TextView mChapterPage;
-    @BindView(R2.id.reader_battery)
     TextView mBatteryText;
-    @BindView(R2.id.reader_progress_layout)
     View mProgressLayout;
-    @BindView(R2.id.reader_back_layout)
     View mBackLayout;
-    @BindView(R2.id.reader_info_layout)
     View mInfoLayout;
-    @BindView(R2.id.reader_seek_bar)
     ReverseSeekBar mSeekBar;
-    @BindView(R2.id.reader_loading)
     TextView mLoadingText;
-    @BindView(R2.id.reader_recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R2.id.reader_box)
     RelativeLayout mReaderBox;
+    ImageView mBackView;
     private boolean isSavingPicture = false;
 
     private boolean mHideInfo;
@@ -170,6 +160,19 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
 
     @Override
     protected void initView() {
+        mChapterTitle = findViewById(R.id.reader_chapter_title);
+        mChapterPage = findViewById(R.id.reader_chapter_page);
+        mBatteryText = findViewById(R.id.reader_battery);
+        mProgressLayout = findViewById(R.id.reader_progress_layout);
+        mBackLayout = findViewById(R.id.reader_back_layout);
+        mInfoLayout = findViewById(R.id.reader_info_layout);
+        mSeekBar = findViewById(R.id.reader_seek_bar);
+        mLoadingText = findViewById(R.id.reader_loading);
+        mRecyclerView = findViewById(R.id.reader_recycler_view);
+        mReaderBox = findViewById(R.id.reader_box);
+        mBackView = findViewById(R.id.reader_back_btn);
+        mBackView.setOnClickListener(view -> onBackPressed());
+
         mHideInfo = mPreference.getBoolean(PreferenceManager.PREF_READER_HIDE_INFO, false);
         mControllerTrigThreshold = mPreference.getInt(PreferenceManager.PREF_READER_CONTROLLER_TRIG_THRESHOLD, 30) * 0.01f;
         mInfoLayout.setVisibility(mHideInfo ? View.INVISIBLE : View.VISIBLE);
@@ -291,11 +294,6 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
         if (mLargeImagePipelineFactory != null) {
             mLargeImagePipelineFactory.getImagePipeline().clearMemoryCaches();
         }
-    }
-
-    @OnClick(R.id.reader_back_btn)
-    void onBackClick() {
-        onBackPressed();
     }
 
     @Override

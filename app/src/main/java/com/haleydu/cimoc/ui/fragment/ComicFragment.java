@@ -2,13 +2,15 @@ package com.haleydu.cimoc.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.component.ThemeResponsive;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.manager.TagManager;
@@ -33,7 +35,6 @@ import java.util.List;
 import androidx.annotation.ColorRes;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/10/11.
@@ -43,9 +44,7 @@ public class ComicFragment extends BaseFragment implements ComicView {
 
     private static final int DIALOG_REQUEST_FILTER = 0;
 
-    @BindView(R2.id.comic_tab_layout)
     TabLayout mTabLayout;
-    @BindView(R2.id.comic_view_pager)
     ViewPager mViewPager;
 
     private ComicPresenter mPresenter;
@@ -61,6 +60,9 @@ public class ComicFragment extends BaseFragment implements ComicView {
 
     @Override
     protected void initView() {
+        mTabLayout = mView.findViewById(R.id.comic_tab_layout);
+        mViewPager = mView.findViewById(R.id.comic_view_pager);
+
         setHasOptionsMenu(true);
         mTabLayout.addTab(mTabLayout.newTab().setText(R.string.comic_tab_history));
         mTabLayout.addTab(mTabLayout.newTab().setText(R.string.comic_tab_favorite));

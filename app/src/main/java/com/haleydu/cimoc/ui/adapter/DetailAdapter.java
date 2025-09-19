@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilderSupplier;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.model.Chapter;
 import com.haleydu.cimoc.ui.widget.ChapterButton;
 
@@ -24,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/7/2.
@@ -249,30 +247,30 @@ public class DetailAdapter extends BaseAdapter<Chapter> {
     }
 
     static class ChapterHolder extends BaseViewHolder {
-        @BindView(R2.id.item_chapter_button)
         ChapterButton chapterButton;
 
         ChapterHolder(View view) {
             super(view);
+            chapterButton = view.findViewById(R.id.item_chapter_button);
         }
     }
 
     class HeaderHolder extends BaseViewHolder {
-        @BindView(R2.id.item_header_comic_image)
         SimpleDraweeView mComicImage;
-        @BindView(R2.id.item_header_comic_title)
         TextView mComicTitle;
-        @BindView(R2.id.item_header_comic_intro)
         TextView mComicIntro;
-        @BindView(R2.id.item_header_comic_status)
         TextView mComicStatus;
-        @BindView(R2.id.item_header_comic_update)
         TextView mComicUpdate;
-        @BindView(R2.id.item_header_comic_author)
         TextView mComicAuthor;
 
         HeaderHolder(View view) {
             super(view);
+            mComicImage = view.findViewById(R.id.item_header_comic_image);
+            mComicTitle = view.findViewById(R.id.item_header_comic_title);
+            mComicIntro = view.findViewById(R.id.item_header_comic_intro);
+            mComicStatus = view.findViewById(R.id.item_header_comic_status);
+            mComicUpdate = view.findViewById(R.id.item_header_comic_update);
+            mComicAuthor = view.findViewById(R.id.item_header_comic_author);
         }
     }
 

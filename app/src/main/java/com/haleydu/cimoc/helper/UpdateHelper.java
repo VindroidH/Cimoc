@@ -76,7 +76,7 @@ public class UpdateHelper {
             @Override
             public void run() {
                 ComicDao dao = session.getComicDao();
-                List<Comic> list = dao.queryBuilder().where(ComicDao.Properties.Local.eq(true)).list();
+                List<Comic> list = dao.queryBuilder().where(ComicDao.Properties.Local.equal(true)).list();
                 if (!list.isEmpty()) {
                     for (Comic comic : list) {
                         comic.setDownload(null);

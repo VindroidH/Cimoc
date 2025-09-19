@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.manager.PreferenceManager;
@@ -31,8 +32,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2016/9/7.
@@ -60,6 +59,30 @@ public class TaskActivity extends CoordinatorActivity implements TaskView {
     }
 
     @Override
+    protected void initView() {
+        super.initView();
+        FloatingActionButton coordinatorAction = findViewById(R.id.coordinator_action_button);
+        coordinatorAction.setOnClickListener(view -> {
+            Intent intent = DetailActivity.createIntent(this, mPresenter.getComic().getId(),
+                    mPresenter.getComic().getSource(), mPresenter.getComic().getCid());
+            startActivity(intent);
+        });
+
+        FloatingActionButton coordinatorAction2 = findViewById(R.id.coordinator_action_button2);
+        coordinatorAction2.setOnClickListener(view -> {
+            for (int i = 0; i < mTaskAdapter.getDateSet().size(); i++) {
+                Task task = mTaskAdapter.getItem(i);
+                if (task.getState() == Task.STATE_PAUSE || task.getState() == Task.STATE_ERROR) {
+                    task.setState(Task.STATE_WAIT);
+                    mTaskAdapter.notifyItemChanged(i);
+                    Intent taskIntent = DownloadService.createIntent(this, task);
+                    startService(taskIntent);
+                }
+            }
+        });
+    }
+
+    @Override
     protected BasePresenter initPresenter() {
         mPresenter = new TaskPresenter();
         mPresenter.attachView(this);
@@ -78,19 +101,6 @@ public class TaskActivity extends CoordinatorActivity implements TaskView {
         mActionButton.show();
         mActionButton2.setImageResource(R.drawable.ic_play_arrow_white_24dp);
         mActionButton2.show();
-    }
-
-    @OnClick(R.id.coordinator_action_button2)
-    void onActionButton2Click() {
-        for (int i = 0; i < mTaskAdapter.getDateSet().size(); i++) {
-            Task task = mTaskAdapter.getItem(i);
-            if (task.getState() == Task.STATE_PAUSE || task.getState() == Task.STATE_ERROR) {
-                task.setState(Task.STATE_WAIT);
-                mTaskAdapter.notifyItemChanged(i);
-                Intent taskIntent = DownloadService.createIntent(this, task);
-                startService(taskIntent);
-            }
-        }
     }
 
     @Override
@@ -112,13 +122,6 @@ public class TaskActivity extends CoordinatorActivity implements TaskView {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_task, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @OnClick(R.id.coordinator_action_button)
-    void onActionButtonClick() {
-        Intent intent = DetailActivity.createIntent(this, mPresenter.getComic().getId(),
-                mPresenter.getComic().getSource(), mPresenter.getComic().getCid());
-        startActivity(intent);
     }
 
     @Override
@@ -297,7 +300,7 @@ public class TaskActivity extends CoordinatorActivity implements TaskView {
 
     @Override
     public void onTaskLoadSuccess(final List<Task> list, boolean local) {
-        mTaskAdapter.setColorId(ThemeUtils.getResourceId(this, R.attr.colorAccent));
+        mTaskAdapter.setColorId(ThemeUtils.getResourceId(this, androidx.appcompat.R.attr.colorAccent));
         mTaskAdapter.setLast(mPresenter.getComic().getLast());
         mTaskAdapter.addAll(list);
         if (!local) {

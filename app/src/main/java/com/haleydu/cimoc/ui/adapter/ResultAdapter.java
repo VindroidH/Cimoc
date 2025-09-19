@@ -13,7 +13,6 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.model.Comic;
@@ -22,7 +21,6 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/7/3.
@@ -78,19 +76,19 @@ public class ResultAdapter extends BaseAdapter<Comic> {
     }
 
     class ResultViewHolder extends BaseViewHolder {
-        @BindView(R2.id.result_comic_image)
         SimpleDraweeView comicImage;
-        @BindView(R2.id.result_comic_title)
         TextView comicTitle;
-        @BindView(R2.id.result_comic_author)
         TextView comicAuthor;
-        @BindView(R2.id.result_comic_update)
         TextView comicUpdate;
-        @BindView(R2.id.result_comic_source)
         TextView comicSource;
 
         ResultViewHolder(View view) {
             super(view);
+            comicImage = view.findViewById(R.id.result_comic_image);
+            comicTitle = view.findViewById(R.id.result_comic_title);
+            comicAuthor = view.findViewById(R.id.result_comic_author);
+            comicUpdate = view.findViewById(R.id.result_comic_update);
+            comicSource = view.findViewById(R.id.result_comic_source);
         }
     }
 

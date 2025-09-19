@@ -3,11 +3,9 @@ package com.haleydu.cimoc.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Transient;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Transient;
 
 /**
  * Created by Hiroshi on 2016/9/1.
@@ -32,18 +30,13 @@ public class Task implements Parcelable {
             return new Task[size];
         }
     };
-    @Id(autoincrement = true)
+    @Id(assignable = true)
     private Long id;
-    @NotNull
-    private long key;      // 漫画主键
-    @NotNull
-    private String path;
-    @NotNull
-    private String title;
-    @NotNull
-    private int progress;
-    @NotNull
-    private int max;
+    private long key = 0L;      // 漫画主键
+    private String path = "";
+    private String title = "";
+    private int progress = 0;
+    private int max = 0;
     @Transient
     private int source;
     @Transient
@@ -63,8 +56,7 @@ public class Task implements Parcelable {
         this.state = source.readInt();
     }
 
-    @Generated(hash = 1668809946)
-    public Task(Long id, long key, @NotNull String path, @NotNull String title, int progress,
+    public Task(Long id, long key, String path, String title, int progress,
                 int max) {
         this.id = id;
         this.key = key;
@@ -74,7 +66,6 @@ public class Task implements Parcelable {
         this.max = max;
     }
 
-    @Generated(hash = 733837707)
     public Task() {
     }
 

@@ -1,9 +1,7 @@
 package com.haleydu.cimoc.model;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
 
 /**
  * Created by Hiroshi on 2016/10/10.
@@ -11,18 +9,15 @@ import org.greenrobot.greendao.annotation.NotNull;
 @Entity
 public class Tag {
 
-    @Id(autoincrement = true)
+    @Id(assignable = true)
     private Long id;
-    @NotNull
-    private String title;
+    private String title = "";
 
-    @Generated(hash = 836804519)
-    public Tag(Long id, @NotNull String title) {
+    public Tag(Long id, String title) {
         this.id = id;
         this.title = title;
     }
 
-    @Generated(hash = 1605720318)
     public Tag() {
     }
 

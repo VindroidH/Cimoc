@@ -10,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.model.Source;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.List;
 import androidx.annotation.ColorInt;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/10/10.
@@ -89,13 +87,13 @@ public class SourceAdapter extends BaseAdapter<Source> {
     }
 
     static class SourceHolder extends BaseViewHolder {
-        @BindView(R2.id.item_source_title)
         TextView sourceTitle;
-        @BindView(R2.id.item_source_switch)
         SwitchCompat sourceSwitch;
 
         SourceHolder(final View view) {
             super(view);
+            sourceTitle = view.findViewById(R.id.item_source_title);
+            sourceSwitch = view.findViewById(R.id.item_source_switch);
         }
     }
 

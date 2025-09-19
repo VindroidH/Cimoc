@@ -7,6 +7,7 @@ import com.haleydu.cimoc.model.ImageUrlDao;
 import java.util.List;
 
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by HaleyDu on 2020/8/27.
@@ -37,15 +38,22 @@ public class ImageUrlManager {
     }
 
     public Observable<List<ImageUrl>> getListImageUrlRX(Long comicChapter) {
+        /*
         return mImageUrlDao.queryBuilder()
-                .where(ImageUrlDao.Properties.ComicChapter.eq(comicChapter))
+                .where(ImageUrlDao.Properties.ComicChapter.equal(comicChapter))
                 .rx()
                 .list();
+         */
+        return Observable.fromCallable(() ->
+                mImageUrlDao.queryBuilder()
+                        .where(ImageUrlDao.Properties.ComicChapter.equal(comicChapter))
+                        .list()
+        );
     }
 
     public List<ImageUrl> getListImageUrl(Long comicChapter) {
         return mImageUrlDao.queryBuilder()
-                .where(ImageUrlDao.Properties.ComicChapter.eq(comicChapter))
+                .where(ImageUrlDao.Properties.ComicChapter.equal(comicChapter))
                 .list();
     }
 

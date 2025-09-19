@@ -1,10 +1,8 @@
 package com.haleydu.cimoc.model;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Unique;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Unique;
 
 /**
  * Created by Hiroshi on 2016/8/11.
@@ -14,19 +12,14 @@ public class Source {
 
     @Id
     private Long id;
-    @NotNull
-    private String title;
-    @Unique
+    private String title = "";
     private int type;
-    @NotNull
-    private boolean enable;
+    private boolean enable = true;
 
-    @Generated(hash = 615387317)
     public Source() {
     }
 
-    @Generated(hash = 1339691905)
-    public Source(Long id, @NotNull String title, int type, boolean enable) {
+    public Source(Long id, String title, int type, boolean enable) {
         this.id = id;
         this.title = title;
         this.type = type;

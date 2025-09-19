@@ -4,19 +4,16 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.BackupPresenter;
 import com.haleydu.cimoc.presenter.BasePresenter;
 import com.haleydu.cimoc.ui.fragment.dialog.ChoiceDialogFragment;
 import com.haleydu.cimoc.ui.fragment.dialog.MessageDialogFragment;
 import com.haleydu.cimoc.ui.view.BackupView;
+import com.haleydu.cimoc.ui.widget.Option;
 import com.haleydu.cimoc.ui.widget.preference.CheckBoxPreference;
 import com.haleydu.cimoc.utils.PermissionUtils;
 import com.haleydu.cimoc.utils.StringUtils;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2016/10/19.
@@ -29,9 +26,7 @@ public class BackupActivity extends BackActivity implements BackupView {
     private static final int DIALOG_REQUEST_RESTORE_SETTINGS = 2;
     private static final int DIALOG_REQUEST_RESTORE_CLEAR = 3;
 
-    @BindView(R2.id.backup_layout)
     View mLayoutView;
-    @BindView(R2.id.backup_save_comic_auto)
     CheckBoxPreference mSaveComicAuto;
 
     private BackupPresenter mPresenter;
@@ -46,77 +41,78 @@ public class BackupActivity extends BackActivity implements BackupView {
     @Override
     protected void initView() {
         super.initView();
+        mLayoutView = findViewById(R.id.backup_layout);
+        mSaveComicAuto = findViewById(R.id.backup_save_comic_auto);
+        Option backupSaveComic = findViewById(R.id.backup_save_comic);
+        backupSaveComic.setOnClickListener(view -> {
+            showProgressDialog();
+            if (PermissionUtils.hasStoragePermission(this)) {
+                mPresenter.saveComic();
+            } else {
+                onFileLoadFail();
+            }
+        });
+
+        Option backupSaveTag = findViewById(R.id.backup_save_tag);
+        backupSaveTag.setOnClickListener(view -> {
+            showProgressDialog();
+            if (PermissionUtils.hasStoragePermission(this)) {
+                mPresenter.saveTag();
+            } else {
+                onFileLoadFail();
+            }
+        });
+
+        Option backupSaveSettings = findViewById(R.id.backup_save_settings);
+        backupSaveSettings.setOnClickListener(view -> {
+            showProgressDialog();
+            if (PermissionUtils.hasStoragePermission(this)) {
+                mPresenter.saveSettings();
+            } else {
+                onFileLoadFail();
+            }
+        });
+
+        Option backupRestoreComic = findViewById(R.id.backup_restore_comic);
+        backupRestoreComic.setOnClickListener(view -> {
+            showProgressDialog();
+            if (PermissionUtils.hasStoragePermission(this)) {
+                mPresenter.loadComicFile();
+            } else {
+                onFileLoadFail();
+            }
+        });
+
+        Option backupRestoreTag = findViewById(R.id.backup_restore_tag);
+        backupRestoreTag.setOnClickListener(view -> {
+            showProgressDialog();
+            if (PermissionUtils.hasStoragePermission(this)) {
+                mPresenter.loadTagFile();
+            } else {
+                onFileLoadFail();
+            }
+        });
+
+        Option backupRestoreSettings = findViewById(R.id.backup_restore_settings);
+        backupRestoreSettings.setOnClickListener(view -> {
+            showProgressDialog();
+            if (PermissionUtils.hasStoragePermission(this)) {
+                mPresenter.loadSettingsFile();
+            } else {
+                onFileLoadFail();
+            }
+        });
+
+        Option backupRestoreRecord = findViewById(R.id.backup_clear_record);
+        backupRestoreRecord.setOnClickListener(view -> {
+            showProgressDialog();
+            if (PermissionUtils.hasStoragePermission(this)) {
+                mPresenter.loadClearBackupFile();
+            } else {
+                onFileLoadFail();
+            }
+        });
         mSaveComicAuto.bindPreference(PreferenceManager.PREF_BACKUP_SAVE_COMIC, true);
-    }
-
-    @OnClick(R.id.backup_save_comic)
-    void onSaveFavoriteClick() {
-        showProgressDialog();
-        if (PermissionUtils.hasStoragePermission(this)) {
-            mPresenter.saveComic();
-        } else {
-            onFileLoadFail();
-        }
-    }
-
-    @OnClick(R.id.backup_save_tag)
-    void onSaveTagClick() {
-        showProgressDialog();
-        if (PermissionUtils.hasStoragePermission(this)) {
-            mPresenter.saveTag();
-        } else {
-            onFileLoadFail();
-        }
-    }
-
-    @OnClick(R.id.backup_save_settings)
-    void onSaveSettingsClick() {
-        showProgressDialog();
-        if (PermissionUtils.hasStoragePermission(this)) {
-            mPresenter.saveSettings();
-        } else {
-            onFileLoadFail();
-        }
-    }
-
-    @OnClick(R.id.backup_restore_comic)
-    void onRestoreFavoriteClick() {
-        showProgressDialog();
-        if (PermissionUtils.hasStoragePermission(this)) {
-            mPresenter.loadComicFile();
-        } else {
-            onFileLoadFail();
-        }
-    }
-
-    @OnClick(R.id.backup_restore_tag)
-    void onRestoreTagClick() {
-        showProgressDialog();
-        if (PermissionUtils.hasStoragePermission(this)) {
-            mPresenter.loadTagFile();
-        } else {
-            onFileLoadFail();
-        }
-    }
-
-    @OnClick(R.id.backup_restore_settings)
-    void onRestoreSettingsClick() {
-        showProgressDialog();
-        if (PermissionUtils.hasStoragePermission(this)) {
-            mPresenter.loadSettingsFile();
-        } else {
-            onFileLoadFail();
-        }
-    }
-
-    @OnClick(R.id.backup_clear_record)
-    void onClearRecordClick() {
-        showProgressDialog();
-        if (PermissionUtils.hasStoragePermission(this)) {
-            mPresenter.loadClearBackupFile();
-        } else {
-            onFileLoadFail();
-        }
     }
 
     @Override

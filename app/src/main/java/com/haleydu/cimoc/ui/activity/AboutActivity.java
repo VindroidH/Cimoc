@@ -3,14 +3,15 @@ package com.haleydu.cimoc.ui.activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.Constants;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.AboutPresenter;
 import com.haleydu.cimoc.presenter.BasePresenter;
@@ -21,20 +22,14 @@ import com.haleydu.cimoc.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 /**
  * Created by Hiroshi on 2016/9/21.
  */
 
 public class AboutActivity extends BackActivity implements AboutView, AdapterView.OnItemSelectedListener {
 
-    @BindView(R2.id.about_update_summary)
     TextView mUpdateText;
-    @BindView(R2.id.about_version_name)
     TextView mVersionName;
-    @BindView(R2.id.about_layout)
     View mLayoutView;
 
     private AboutPresenter mPresenter;
@@ -52,61 +47,65 @@ public class AboutActivity extends BackActivity implements AboutView, AdapterVie
 
     @Override
     protected void initView() {
+        mUpdateText = findViewById(R.id.about_update_summary);
+        mVersionName = findViewById(R.id.about_version_name);
+        mLayoutView = findViewById(R.id.about_layout);
+
+        LinearLayout homePageBtn = findViewById(R.id.home_page_btn);
+        homePageBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.home_page_url)));
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                showSnackbar(R.string.about_resource_fail);
+            }
+        });
+
+        LinearLayout aboutSupportBtn = findViewById(R.id.about_support_btn);
+        aboutSupportBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.about_support_url)));
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                showSnackbar(R.string.about_resource_fail);
+            }
+        });
+
+        LinearLayout aboutResourceBtn = findViewById(R.id.about_resource_btn);
+        aboutResourceBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.about_resource_url)));
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                showSnackbar(R.string.about_resource_fail);
+            }
+        });
+
+        LinearLayout aboutResourceOriBtn = findViewById(R.id.about_resource_ori_btn);
+        aboutResourceOriBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.about_resource_ori_url)));
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                showSnackbar(R.string.about_resource_fail);
+            }
+        });
+
+        LinearLayout aboutUpdateBtn = findViewById(R.id.about_update_btn);
+        aboutUpdateBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.about_update_url)));
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                showSnackbar(R.string.about_resource_fail);
+            }
+        });
+
         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
             mVersionName.setText(StringUtils.format("Version  %s (%s)", info.versionName, info.versionCode));
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    @OnClick(R.id.home_page_btn)
-    void onHomeClick() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.home_page_url)));
-        try {
-            startActivity(intent);
-        } catch (Exception e) {
-            showSnackbar(R.string.about_resource_fail);
-        }
-    }
-
-    @OnClick(R.id.about_support_btn)
-    void onSupportClick() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.about_support_url)));
-        try {
-            startActivity(intent);
-        } catch (Exception e) {
-            showSnackbar(R.string.about_resource_fail);
-        }
-    }
-
-    @OnClick(R.id.about_resource_btn)
-    void onResourceClick() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.about_resource_url)));
-        try {
-            startActivity(intent);
-        } catch (Exception e) {
-            showSnackbar(R.string.about_resource_fail);
-        }
-    }
-
-    @OnClick(R.id.about_resource_ori_btn)
-    void onOriResourceClick() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.about_resource_ori_url)));
-        try {
-            startActivity(intent);
-        } catch (Exception e) {
-            showSnackbar(R.string.about_resource_fail);
-        }
-    }
-
-    @OnClick(R.id.about_update_btn)
-    void onUpdateClick() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.about_update_url)));
-        try {
-            startActivity(intent);
-        } catch (Exception e) {
-            showSnackbar(R.string.about_resource_fail);
         }
     }
 

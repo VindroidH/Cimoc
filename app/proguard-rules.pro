@@ -55,25 +55,25 @@
 -dontwarn com.android.volley.toolbox.**
 -dontwarn com.facebook.infer.**
 
-# greenDAO
--keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
-public static java.lang.String TABLENAME;
-}
-#ref: https://juejin.im/post/5d5fb53b51882554a13f8b6a
-#-keep class **$Properties
--keep class **$Properties{*;}
--dontwarn org.greenrobot.greendao.database.**
--dontwarn org.greenrobot.greendao.rx.**
-
-# ButterKnife
-# Retain generated class which implement Unbinder.
--keep public class * implements butterknife.Unbinder { public <init>(**, android.view.View); }
-
-# Prevent obfuscation of types which use ButterKnife annotations since the simple name
-# is used to reflectively look up the generated ViewBinding.
--keep class butterknife.*
--keepclasseswithmembernames class * { @butterknife.* <methods>; }
--keepclasseswithmembernames class * { @butterknife.* <fields>; }
+-dontwarn java.awt.Color
+-dontwarn java.awt.Font
+-dontwarn java.awt.Point
+-dontwarn java.awt.Rectangle
+-dontwarn javax.money.CurrencyUnit
+-dontwarn javax.money.Monetary
+-dontwarn org.javamoney.moneta.Money
+-dontwarn org.joda.time.DateTime
+-dontwarn org.joda.time.DateTimeZone
+-dontwarn org.joda.time.Duration
+-dontwarn org.joda.time.Instant
+-dontwarn org.joda.time.LocalDate
+-dontwarn org.joda.time.LocalDateTime
+-dontwarn org.joda.time.LocalTime
+-dontwarn org.joda.time.Period
+-dontwarn org.joda.time.ReadablePartial
+-dontwarn org.joda.time.format.DateTimeFormat
+-dontwarn org.joda.time.format.DateTimeFormatter
+-dontwarn springfox.documentation.spring.web.json.Json
 
 # OkHttp3
 -keep class okhttp3.** { *; }
@@ -116,4 +116,3 @@ public static java.lang.String TABLENAME;
 -keep class java.lang.ClassValue { *; }
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -keep class org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement { *; }
-

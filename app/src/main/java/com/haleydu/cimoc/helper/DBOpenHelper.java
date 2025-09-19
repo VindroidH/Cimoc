@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.haleydu.cimoc.model.ChapterDao;
 import com.haleydu.cimoc.model.ComicDao;
-import com.haleydu.cimoc.model.DaoMaster;
 import com.haleydu.cimoc.model.ImageUrlDao;
 import com.haleydu.cimoc.model.SourceDao;
 import com.haleydu.cimoc.model.TagDao;
@@ -14,11 +13,12 @@ import com.haleydu.cimoc.model.TagRefDao;
 import com.haleydu.cimoc.model.TaskDao;
 import com.haleydu.cimoc.utils.StringUtils;
 
-import org.greenrobot.greendao.database.Database;
 
 /**
  * Created by Hiroshi on 2016/8/12.
  */
+public class DBOpenHelper {}
+/*
 public class DBOpenHelper extends DaoMaster.OpenHelper {
 
     public DBOpenHelper(Context context, String name) {
@@ -150,3 +150,4 @@ public class DBOpenHelper extends DaoMaster.OpenHelper {
     }
 
 }
+ */

@@ -3,6 +3,7 @@ package com.haleydu.cimoc.ui.activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +15,6 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.misc.Switcher;
 import com.haleydu.cimoc.model.Source;
@@ -32,8 +32,6 @@ import java.util.List;
 
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.AppCompatCheckBox;
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2016/10/11.
@@ -43,13 +41,9 @@ public class SearchActivity extends BackActivity implements SearchView, TextView
 
     private final static int DIALOG_REQUEST_SOURCE = 0;
 
-    @BindView(R2.id.search_text_layout)
     TextInputLayout mInputLayout;
-    @BindView(R2.id.search_keyword_input)
     AppCompatAutoCompleteTextView mEditText;
-    @BindView(R2.id.search_action_button)
     FloatingActionButton mActionButton;
-    @BindView(R2.id.search_strict_checkbox)
     AppCompatCheckBox mCheckBox;
 
     private ArrayAdapter<String> mArrayAdapter;
@@ -67,6 +61,33 @@ public class SearchActivity extends BackActivity implements SearchView, TextView
 
     @Override
     protected void initView() {
+        super.initView();
+        mInputLayout = findViewById(R.id.search_text_layout);
+        mEditText = findViewById(R.id.search_keyword_input);
+        mActionButton = findViewById(R.id.search_action_button);
+        mCheckBox = findViewById(R.id.search_strict_checkbox);
+
+        mActionButton.setOnClickListener(view -> {
+            String keyword = mEditText.getText().toString();
+            boolean strictSearch = mCheckBox.isChecked();
+            if (StringUtils.isEmpty(keyword)) {
+                mInputLayout.setError(getString(R.string.search_keyword_empty));
+            } else {
+                ArrayList<Integer> list = new ArrayList<>();
+                for (Switcher<Source> switcher : mSourceList) {
+                    if (switcher.isEnable()) {
+                        list.add(switcher.getElement().getType());
+                    }
+                }
+                if (list.isEmpty()) {
+                    HintUtils.showToast(this, R.string.search_source_none);
+                } else {
+                    startActivity(ResultActivity.createIntent(this, keyword, strictSearch,
+                            CollectionUtils.unbox(list), ResultActivity.LAUNCH_MODE_SEARCH));
+                }
+            }
+        });
+
         mAutoComplete = mPreference.getBoolean(PreferenceManager.PREF_SEARCH_AUTO_COMPLETE, false);
         mEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -158,28 +179,6 @@ public class SearchActivity extends BackActivity implements SearchView, TextView
             return true;
         }
         return false;
-    }
-
-    @OnClick(R.id.search_action_button)
-    void onSearchButtonClick() {
-        String keyword = mEditText.getText().toString();
-        Boolean strictSearch = mCheckBox.isChecked();
-        if (StringUtils.isEmpty(keyword)) {
-            mInputLayout.setError(getString(R.string.search_keyword_empty));
-        } else {
-            ArrayList<Integer> list = new ArrayList<>();
-            for (Switcher<Source> switcher : mSourceList) {
-                if (switcher.isEnable()) {
-                    list.add(switcher.getElement().getType());
-                }
-            }
-            if (list.isEmpty()) {
-                HintUtils.showToast(this, R.string.search_source_none);
-            } else {
-                startActivity(ResultActivity.createIntent(this, keyword, strictSearch,
-                        CollectionUtils.unbox(list), ResultActivity.LAUNCH_MODE_SEARCH));
-            }
-        }
     }
 
     @Override

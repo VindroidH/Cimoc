@@ -2,17 +2,14 @@ package com.haleydu.cimoc.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.presenter.BasePresenter;
 import com.haleydu.cimoc.presenter.SourceDetailPresenter;
 import com.haleydu.cimoc.ui.view.SourceDetailView;
 import com.haleydu.cimoc.ui.widget.Option;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2017/1/18.
@@ -20,11 +17,8 @@ import butterknife.OnClick;
 
 public class SourceDetailActivity extends BackActivity implements SourceDetailView {
 
-    @BindView(R2.id.source_detail_type)
     Option mSourceType;
-    @BindView(R2.id.source_detail_title)
     Option mSourceTitle;
-    @BindView(R2.id.source_detail_favorite)
     Option mSourceFavorite;
     private SourceDetailPresenter mPresenter;
 
@@ -32,6 +26,14 @@ public class SourceDetailActivity extends BackActivity implements SourceDetailVi
         Intent intent = new Intent(context, SourceDetailActivity.class);
         intent.putExtra(Extra.EXTRA_SOURCE, type);
         return intent;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        mSourceType = findViewById(R.id.source_detail_type);
+        mSourceTitle = findViewById(R.id.source_detail_title);
+        mSourceFavorite = findViewById(R.id.source_detail_favorite);
     }
 
     @Override
@@ -44,11 +46,6 @@ public class SourceDetailActivity extends BackActivity implements SourceDetailVi
     @Override
     protected void initData() {
         mPresenter.load(getIntent().getIntExtra(Extra.EXTRA_SOURCE, -1));
-    }
-
-    @OnClick(R.id.source_detail_favorite)
-    void onSourceFavoriteClick() {
-        // TODO 显示这个图源的漫画
     }
 
     @Override

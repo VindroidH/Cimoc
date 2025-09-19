@@ -1,11 +1,13 @@
 package com.haleydu.cimoc.ui.fragment.recyclerview.grid;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.MiniComic;
@@ -29,8 +31,6 @@ import androidx.annotation.ColorRes;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Hiroshi on 2016/9/22.
@@ -41,11 +41,13 @@ public abstract class GridFragment extends RecyclerViewFragment implements GridV
     protected static final int DIALOG_REQUEST_OPERATION = 0;
     protected GridAdapter mGridAdapter;
     protected long mSavedId = -1;
-    @BindView(R2.id.grid_action_button)
     FloatingActionButton mActionButton;
 
     @Override
     protected BaseAdapter initAdapter() {
+        mActionButton = mView.findViewById(R.id.grid_action_button);
+        mActionButton.setOnClickListener(v -> {performActionButtonClick();});
+
         mGridAdapter = new GridAdapter(getActivity(), new LinkedList<>());
         mGridAdapter.setProvider(getAppInstance().getBuilderProvider());
         mGridAdapter.setTitleGetter(SourceManager.getInstance(this).new TitleGetter());
@@ -72,11 +74,6 @@ public abstract class GridFragment extends RecyclerViewFragment implements GridV
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 3);
         manager.setRecycleChildrenOnDetach(true);
         return manager;
-    }
-
-    @OnClick(R.id.grid_action_button)
-    void onActionButtonClick() {
-        performActionButtonClick();
     }
 
     @Override

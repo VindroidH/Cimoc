@@ -6,12 +6,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/12/6.
@@ -42,11 +40,11 @@ public class DirAdapter extends BaseAdapter<String> {
     }
 
     static class DirHolder extends BaseAdapter.BaseViewHolder {
-        @BindView(R2.id.item_dir_title)
         TextView mDirTitle;
 
         DirHolder(View view) {
             super(view);
+            mDirTitle = view.findViewById(R.id.item_dir_title);
         }
     }
 

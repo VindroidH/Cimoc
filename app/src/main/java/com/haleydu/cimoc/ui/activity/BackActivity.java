@@ -1,16 +1,16 @@
 package com.haleydu.cimoc.ui.activity;
 
 import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.utils.ThemeUtils;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/9/11.
@@ -18,7 +18,6 @@ import butterknife.BindView;
 public abstract class BackActivity extends BaseActivity {
 
     @Nullable
-    @BindView(R2.id.custom_progress_bar)
     ProgressBar mProgressBar;
 
     @Override
@@ -36,8 +35,9 @@ public abstract class BackActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mProgressBar = findViewById(R.id.custom_progress_bar);
         if (mProgressBar != null) {
-            int resId = ThemeUtils.getResourceId(this, R.attr.colorAccent);
+            int resId = ThemeUtils.getResourceId(this, androidx.appcompat.R.attr.colorAccent);
             mProgressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, resId), PorterDuff.Mode.SRC_ATOP);
         }
     }

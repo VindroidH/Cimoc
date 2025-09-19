@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.model.Tag;
 
 import java.util.List;
 
 import androidx.annotation.ColorInt;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/10/11.
@@ -62,11 +60,11 @@ public class TagAdapter extends BaseAdapter<Tag> {
     }
 
     static class TagHolder extends BaseViewHolder {
-        @BindView(R2.id.item_tag_title)
         TextView tagTitle;
 
         TagHolder(final View view) {
             super(view);
+            tagTitle = view.findViewById(R.id.item_tag_title);
         }
     }
 

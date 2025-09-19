@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.component.DialogCaller;
 import com.haleydu.cimoc.global.ClickEvents;
 import com.haleydu.cimoc.ui.activity.BackActivity;
@@ -14,7 +13,6 @@ import com.haleydu.cimoc.ui.fragment.config.PageConfigFragment;
 import com.haleydu.cimoc.ui.fragment.config.StreamConfigFragment;
 
 import androidx.viewpager.widget.ViewPager;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/10/14.
@@ -22,9 +20,7 @@ import butterknife.BindView;
 
 public class ReaderConfigActivity extends BackActivity implements DialogCaller {
 
-    @BindView(R2.id.reader_config_tab_layout)
     TabLayout mTabLayout;
-    @BindView(R2.id.reader_config_view_pager)
     ViewPager mViewPager;
 
     private String[] mKeyArray;
@@ -32,6 +28,9 @@ public class ReaderConfigActivity extends BackActivity implements DialogCaller {
 
     @Override
     protected void initView() {
+        mTabLayout = findViewById(R.id.reader_config_tab_layout);
+        mViewPager = findViewById(R.id.reader_config_view_pager);
+
         mTabLayout.addTab(mTabLayout.newTab().setText(R.string.reader_config_page));
         mTabLayout.addTab(mTabLayout.newTab().setText(R.string.reader_config_stream));
         TabPagerAdapter tabAdapter = new TabPagerAdapter(getSupportFragmentManager(),

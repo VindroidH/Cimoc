@@ -2,9 +2,11 @@ package com.haleydu.cimoc.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.ui.adapter.BaseAdapter;
@@ -15,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.OnClick;
-
 /**
  * Created by Hiroshi on 2016/12/6.
  */
@@ -25,6 +25,18 @@ public class DirPickerActivity extends CoordinatorActivity {
 
     private DirAdapter mDirAdapter;
     private File mFile;
+
+    @Override
+    protected void initView() {
+        super.initView();
+        FloatingActionButton coordinatorAction = findViewById(R.id.coordinator_action_button);
+        coordinatorAction.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.putExtra(Extra.EXTRA_PICKER_PATH, mFile.getAbsolutePath());
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        });
+    }
 
     @Override
     protected BaseAdapter initAdapter() {
@@ -43,14 +55,6 @@ public class DirPickerActivity extends CoordinatorActivity {
         mFile = Environment.getExternalStorageDirectory();
         updateData();
         hideProgressBar();
-    }
-
-    @OnClick(R.id.coordinator_action_button)
-    void onActionButtonClick() {
-        Intent intent = new Intent();
-        intent.putExtra(Extra.EXTRA_PICKER_PATH, mFile.getAbsolutePath());
-        setResult(Activity.RESULT_OK, intent);
-        finish();
     }
 
     @Override

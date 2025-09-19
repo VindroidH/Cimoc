@@ -7,7 +7,6 @@ import android.view.WindowManager;
 
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.BasePresenter;
 import com.haleydu.cimoc.ui.fragment.dialog.ProgressDialogFragment;
@@ -16,11 +15,8 @@ import com.haleydu.cimoc.ui.widget.ViewUtils;
 import com.haleydu.cimoc.utils.HintUtils;
 import com.haleydu.cimoc.utils.ThemeUtils;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Hiroshi on 2016/7/1.
@@ -28,11 +24,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
     protected PreferenceManager mPreference;
-    @Nullable
-    @BindView(R2.id.custom_night_mask)
     View mNightMask;
-    @Nullable
-    @BindView(R2.id.custom_toolbar)
     Toolbar mToolbar;
     private ProgressDialogFragment mProgressDialog;
     private BasePresenter mBasePresenter;
@@ -44,7 +36,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         mPreference = App.getPreferenceManager();
         initTheme();
         setContentView(getLayoutRes());
-        ButterKnife.bind(this);
+        mNightMask = findViewById(R.id.custom_night_mask);
+        mToolbar = findViewById(R.id.custom_toolbar);
         initNight();
         initToolbar();
         mBasePresenter = initPresenter();

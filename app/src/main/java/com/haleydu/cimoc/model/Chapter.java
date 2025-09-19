@@ -3,10 +3,8 @@ package com.haleydu.cimoc.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
 
 /**
  * Created by Hiroshi on 2016/7/2.
@@ -27,10 +25,9 @@ public class Chapter implements Parcelable {
             return new Chapter[size];
         }
     };
-    @Id(autoincrement = true)
+    @Id(assignable = true)
     private Long id;
-    @NotNull
-    private Long sourceComic;
+    private Long sourceComic = 0L;
     private String title;
     private String path;
     private int count;
@@ -70,8 +67,7 @@ public class Chapter implements Parcelable {
 
     }
 
-    @Generated(hash = 1726293378)
-    public Chapter(Long id, @NotNull Long sourceComic, String title, String path, int count, boolean complete, boolean download, long tid, String sourceGroup) {
+    public Chapter(Long id, Long sourceComic, String title, String path, int count, boolean complete, boolean download, long tid, String sourceGroup) {
         this.id = id;
         this.sourceComic = sourceComic;
         this.title = title;
@@ -83,7 +79,6 @@ public class Chapter implements Parcelable {
         this.sourceGroup = sourceGroup;
     }
 
-    @Generated(hash = 393170288)
     public Chapter() {
     }
 

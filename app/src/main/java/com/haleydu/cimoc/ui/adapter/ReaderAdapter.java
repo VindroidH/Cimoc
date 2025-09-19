@@ -18,7 +18,6 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.fresco.processor.MangaPostprocessor;
 import com.haleydu.cimoc.model.ImageUrl;
 import com.haleydu.cimoc.ui.widget.OnTapGestureListener;
@@ -31,7 +30,6 @@ import java.util.List;
 
 import androidx.annotation.IntDef;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/8/5.
@@ -290,11 +288,11 @@ public class ReaderAdapter extends BaseAdapter<ImageUrl> {
     }
 
     public static class ImageHolder extends BaseViewHolder {
-        public @BindView(R2.id.reader_image_view)
-        RetryDraweeView draweeView;
+        public RetryDraweeView draweeView;
 
         ImageHolder(View view) {
             super(view);
+            draweeView = view.findViewById(R.id.reader_image_view);
         }
     }
 

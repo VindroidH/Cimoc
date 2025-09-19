@@ -13,7 +13,6 @@ import android.provider.Settings;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.interfaces.DraweeController;
@@ -24,7 +23,6 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.component.ThemeResponsive;
 import com.haleydu.cimoc.core.Update;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
@@ -50,8 +48,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import butterknife.BindView;
-
 
 /**
  * Created by Hiroshi on 2016/7/1.
@@ -66,12 +62,8 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
 
     private static final int FRAGMENT_NUM = 3;
 
-    @BindView(R2.id.main_layout)
     DrawerLayout mDrawerLayout;
-    @BindView(R2.id.main_navigation_view)
     NavigationView mNavigationView;
-    @BindView(R2.id.main_fragment_container)
-    FrameLayout mFrameLayout;
 
     private TextView mLastText;
     private SimpleDraweeView mDraweeView;
@@ -102,6 +94,8 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
 
     @Override
     protected void initView() {
+        mDrawerLayout = findViewById(R.id.main_layout);
+        mNavigationView = findViewById(R.id.main_navigation_view);
         initDrawerToggle();
         initNavigation();
         initFragment();

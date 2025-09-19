@@ -19,9 +19,8 @@ import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.ui.activity.BaseActivity;
 import com.haleydu.cimoc.ui.fragment.dialog.ChoiceDialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindViews;
 
 import static com.haleydu.cimoc.manager.PreferenceManager.READER_ORIENTATION_AUTO;
 
@@ -32,7 +31,6 @@ import static com.haleydu.cimoc.manager.PreferenceManager.READER_ORIENTATION_AUT
 public class EventSettingsActivity extends BaseActivity implements DialogCaller {
 
     private final float thredhold = 0.3f;
-    @BindViews({R.id.event_left, R.id.event_top, R.id.event_middle, R.id.event_bottom, R.id.event_right})
     List<Button> mButtonList;
     private int[] mChoiceArray;
     private String[] mKeyArray;
@@ -52,9 +50,7 @@ public class EventSettingsActivity extends BaseActivity implements DialogCaller 
     protected void initTheme() {
         super.initTheme();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         final int[] oArray = {ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED};
         int value = oArray[getIntent().getIntExtra(Extra.EXTRA_IS_PORTRAIT, READER_ORIENTATION_AUTO)];
         setRequestedOrientation(value);
@@ -62,6 +58,13 @@ public class EventSettingsActivity extends BaseActivity implements DialogCaller 
 
     @Override
     protected void initView() {
+        mButtonList = new ArrayList<>();
+        mButtonList.add(findViewById(R.id.event_left));
+        mButtonList.add(findViewById(R.id.event_top));
+        mButtonList.add(findViewById(R.id.event_middle));
+        mButtonList.add(findViewById(R.id.event_bottom));
+        mButtonList.add(findViewById(R.id.event_right));
+
         boolean isStream = getIntent().getBooleanExtra(Extra.EXTRA_IS_STREAM, false);
         isLong = getIntent().getBooleanExtra(Extra.EXTRA_IS_LONG, false);
         if (isStream) {

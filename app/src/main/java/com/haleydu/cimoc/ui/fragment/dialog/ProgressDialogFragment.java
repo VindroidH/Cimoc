@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.rx.RxBus;
 import com.haleydu.cimoc.rx.RxEvent;
 import com.haleydu.cimoc.utils.ThemeUtils;
@@ -18,9 +17,6 @@ import com.haleydu.cimoc.utils.ThemeUtils;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
@@ -30,12 +26,9 @@ import rx.subscriptions.CompositeSubscription;
 
 public class ProgressDialogFragment extends DialogFragment {
 
-    @BindView(R2.id.dialog_progress_bar)
     ProgressBar mProgressBar;
-    @BindView(R2.id.dialog_progress_text)
     TextView mTextView;
 
-    private Unbinder unbinder;
     private CompositeSubscription mCompositeSubscription;
 
     public static ProgressDialogFragment newInstance() {
@@ -46,10 +39,11 @@ public class ProgressDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_progress, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        mProgressBar = view.findViewById(R.id.dialog_progress_bar);
+        mTextView = view.findViewById(R.id.dialog_progress_text);
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         setCancelable(false);
-        int resId = ThemeUtils.getResourceId(getActivity(), R.attr.colorAccent);
+        int resId = ThemeUtils.getResourceId(getActivity(), androidx.appcompat.R.attr.colorAccent);
         mProgressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), resId), PorterDuff.Mode.SRC_ATOP);
         mCompositeSubscription = new CompositeSubscription();
         mCompositeSubscription.add(RxBus.getInstance().toObservable(RxEvent.EVENT_DIALOG_PROGRESS).subscribe(new Action1<RxEvent>() {
@@ -67,7 +61,6 @@ public class ProgressDialogFragment extends DialogFragment {
             mCompositeSubscription.unsubscribe();
         }
         super.onDestroyView();
-        unbinder.unbind();
     }
 
 }

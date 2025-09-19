@@ -7,6 +7,7 @@ import com.haleydu.cimoc.model.TagDao;
 import java.util.List;
 
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Hiroshi on 2016/10/10.
@@ -41,14 +42,20 @@ public class TagManager {
     }
 
     public Observable<List<Tag>> listInRx() {
+        /*
         return mTagDao.queryBuilder()
                 .rx()
                 .list();
+         */
+        return Observable.fromCallable(() ->
+                mTagDao.queryBuilder()
+                        .list()
+        );
     }
 
     public Tag load(String title) {
         return mTagDao.queryBuilder()
-                .where(TagDao.Properties.Title.eq(title))
+                .where(TagDao.Properties.Title.equal(title))
                 .limit(1)
                 .unique();
     }

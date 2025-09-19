@@ -3,11 +3,13 @@ package com.haleydu.cimoc.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.collect.Lists;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.fresco.ControllerBuilderSupplierFactory;
@@ -34,7 +36,6 @@ import java.util.Set;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.OnClick;
 
 import static com.haleydu.cimoc.utils.interpretationUtils.isReverseOrder;
 
@@ -58,6 +59,36 @@ public class DetailActivity extends CoordinatorActivity implements DetailView {
         intent.putExtra(Extra.EXTRA_SOURCE, source);
         intent.putExtra(Extra.EXTRA_CID, cid);
         return intent;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        FloatingActionButton action = findViewById(R.id.coordinator_action_button);
+        action.setOnClickListener(view -> {
+            if (mPresenter.getComic().getFavorite() != null) {
+                mPresenter.unfavoriteComic();
+                increment();
+                mActionButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+                showSnackbar(R.string.detail_unfavorite);
+            } else {
+                mPresenter.favoriteComic();
+                increment();
+                mActionButton.setImageResource(R.drawable.ic_favorite_white_24dp);
+                showSnackbar(R.string.detail_favorite);
+            }
+        });
+
+        FloatingActionButton action2 = findViewById(R.id.coordinator_action_button2);
+        action2.setOnClickListener(view -> {
+            if (!mDetailAdapter.getDateSet().isEmpty()) {
+                String path = mPresenter.getComic().getLast();
+                if (path == null) {
+                    path = mDetailAdapter.getItem(mDetailAdapter.getDateSet().size() - 1).getPath();
+                }
+                startReader(path);
+            }
+        });
     }
 
     @Override
@@ -185,33 +216,6 @@ public class DetailActivity extends CoordinatorActivity implements DetailView {
                     mPresenter.addTask(mDetailAdapter.getDateSet(), list);
                     break;
             }
-        }
-    }
-
-    @OnClick(R.id.coordinator_action_button)
-    void onActionButtonClick() {
-        //todo: add comic to mangodb
-        if (mPresenter.getComic().getFavorite() != null) {
-            mPresenter.unfavoriteComic();
-            increment();
-            mActionButton.setImageResource(R.drawable.ic_favorite_border_white_24dp);
-            showSnackbar(R.string.detail_unfavorite);
-        } else {
-            mPresenter.favoriteComic();
-            increment();
-            mActionButton.setImageResource(R.drawable.ic_favorite_white_24dp);
-            showSnackbar(R.string.detail_favorite);
-        }
-    }
-
-    @OnClick(R.id.coordinator_action_button2)
-    void onActionButton2Click() {
-        if (!mDetailAdapter.getDateSet().isEmpty()) {
-            String path = mPresenter.getComic().getLast();
-            if (path == null) {
-                path = mDetailAdapter.getItem(mDetailAdapter.getDateSet().size() - 1).getPath();
-            }
-            startReader(path);
         }
     }
 

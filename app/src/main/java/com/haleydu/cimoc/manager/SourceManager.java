@@ -1,8 +1,10 @@
 package com.haleydu.cimoc.manager;
 
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.haleydu.cimoc.component.AppGetter;
+import com.haleydu.cimoc.model.MyObjectBox;
 import com.haleydu.cimoc.model.Source;
 import com.haleydu.cimoc.model.SourceDao;
 import com.haleydu.cimoc.model.SourceDao.Properties;
@@ -81,31 +83,58 @@ public class SourceManager {
     }
 
     public Observable<List<Source>> list() {
+        /*
         return mSourceDao.queryBuilder()
                 .orderAsc(Properties.Type)
                 .rx()
                 .list();
+         */
+//        mSourceDao.queryBuilder().orderAsc(Properties.Type).rx().list();
+        return Observable.fromCallable(() ->
+                mSourceDao.queryBuilder()
+                        .orderAsc(Properties.Type)
+                        .list());
     }
 
     public Observable<List<Source>> listEnableInRx() {
+        /*
         return mSourceDao.queryBuilder()
-                .where(Properties.Enable.eq(true))
+                .where(Properties.Enable.equal(true))
                 .orderAsc(Properties.Type)
                 .rx()
                 .list();
+         */
+        /*
+        return Observable.defer(() ->
+                Observable.just(
+                        mSourceDao.queryBuilder()
+                                .where(Properties.Enable.equal(true))
+                                .orderAsc(Properties.Type)
+                                .list()));
+         */
+        return Observable.fromCallable(() ->
+                mSourceDao.queryBuilder()
+                        .where(Properties.Enable.equal(true))
+                        .orderAsc(Properties.Type)
+                        .list());
     }
 
     public List<Source> listEnable() {
         return mSourceDao.queryBuilder()
-                .where(Properties.Enable.eq(true))
+                .where(Properties.Enable.equal(true))
                 .orderAsc(Properties.Type)
                 .list();
     }
 
     public Source load(int type) {
+        /*
         return mSourceDao.queryBuilder()
-                .where(Properties.Type.eq(type))
+                .where(Properties.Type.equal(type))
                 .unique();
+         */
+        return mSourceDao.queryBuilder()
+                .where(Properties.Type.equal(type))
+                .build().findFirst();
     }
 
     public long insert(Source source) {

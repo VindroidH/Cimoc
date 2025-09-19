@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.BasePresenter;
 import com.haleydu.cimoc.ui.activity.BaseActivity;
@@ -20,9 +19,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Hiroshi on 2016/7/1.
@@ -31,15 +27,15 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     protected PreferenceManager mPreference;
     @Nullable
-    @BindView(R2.id.custom_progress_bar)
     ProgressBar mProgressBar;
-    private Unbinder unbinder;
     private BasePresenter mBasePresenter;
+    protected View mView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutRes(), container, false);
-        unbinder = ButterKnife.bind(this, view);
+        mView = view;
+        mProgressBar = view.findViewById(R.id.custom_progress_bar);
         mPreference = App.getPreferenceManager();
         mBasePresenter = initPresenter();
         initProgressBar();
@@ -54,7 +50,6 @@ public abstract class BaseFragment extends Fragment implements BaseView {
             mBasePresenter.detachView();
         }
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override
@@ -68,7 +63,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     private void initProgressBar() {
         if (mProgressBar != null) {
-            int resId = ThemeUtils.getResourceId(requireActivity(), R.attr.colorAccent);
+            int resId = ThemeUtils.getResourceId(requireActivity(), androidx.appcompat.R.attr.colorAccent);
             mProgressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(requireActivity(), resId), PorterDuff.Mode.SRC_ATOP);
         }
     }

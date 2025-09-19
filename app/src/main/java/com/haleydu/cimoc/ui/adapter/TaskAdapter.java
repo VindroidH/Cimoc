@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.model.Task;
 import com.haleydu.cimoc.utils.StringUtils;
 
@@ -20,7 +19,6 @@ import java.util.Set;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/9/7.
@@ -131,19 +129,19 @@ public class TaskAdapter extends BaseAdapter<Task> {
     }
 
     static class TaskHolder extends BaseViewHolder {
-        @BindView(R2.id.task_page)
         TextView taskPage;
-        @BindView(R2.id.task_title)
         TextView taskTitle;
-        @BindView(R2.id.task_state)
         TextView taskState;
-        @BindView(R2.id.task_progress)
         ProgressBar taskProgress;
-        @BindView(R2.id.task_last)
         View taskLast;
 
         TaskHolder(View view, int color) {
             super(view);
+            taskPage = view.findViewById(R.id.task_page);
+            taskTitle = view.findViewById(R.id.task_title);
+            taskState = view.findViewById(R.id.task_state);
+            taskProgress = view.findViewById(R.id.task_progress);
+            taskLast = view.findViewById(R.id.task_last);
             taskProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         }
     }

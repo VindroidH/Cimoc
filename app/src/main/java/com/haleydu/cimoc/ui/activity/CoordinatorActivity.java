@@ -1,16 +1,15 @@
 package com.haleydu.cimoc.ui.activity;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.R2;
 import com.haleydu.cimoc.ui.adapter.BaseAdapter;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 
 /**
  * Created by Hiroshi on 2016/12/1.
@@ -19,18 +18,19 @@ import butterknife.BindView;
 public abstract class CoordinatorActivity extends BackActivity implements
         BaseAdapter.OnItemClickListener, BaseAdapter.OnItemLongClickListener {
 
-    @BindView(R2.id.coordinator_action_button)
     FloatingActionButton mActionButton;
-    @BindView(R2.id.coordinator_action_button2)
     FloatingActionButton mActionButton2;
-    @BindView(R2.id.coordinator_recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R2.id.coordinator_layout)
     CoordinatorLayout mLayoutView;
 
     @Override
     protected void initView() {
         super.initView();
+        mActionButton = findViewById(R.id.coordinator_action_button);
+        mActionButton2 = findViewById(R.id.coordinator_action_button2);
+        mRecyclerView = findViewById(R.id.coordinator_recycler_view);
+        mLayoutView = findViewById(R.id.coordinator_layout);
+
         mRecyclerView.setLayoutManager(initLayoutManager());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(null);
