@@ -105,7 +105,6 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
 
             // 3.OkHttp访问https的Client实例
             mHttpClient = new OkHttpClient().newBuilder()
-                    .sslSocketFactory(createSSLSocketFactory())
                     .hostnameVerifier(new TrustAllHostnameVerifier())
                     .followRedirects(true)
                     .followSslRedirects(true)

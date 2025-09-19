@@ -1,5 +1,7 @@
 package com.haleydu.cimoc.ui.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -290,7 +292,12 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
                 mPreference.putBoolean(PreferenceManager.PREF_MAIN_NOTICE, true);
                 break;
             case DIALOG_REQUEST_PERMISSION:
-                com.king.app.updater.util.PermissionUtils.verifyReadAndWritePermissions(this, Constants.RE_CODE_STORAGE_PERMISSION);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    PermissionUtils.checkPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE);
+                } else {
+                    PermissionUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    PermissionUtils.checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
                     startActivity(intent);

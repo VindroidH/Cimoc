@@ -21,9 +21,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
-//import com.azhon.appupdate.config.UpdateConfiguration;
-//import com.azhon.appupdate.manager.DownloadManager;
-
 /**
  * Created by Hiroshi on 2016/8/24.
  */
@@ -103,27 +100,28 @@ public class Update {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppDialog.INSTANCE.dismissDialog();
+                AppDialog.dismissDialog();
             }
         });
         Button btnOK = view.findViewById(R.id.btnOK);
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAppUpdater = new AppUpdater.Builder()
-                        .setApkMD5(md5)//支持MD5校验，如果缓存APK的MD5与此MD5相同，则直接取本地缓存安装，推荐使用MD5校验的方式
+                mAppUpdater = new AppUpdater.Builder(getContext())
+                        .setApkMd5(md5)//支持MD5校验，如果缓存APK的MD5与此MD5相同，则直接取本地缓存安装，推荐使用MD5校验的方式
                         .setUrl(mUrl)
                         .setVersionCode(versionCode)//支持versionCode校验，设置versionCode之后，新版本versionCode相同的apk只下载一次,优先取本地缓存,推荐使用MD5校验的方式
                         .setVibrate(true)  //振动
                         .setFilename("Cimoc_" + versionName + ".apk")
-                        .build(getContext());
+                        .setHttpManager(OkHttpManager.getInstance())
+                        .build();
 
-                mAppUpdater.setHttpManager(OkHttpManager.getInstance()).start();
-                AppDialog.INSTANCE.dismissDialog();
+                mAppUpdater.start();
+                AppDialog.dismissDialog();
             }
         });
 
-        AppDialog.INSTANCE.showDialog(getContext(), view);
+        AppDialog.showDialog(getContext(), view);
     }
 
     public Context getContext() {

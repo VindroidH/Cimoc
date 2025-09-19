@@ -157,7 +157,7 @@ class MangaBZ(source: Source?) : MangaParser() {
     }
 
     override fun getHeader(): Headers {
-        return Headers.of("Referer", "https://www.mangabz.com/")
+        return Headers.headersOf("Referer", "https://www.mangabz.com/")
     }
 
     companion object {
