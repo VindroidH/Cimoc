@@ -152,7 +152,7 @@ class RawDocumentFile extends DocumentFile {
             }
         }
         if (comp != null) {
-            Collections.sort(results, comp);
+            results.sort(comp);
         }
         return results;
     }

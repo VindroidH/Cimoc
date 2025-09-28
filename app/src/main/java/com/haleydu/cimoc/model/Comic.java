@@ -1,5 +1,7 @@
 package com.haleydu.cimoc.model;
 
+import androidx.annotation.NonNull;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Transient;
@@ -13,9 +15,12 @@ public class Comic {
     @Transient
     public Object note;
     @Id(assignable = true)
-    private Long id;
+    private Long id; // key
+    /**
+     * Source.id
+     */
     private int source = 0;
-    private String cid = "";
+    private String cid = ""; // comic id
     private String title = "";
     private String cover = "";
     private boolean highlight = false;
@@ -240,5 +245,11 @@ public class Comic {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Comic[title: " + title + ", id: " + id + ", cid: " + cid + ", source: " + source + "]";
     }
 }

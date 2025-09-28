@@ -19,7 +19,6 @@ public class MDocument {
 
     public String text(String cssQuery) {
         try {
-//            Elements elements = document.getElementsByTag("script").eq(7);
             Elements elements = document.select(cssQuery);
             return String.valueOf(elements.first());
         } catch (Exception e) {

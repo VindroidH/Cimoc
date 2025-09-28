@@ -159,11 +159,8 @@ public class Backup {
         DocumentFile dir = DocumentUtils.getOrCreateSubDirectory(root, BACKUP);
         if (dir != null) {
             try {
-//                String result = XMLUtils.converter(settingMap);
-//                JSONObject result = new JSONObject(settingMap);
                 Gson gson = new Gson();
                 String result = gson.toJson(settingMap);
-
                 String filename = StringUtils.getDateStringWithSuffix(SUFFIX_CSBF);
                 DocumentFile file = DocumentUtils.getOrCreateFile(dir, filename);
                 DocumentUtils.writeStringToFile(resolver, file, result);

@@ -35,7 +35,6 @@ import com.haleydu.cimoc.source.Mangakakalot;
 import com.haleydu.cimoc.source.Manhuatai;
 import com.haleydu.cimoc.source.MiGu;
 import com.haleydu.cimoc.source.Ohmanhua;
-import com.haleydu.cimoc.source.PuFei;
 import com.haleydu.cimoc.source.QiManWu;
 import com.haleydu.cimoc.source.QiMiaoMH;
 import com.haleydu.cimoc.source.SixMH;
@@ -103,7 +102,6 @@ public class UpdateHelper {
         list.add(Dmzjv2.getDefaultSource());
         list.add(MangaNel.getDefaultSource());
         list.add(Mangakakalot.getDefaultSource());
-        list.add(PuFei.getDefaultSource());
         list.add(Cartoonmad.getDefaultSource());
         list.add(Animx2.getDefaultSource());
         list.add(MH517.getDefaultSource());

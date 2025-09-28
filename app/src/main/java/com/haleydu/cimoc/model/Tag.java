@@ -1,5 +1,7 @@
 package com.haleydu.cimoc.model;
 
+import androidx.annotation.NonNull;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 
@@ -47,4 +49,9 @@ public class Tag {
         this.title = title;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Tag[id: " + id + ", title: " + title + "]";
+    }
 }

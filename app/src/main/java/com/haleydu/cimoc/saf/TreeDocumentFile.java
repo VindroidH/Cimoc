@@ -25,8 +25,6 @@ import androidx.annotation.RequiresApi;
  * Created by Hiroshi on 2017/3/24.
  */
 
-@RequiresApi(21)
-@TargetApi(21)
 class TreeDocumentFile extends DocumentFile {
 
     private final Context mContext;

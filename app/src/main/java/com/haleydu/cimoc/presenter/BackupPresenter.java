@@ -371,18 +371,6 @@ public class BackupPresenter extends BasePresenter<BackupView> {
     }
 
     private void postComic(List<Comic> favorite, List<Comic> history) {
-/*        Collections.sort(favorite, new Comparator<Comic>() {
-            @Override
-            public int compare(Comic lhs, Comic rhs) {
-                return (int) (lhs.getFavorite() - rhs.getFavorite());
-            }
-        });
-        Collections.sort(history, new Comparator<Comic>() {
-            @Override
-            public int compare(Comic lhs, Comic rhs) {
-                return (int) (lhs.getHistory() - rhs.getHistory());
-            }
-        }); */
         RxBus.getInstance().post(
                 new RxEvent(RxEvent.EVENT_COMIC_FAVORITE_RESTORE, convertToMiniComic(favorite)));
         RxBus.getInstance().post(

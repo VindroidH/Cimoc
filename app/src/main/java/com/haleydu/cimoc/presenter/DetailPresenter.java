@@ -111,7 +111,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                 .doOnNext(new Action1<List<Chapter>>() {
                     @Override
                     public void call(List<Chapter> list) {
-                        if (mComic.getId() != null && list.size() != 0) {
+                        if (mComic.getId() != null && !list.isEmpty()) {
                             updateChapterList(list);
                         }
                     }
@@ -120,7 +120,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                 .subscribe(new Action1<List<Chapter>>() {
                     @Override
                     public void call(List<Chapter> list) {
-                        if (list != null && list.size() != 0) {
+                        if (list != null && !list.isEmpty()) {
                             mBaseView.onPreLoadSuccess(list, mComic);
                         }
                     }

@@ -1,5 +1,7 @@
 package com.haleydu.cimoc.model;
 
+import androidx.annotation.NonNull;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Unique;
@@ -68,4 +70,9 @@ public class Source {
         this.enable = enable;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Source[id: " + id + ", title: " + title + "]";
+    }
 }

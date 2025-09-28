@@ -159,11 +159,6 @@ public class AboutActivity extends BackActivity implements AboutView, AdapterVie
                 update = false;
                 App.getPreferenceManager().putString(PreferenceManager.PREF_UPDATE_CURRENT_URL, App.getUpdateCurrentUrl());
                 break;
-            case 2:
-                App.setUpdateCurrentUrl(Constants.UPDATE_GITEE_URL);
-                update = false;
-                App.getPreferenceManager().putString(PreferenceManager.PREF_UPDATE_CURRENT_URL, App.getUpdateCurrentUrl());
-                break;
         }
     }
 

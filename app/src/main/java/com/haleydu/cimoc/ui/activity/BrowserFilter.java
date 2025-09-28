@@ -21,7 +21,6 @@ import com.haleydu.cimoc.source.MH517;
 import com.haleydu.cimoc.source.MH57;
 import com.haleydu.cimoc.source.ManHuaDB;
 import com.haleydu.cimoc.source.MiGu;
-import com.haleydu.cimoc.source.PuFei;
 import com.haleydu.cimoc.source.SixMH;
 import com.haleydu.cimoc.source.Tencent;
 import com.haleydu.cimoc.source.TuHao;
@@ -42,25 +41,15 @@ public class BrowserFilter extends BaseActivity {
     protected String getDefaultTitle() {
         return "jumping...";
     }
-
-//    private Parser parser;
-//    private SourceManager mSourceManager;
-
     public void openDetailActivity(int source, String comicId) {
         Intent intent = DetailActivity.createIntent(this, null, source, comicId);
         startActivity(intent);
     }
 
-//    public void openReaderActivity(int source,String comicId) {
-//        Intent intent = DetailActivity.createIntent(this, null, source, comicId);
-//        startActivity(intent);
-//    }
-
     private List<Integer> registUrlListener() {
         List<Integer> list = new ArrayList<>();
 
         list.add(Dmzjv2.TYPE);
-        list.add(PuFei.TYPE);
         list.add(Cartoonmad.TYPE);
         list.add(Animx2.TYPE);
         list.add(MH517.TYPE);

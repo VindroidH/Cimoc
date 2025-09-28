@@ -12,23 +12,18 @@ import rx.subjects.Subject;
  */
 public class RxBus {
 
-    private static RxBus instance;
-
     private final Subject<Object, Object> bus;
 
     private RxBus() {
         bus = new SerializedSubject<>(PublishSubject.create());
     }
 
+    private static final class InstanceHolder {
+        private static final RxBus instance = new RxBus();
+    }
+
     public static RxBus getInstance() {
-        if (instance == null) {
-            synchronized (RxBus.class) {
-                if (instance == null) {
-                    instance = new RxBus();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     public void post(RxEvent event) {

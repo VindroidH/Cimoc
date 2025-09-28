@@ -13,6 +13,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Headers;
 import okhttp3.Request;
@@ -132,7 +133,7 @@ public abstract class MangaParser implements Parser {
     public boolean isHere(Uri uri) {
         boolean val = false;
         for (UrlFilter uf : filter) {
-            val |= (uri.getHost().indexOf(uf.Filter) != -1);
+            val |= (Objects.requireNonNull(uri.getHost()).contains(uf.Filter));
         }
         return val;
     }
@@ -140,7 +141,7 @@ public abstract class MangaParser implements Parser {
     @Override
     public String getComicId(Uri uri) {
         for (UrlFilter uf : filter) {
-            if (uri.getHost().indexOf(uf.Filter) != -1) {
+            if (Objects.requireNonNull(uri.getHost()).contains(uf.Filter)) {
                 return StringUtils.match(uf.Regex, uri.getPath(), uf.Group);
             }
         }

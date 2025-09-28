@@ -85,7 +85,7 @@ public class DownloadService extends Service implements AppGetter {
     @Override
     public void onCreate() {
         super.onCreate();
-        PreferenceManager manager = ((App) getApplication()).getPreferenceManager();
+        PreferenceManager manager = App.getPreferenceManager();
         int num = manager.getInt(PreferenceManager.PREF_DOWNLOAD_THREAD, 2);
         mWorkerArray = new LongSparseArray<>();
         mExecutorService = Executors.newFixedThreadPool(num);
@@ -145,7 +145,7 @@ public class DownloadService extends Service implements AppGetter {
 
     public synchronized void completeDownload(long id) {
         mWorkerArray.remove(id);
-        if (mWorkerArray.size() == 0) {
+        if (mWorkerArray.isEmpty()) {
             notifyCompleted();
             stopSelf();
         }

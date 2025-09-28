@@ -1,6 +1,5 @@
 package com.haleydu.cimoc.ui.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -68,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected void initTheme() {
         int theme = mPreference.getInt(PreferenceManager.PREF_OTHER_THEME, ThemeUtils.THEME_BLUE);
         setTheme(ThemeUtils.getThemeById(theme));
-        if (isNavTranslation() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (isNavTranslation()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
@@ -89,9 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                mToolbar.setPadding(0, ViewUtils.getStatusBarHeight(this), 0, mToolbar.getPaddingBottom());
-            }
+            mToolbar.setPadding(0, ViewUtils.getStatusBarHeight(this), 0, mToolbar.getPaddingBottom());
         }
     }
 

@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.objectbox'
 
-def buildVersion = 1072900
-def version = "v1.7.29"
+def buildVersion = 1080000
+def version = "v1.8.0"
 
 android {
     namespace "com.haleydu.cimoc"
@@ -92,8 +92,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'com.google.android.material:material:1.13.0'
     implementation 'org.greenrobot:objectbox-daocompat:4.2.0'
-//    implementation 'io.objectbox:objectbox-rxjava:5.0.0'
-//    implementation 'io.objectbox:objectbox-android:5.0.0'
     implementation 'com.squareup.okhttp3:okhttp:5.1.0'
     implementation 'com.facebook.fresco:fresco:2.6.0'
     implementation 'org.jsoup:jsoup:1.21.2'

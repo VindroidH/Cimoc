@@ -1,5 +1,6 @@
 package com.haleydu.cimoc.network;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.net.InetAddress;
@@ -16,7 +17,7 @@ public class HttpDns implements Dns {
     public List<InetAddress> lookup(String hostname) throws UnknownHostException {
         Log.e("HttpDns", "lookup:" + hostname);
         String ip = DNSHelper.getIpByHost(hostname);
-        if (ip != null && !ip.equals("")) {
+        if (!TextUtils.isEmpty(ip)) {
             List<InetAddress> inetAddresses = Arrays.asList(InetAddress.getAllByName(ip));
             Log.e("HttpDns", "inetAddresses:" + inetAddresses);
             return inetAddresses; //返回自己解析的地址列表

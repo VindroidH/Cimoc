@@ -1,18 +1,5 @@
 package com.haleydu.cimoc.helper;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
-import com.haleydu.cimoc.model.ChapterDao;
-import com.haleydu.cimoc.model.ComicDao;
-import com.haleydu.cimoc.model.ImageUrlDao;
-import com.haleydu.cimoc.model.SourceDao;
-import com.haleydu.cimoc.model.TagDao;
-import com.haleydu.cimoc.model.TagRefDao;
-import com.haleydu.cimoc.model.TaskDao;
-import com.haleydu.cimoc.utils.StringUtils;
-
 
 /**
  * Created by Hiroshi on 2016/8/12.

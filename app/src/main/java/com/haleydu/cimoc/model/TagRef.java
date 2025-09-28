@@ -1,5 +1,7 @@
 package com.haleydu.cimoc.model;
 
+import androidx.annotation.NonNull;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 
@@ -11,7 +13,13 @@ public class TagRef {
 
     @Id(assignable = true)
     private Long id;
+    /**
+     * Tag.id
+     */
     private long tid = 0L;
+    /**
+     * Comic.id
+     */
     private long cid = 0L;
 
     public TagRef(Long id, long tid, long cid) {
@@ -47,4 +55,9 @@ public class TagRef {
         this.cid = cid;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "TagRef[id: " + id + ", tid: " + tid + ", cid: " + cid + "]";
+    }
 }

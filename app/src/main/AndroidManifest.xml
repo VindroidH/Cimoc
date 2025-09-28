@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -115,7 +116,6 @@
                 <data android:host="manhua.dmzj.com" />
                 <data android:host="m.dmzj.com" />
                 <data android:host="m.5qmh.com" />
-                <data android:host="m.pufei.net" />
                 <data android:host="ac.qq.com" />
                 <data android:host="m.ac.qq.com" />
                 <data android:host="www.u17.com" />

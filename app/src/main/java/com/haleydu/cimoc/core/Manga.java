@@ -140,7 +140,7 @@ public class Manga {
                         Request request = parser.getImagesRequest(cid, path);
                         html = getResponseBody(App.getHttpClient(), request);
                         list = parser.parseImages(html, chapter);
-                        if (list == null || list.size() == 0) {
+                        if (list == null || list.isEmpty()) {
                             list = parser.parseImages(html);
                         }
                     }
@@ -236,25 +236,15 @@ public class Manga {
         return Observable.create(new Observable.OnSubscribe<List<String>>() {
             @Override
             public void call(Subscriber<? super List<String>> subscriber) {
-//                RequestBody body = new FormBody.Builder()
-//                        .add("key", keyword)
-//                        .add("s", "1")
-//                        .build();
-//                Request request = new Request.Builder()
-//                        .url("http://m.ikanman.com/support/word.ashx")
-//                        .post(body)
-//                        .build();
                 Request request = new Request.Builder()
                         .url("http://m.ac.qq.com/search/smart?word=" + keyword)
                         .build();
                 try {
                     String jsonString = getResponseBody(App.getHttpClient(), request);
-//                    JSONArray array = new JSONArray(jsonString);
                     JSONObject jsonObject = new JSONObject(jsonString);
                     JSONArray array = jsonObject.getJSONArray("data");
                     List<String> list = new ArrayList<>();
                     for (int i = 0; i != array.length(); ++i) {
-//                        list.add(array.getJSONObject(i).getString("t"));
                         list.add(array.getJSONObject(i).getString("title"));
                     }
                     subscriber.onNext(list);

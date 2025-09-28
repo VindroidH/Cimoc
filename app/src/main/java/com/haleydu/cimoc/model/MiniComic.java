@@ -1,5 +1,7 @@
 package com.haleydu.cimoc.model;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by Hiroshi on 2016/7/27.
  */
@@ -7,6 +9,9 @@ public class MiniComic {
 
     private Long id;
     private int source;
+    /**
+     * Comic.id
+     */
     private String cid;
     private String title;
     private String cover;
@@ -95,4 +100,9 @@ public class MiniComic {
         this.id = id;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "MiniComic[id: " + id + ", source: " + source + ", cid: " + cid + "]";
+    }
 }

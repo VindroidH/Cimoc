@@ -29,23 +29,17 @@ public abstract class DocumentFile {
     }
 
     public static DocumentFile fromTreeUri(Context context, Uri treeUri) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            Uri documentUri = DocumentsContract.buildDocumentUriUsingTree(treeUri,
-                    DocumentsContract.getTreeDocumentId(treeUri));
-            return new TreeDocumentFile(null, context, documentUri);
-        }
-        return null;
+        Uri documentUri = DocumentsContract.buildDocumentUriUsingTree(treeUri,
+                DocumentsContract.getTreeDocumentId(treeUri));
+        return new TreeDocumentFile(null, context, documentUri);
     }
 
     public static DocumentFile fromSubTreeUri(Context context, Uri uri) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            /*
-             * https://stackoverflow.com/questions/27759915/bug-when-listing-files-with-android-storage-access-framework-on-lollipop
-             * 如果使用 buildDocumentUriUsingTree 会获取到授权的那个 DocumentFile
-             */
-            return new TreeDocumentFile(null, context, uri);
-        }
-        return null;
+        /*
+         * https://stackoverflow.com/questions/27759915/bug-when-listing-files-with-android-storage-access-framework-on-lollipop
+         * 如果使用 buildDocumentUriUsingTree 会获取到授权的那个 DocumentFile
+         */
+        return new TreeDocumentFile(null, context, uri);
     }
 
     public abstract DocumentFile createFile(String displayName);

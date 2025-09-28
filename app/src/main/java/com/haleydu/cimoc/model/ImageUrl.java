@@ -1,5 +1,7 @@
 package com.haleydu.cimoc.model;
 
+import androidx.annotation.NonNull;
+
 import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
@@ -19,7 +21,7 @@ public class ImageUrl {
     private Long id; // 唯一标识
     private Long comicChapter = 0L;
     private int num;    // 章节的第几页
-//    @Convert(converter = StringConverter.class, dbType = String.class)
+    //    @Convert(converter = StringConverter.class, dbType = String.class)
     private String[] urls;
     private String chapter; // 所属章节
     private int state;  // 切图时表示状态 这里可以改为编号 比如长图可以切为多张方便加载
@@ -187,6 +189,12 @@ public class ImageUrl {
 
     public void setDownload(boolean download) {
         this.download = download;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "ImageUrl[id: " + id + ", comicChapter: " + comicChapter + "]";
     }
 
     public static class StringConverter implements PropertyConverter<String[], String> {

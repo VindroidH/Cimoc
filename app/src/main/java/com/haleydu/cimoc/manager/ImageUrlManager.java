@@ -1,20 +1,23 @@
 package com.haleydu.cimoc.manager;
 
+import android.util.Log;
+
 import com.haleydu.cimoc.component.AppGetter;
 import com.haleydu.cimoc.model.ImageUrl;
 import com.haleydu.cimoc.model.ImageUrlDao;
+import com.haleydu.cimoc.model.ImageUrl_;
 
 import java.util.List;
 
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by HaleyDu on 2020/8/27.
  */
 public class ImageUrlManager {
+    private final static String TAG = "Cimoc-ImageUrlManager";
 
-    private static ImageUrlManager mInstance;
+    private static volatile ImageUrlManager mInstance;
 
     private final ImageUrlDao mImageUrlDao;
 
@@ -38,6 +41,7 @@ public class ImageUrlManager {
     }
 
     public Observable<List<ImageUrl>> getListImageUrlRX(Long comicChapter) {
+        Log.d(TAG, "[getListImageUrlRX] comicChapter: " + comicChapter);
         /*
         return mImageUrlDao.queryBuilder()
                 .where(ImageUrlDao.Properties.ComicChapter.equal(comicChapter))
@@ -45,23 +49,30 @@ public class ImageUrlManager {
                 .list();
          */
         return Observable.fromCallable(() ->
-                mImageUrlDao.queryBuilder()
-                        .where(ImageUrlDao.Properties.ComicChapter.equal(comicChapter))
-                        .list()
+                mImageUrlDao.getBox()
+                        .query()
+                        .equal(ImageUrl_.comicChapter, comicChapter)
+                        .build()
+                        .find()
         );
     }
 
     public List<ImageUrl> getListImageUrl(Long comicChapter) {
-        return mImageUrlDao.queryBuilder()
-                .where(ImageUrlDao.Properties.ComicChapter.equal(comicChapter))
-                .list();
+        Log.d(TAG, "[getListImageUrl] comicChapter: " + comicChapter);
+        return mImageUrlDao.getBox()
+                .query()
+                .equal(ImageUrl_.comicChapter, comicChapter)
+                .build()
+                .find();
     }
 
     public ImageUrl load(long id) {
+        Log.d(TAG, "[load] id: " + id);
         return mImageUrlDao.load(id);
     }
 
     public void updateOrInsert(List<ImageUrl> imageUrlList) {
+        Log.d(TAG, "[updateOrInsert] imageUrlList: " + imageUrlList);
         for (ImageUrl imageurl : imageUrlList) {
             if (imageurl.getId() == null) {
                 insert(imageurl);
@@ -72,6 +83,7 @@ public class ImageUrlManager {
     }
 
     public void insertOrReplace(List<ImageUrl> imageUrlList) {
+        Log.d(TAG, "[insertOrReplace] imageUrlList: " + imageUrlList);
         for (ImageUrl imageurl : imageUrlList) {
             if (imageurl.getId() != null) {
                 mImageUrlDao.insertOrReplace(imageurl);
@@ -80,16 +92,19 @@ public class ImageUrlManager {
     }
 
     public void update(ImageUrl imageurl) {
+        Log.d(TAG, "[update] imageurl: " + imageurl);
         mImageUrlDao.update(imageurl);
     }
 
     public void deleteByKey(long key) {
+        Log.d(TAG, "[deleteByKey] key: " + key);
         mImageUrlDao.deleteByKey(key);
     }
 
-    public void insert(ImageUrl imageurl) {
-        long id = mImageUrlDao.insert(imageurl);
-        imageurl.setId(id);
+    public void insert(ImageUrl imageUrl) {
+        Log.d(TAG, "[ImageUrl] imageUrl: " + imageUrl);
+        long id = mImageUrlDao.insert(imageUrl);
+        imageUrl.setId(id);
     }
 
 }

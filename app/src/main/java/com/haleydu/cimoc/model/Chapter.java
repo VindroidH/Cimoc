@@ -3,6 +3,8 @@ package com.haleydu.cimoc.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 
@@ -27,6 +29,9 @@ public class Chapter implements Parcelable {
     };
     @Id(assignable = true)
     private Long id;
+    /**
+     * Source.id + "00" + Comic.id
+     */
     private Long sourceComic = 0L;
     private String title;
     private String path;
@@ -197,4 +202,9 @@ public class Chapter implements Parcelable {
         this.download = download;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Chapter [id: " + id + ", sourceComic: " + sourceComic + "]";
+    }
 }

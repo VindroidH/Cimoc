@@ -3,6 +3,8 @@ package com.haleydu.cimoc.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Transient;
@@ -32,6 +34,9 @@ public class Task implements Parcelable {
     };
     @Id(assignable = true)
     private Long id;
+    /**
+     * Comic.id
+     */
     private long key = 0L;      // 漫画主键
     private String path = "";
     private String title = "";
@@ -39,6 +44,9 @@ public class Task implements Parcelable {
     private int max = 0;
     @Transient
     private int source;
+    /**
+     * Comic.cid
+     */
     @Transient
     private String cid;  // 漫画 ID
     @Transient
@@ -173,4 +181,9 @@ public class Task implements Parcelable {
         dest.writeInt(state);
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Task[id: " + id + ", comicId: " + key + ", cid: " + cid + "]";
+    }
 }

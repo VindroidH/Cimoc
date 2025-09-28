@@ -1,7 +1,6 @@
 package com.haleydu.cimoc.ui.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -42,11 +41,13 @@ import com.haleydu.cimoc.utils.HintUtils;
 import com.haleydu.cimoc.utils.PermissionUtils;
 import com.king.app.updater.constant.Constants;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -101,6 +102,20 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         initDrawerToggle();
         initNavigation();
         initFragment();
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                } else if (System.currentTimeMillis() - mExitTime > 2000) {
+                    HintUtils.showToast(MainActivity.this, R.string.main_double_click);
+                    mExitTime = System.currentTimeMillis();
+                } else {
+                    finish();
+                }
+            }
+        });
     }
 
     @Override
@@ -220,47 +235,29 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     }
 
     @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else if (System.currentTimeMillis() - mExitTime > 2000) {
-            HintUtils.showToast(this, R.string.main_double_click);
-            mExitTime = System.currentTimeMillis();
-        } else {
-            finish();
-        }
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId != mCheckItem) {
-            switch (itemId) {
-                case R.id.drawer_comic:
-                case R.id.drawer_source:
-                    mCheckItem = itemId;
-                    getSupportFragmentManager().beginTransaction().hide(mCurrentFragment).commit();
-                    if (mToolbar != null) {
-                        mToolbar.setTitle(item.getTitle().toString());
-                    }
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                    break;
-                case R.id.drawer_comicUpdate:
-                    update.startUpdate(versionName, content, mUrl, versionCode, md5);
-                    break;
-                case R.id.drawer_night:
-                    onNightSwitch();
-                    mPreference.putBoolean(PreferenceManager.PREF_NIGHT, night);
-                    break;
-                case R.id.drawer_settings:
-                    startActivityForResult(new Intent(MainActivity.this, SettingsActivity.class), REQUEST_ACTIVITY_SETTINGS);
-                    break;
-                case R.id.drawer_about:
-                    startActivity(new Intent(MainActivity.this, AboutActivity.class));
-                    break;
-                case R.id.drawer_backup:
-                    startActivity(new Intent(MainActivity.this, BackupActivity.class));
-                    break;
+            if (itemId == R.id.drawer_comic || itemId == R.id.drawer_source) {
+                mCheckItem = itemId;
+                getSupportFragmentManager().beginTransaction().hide(mCurrentFragment).commit();
+                if (mToolbar != null) {
+                    mToolbar.setTitle(item.getTitle().toString());
+                }
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            } else if (itemId == R.id.drawer_comicUpdate) {
+                update.startUpdate(versionName, content, mUrl, versionCode, md5);
+            } else if (itemId == R.id.drawer_night) {
+                onNightSwitch();
+                mPreference.putBoolean(PreferenceManager.PREF_NIGHT, night);
+            } else if (itemId == R.id.drawer_settings) {
+                startActivityForResult(new Intent(
+                                MainActivity.this, SettingsActivity.class),
+                        REQUEST_ACTIVITY_SETTINGS);
+            } else if (itemId == R.id.drawer_about) {
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+            } else if (itemId == R.id.drawer_backup) {
+                startActivity(new Intent(MainActivity.this, BackupActivity.class));
             }
         }
         return true;
@@ -271,16 +268,14 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         super.onActivityResult(requestCode, resultCode, data);
         mCurrentFragment.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_ACTIVITY_SETTINGS:
-                    int[] result = data.getIntArrayExtra(Extra.EXTRA_RESULT);
-                    if (result[0] == 1) {
-                        changeTheme(result[1], result[2], result[3]);
-                    }
-                    if (result[4] == 1 && mNightMask != null) {
-                        mNightMask.setBackgroundColor(result[5] << 24);
-                    }
-                    break;
+            if (requestCode == REQUEST_ACTIVITY_SETTINGS) {
+                int[] result = data.getIntArrayExtra(Extra.EXTRA_RESULT);
+                if (result[0] == 1) {
+                    changeTheme(result[1], result[2], result[3]);
+                }
+                if (result[4] == 1 && mNightMask != null) {
+                    mNightMask.setBackgroundColor(result[5] << 24);
+                }
             }
         }
     }
@@ -292,15 +287,15 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
                 mPreference.putBoolean(PreferenceManager.PREF_MAIN_NOTICE, true);
                 break;
             case DIALOG_REQUEST_PERMISSION:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    PermissionUtils.checkPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE);
-                } else {
-                    PermissionUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    PermissionUtils.checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
                     startActivity(intent);
+                } else {
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            }, 0);
                 }
                 break;
             default:
@@ -311,15 +306,13 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 0:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    ((App) getApplication()).initRootDocumentFile();
-                    HintUtils.showToast(this, R.string.main_permission_success);
-                } else {
-                    HintUtils.showToast(this, R.string.main_permission_fail);
-                }
-                break;
+        if (requestCode == 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                ((App) getApplication()).initRootDocumentFile();
+                HintUtils.showToast(this, R.string.main_permission_success);
+            } else {
+                HintUtils.showToast(this, R.string.main_permission_fail);
+            }
         }
     }
 
@@ -413,8 +406,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     private void checkUpdate() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
-            mPresenter.checkGiteeUpdate(info.versionCode);
-            //mPresenter.checkUpdate(info.versionName);
+            mPresenter.checkUpdate(String.valueOf(info.versionCode));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -423,18 +415,15 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     @Override
     protected String getDefaultTitle() {
         int home = mPreference.getInt(PreferenceManager.PREF_OTHER_LAUNCH, PreferenceManager.HOME_FAVORITE);
-        switch (home) {
-            default:
-            case PreferenceManager.HOME_FAVORITE:
-            case PreferenceManager.HOME_HISTORY:
-            case PreferenceManager.HOME_DOWNLOAD:
-            case PreferenceManager.HOME_LOCAL:
-                return getString(R.string.drawer_comic);
-            case PreferenceManager.HOME_SOURCE:
-                return getString(R.string.drawer_source);
+        return switch (home) {
+            case PreferenceManager.HOME_FAVORITE, PreferenceManager.HOME_HISTORY,
+                 PreferenceManager.HOME_DOWNLOAD, PreferenceManager.HOME_LOCAL ->
+                    getString(R.string.drawer_comic);
+            case PreferenceManager.HOME_SOURCE -> getString(R.string.drawer_source);
 //            case PreferenceManager.HOME_TAG:
 //                return getString(R.string.drawer_tag);
-        }
+            default -> getString(R.string.drawer_comic);
+        };
     }
 
     @Override

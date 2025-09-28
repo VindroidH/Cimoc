@@ -1,7 +1,5 @@
 package com.haleydu.cimoc.presenter;
 
-import android.util.Log;
-
 import com.haleydu.cimoc.core.Manga;
 import com.haleydu.cimoc.manager.SourceManager;
 import com.haleydu.cimoc.model.Source;

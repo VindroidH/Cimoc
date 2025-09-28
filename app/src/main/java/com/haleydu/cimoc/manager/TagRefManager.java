@@ -1,5 +1,7 @@
 package com.haleydu.cimoc.manager;
 
+import android.util.Log;
+
 import com.haleydu.cimoc.component.AppGetter;
 import com.haleydu.cimoc.model.TagRef;
 import com.haleydu.cimoc.model.TagRefDao;
@@ -15,8 +17,8 @@ import rx.Observable;
  */
 
 public class TagRefManager {
-
-    private static TagRefManager mInstance;
+    private final static String TAG = "Cimoc-TagRefManager";
+    private static volatile TagRefManager mInstance;
 
     private final TagRefDao mRefDao;
 
@@ -44,72 +46,91 @@ public class TagRefManager {
     }
 
     public List<TagRef> listByTag(long tid) {
-        return mRefDao.queryBuilder()
-                .where(TagRefDao.Properties.Tid.equal(tid))
-                .list();
+        Log.d(TAG, "[listByTag] tid: " + tid);
+        return mRefDao.getBox()
+                .query()
+                .equal(TagRef_.tid, tid)
+                .build()
+                .find();
     }
 
     public List<TagRef> listByComic(long cid) {
-        return mRefDao.queryBuilder()
-                .where(TagRefDao.Properties.Cid.equal(cid))
-                .list();
+        Log.d(TAG, "[listByComic] cid: " + cid);
+        return mRefDao.getBox()
+                .query()
+                .equal(TagRef_.cid, cid)
+                .build()
+                .find();
     }
 
     public TagRef load(long tid, long cid) {
-        return mRefDao.queryBuilder()
-                .where(TagRefDao.Properties.Tid.equal(tid), TagRefDao.Properties.Cid.equal(cid))
-                .unique();
+        Log.d(TAG, "[load] tid: " + tid + ", cid: " + cid);
+        return mRefDao.getBox()
+                .query()
+                .equal(TagRef_.tid, tid)
+                .equal(TagRef_.cid, cid)
+                .build()
+                .findUnique();
     }
 
     public long insert(TagRef ref) {
+        Log.d(TAG, "[insert] ref: " + ref);
         return mRefDao.insert(ref);
     }
 
     public void insert(Iterable<TagRef> entities) {
+        Log.d(TAG, "[insert] entities: " + entities);
         mRefDao.insertInTx((Collection<TagRef>) entities);
     }
 
     public void insertInTx(Iterable<TagRef> entities) {
+        Log.d(TAG, "[insertInTx] entities: " + entities);
         mRefDao.insertInTx((Collection<TagRef>) entities);
     }
 
     public void deleteByTag(long tid) {
+        Log.d(TAG, "[deleteByTag] tid: " + tid);
         /*
         mRefDao.queryBuilder()
                 .where(TagRefDao.Properties.Tid.equal(tid))
                 .buildDelete()
                 .executeDeleteWithoutDetachingEntities();
          */
-        mRefDao.queryBuilder()
-                .where(TagRefDao.Properties.Tid.equal(tid))
+        mRefDao.getBox()
+                .query()
+                .equal(TagRef_.tid, tid)
                 .build()
                 .remove();
     }
 
     public void deleteByComic(long cid) {
+        Log.d(TAG, "[deleteByComic] cid: " + cid);
         /*
         mRefDao.queryBuilder()
                 .where(TagRefDao.Properties.Cid.equal(cid))
                 .buildDelete()
                 .executeDeleteWithoutDetachingEntities();
          */
-        mRefDao.queryBuilder()
-                .where(TagRefDao.Properties.Cid.equal(cid))
+        mRefDao.getBox()
+                .query()
+                .equal(TagRef_.cid, cid)
                 .build()
                 .remove();
     }
 
     public void delete(long tid, long cid) {
+        Log.d(TAG, "[delete] tid: " + tid + ", cid: " + cid);
         /*
         mRefDao.queryBuilder()
                 .where(TagRefDao.Properties.Tid.equal(tid), TagRefDao.Properties.Cid.equal(cid))
                 .buildDelete()
                 .executeDeleteWithoutDetachingEntities();
          */
-        mRefDao.queryBuilder()
-                .where(TagRefDao.Properties.Tid.equal(tid), TagRefDao.Properties.Cid.equal(cid))
+        mRefDao.getBox()
+                .query()
+                .equal(TagRef_.tid, tid)
+                .equal(TagRef_.cid, cid)
                 .build()
                 .remove();
     }
-
 }

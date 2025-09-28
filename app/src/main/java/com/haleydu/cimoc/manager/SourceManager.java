@@ -4,10 +4,9 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import com.haleydu.cimoc.component.AppGetter;
-import com.haleydu.cimoc.model.MyObjectBox;
 import com.haleydu.cimoc.model.Source;
 import com.haleydu.cimoc.model.SourceDao;
-import com.haleydu.cimoc.model.SourceDao.Properties;
+import com.haleydu.cimoc.model.Source_;
 import com.haleydu.cimoc.parser.Parser;
 import com.haleydu.cimoc.source.Animx2;
 import com.haleydu.cimoc.source.BaiNian;
@@ -40,7 +39,6 @@ import com.haleydu.cimoc.source.Manhuatai;
 import com.haleydu.cimoc.source.MiGu;
 import com.haleydu.cimoc.source.Null;
 import com.haleydu.cimoc.source.Ohmanhua;
-import com.haleydu.cimoc.source.PuFei;
 import com.haleydu.cimoc.source.QiManWu;
 import com.haleydu.cimoc.source.QiMiaoMH;
 import com.haleydu.cimoc.source.SixMH;
@@ -61,8 +59,8 @@ import rx.Observable;
  * Created by Hiroshi on 2016/8/11.
  */
 public class SourceManager {
-
-    private static SourceManager mInstance;
+    private final static String TAG = "Cimoc-SourceManager";
+    private static volatile SourceManager mInstance;
 
     private final SourceDao mSourceDao;
     private final SparseArray<Parser> mParserArray = new SparseArray<>();
@@ -83,20 +81,19 @@ public class SourceManager {
     }
 
     public Observable<List<Source>> list() {
-        /*
-        return mSourceDao.queryBuilder()
-                .orderAsc(Properties.Type)
-                .rx()
-                .list();
-         */
+        Log.d(TAG, "[list]");
 //        mSourceDao.queryBuilder().orderAsc(Properties.Type).rx().list();
         return Observable.fromCallable(() ->
-                mSourceDao.queryBuilder()
-                        .orderAsc(Properties.Type)
-                        .list());
+                mSourceDao.getBox()
+                        .query()
+                        .order(Source_.type)
+                        .build()
+                        .find()
+        );
     }
 
     public Observable<List<Source>> listEnableInRx() {
+        Log.d(TAG, "[listEnableInRx]");
         /*
         return mSourceDao.queryBuilder()
                 .where(Properties.Enable.equal(true))
@@ -104,44 +101,47 @@ public class SourceManager {
                 .rx()
                 .list();
          */
-        /*
-        return Observable.defer(() ->
-                Observable.just(
-                        mSourceDao.queryBuilder()
-                                .where(Properties.Enable.equal(true))
-                                .orderAsc(Properties.Type)
-                                .list()));
-         */
         return Observable.fromCallable(() ->
-                mSourceDao.queryBuilder()
-                        .where(Properties.Enable.equal(true))
-                        .orderAsc(Properties.Type)
-                        .list());
+                mSourceDao.getBox()
+                        .query()
+                        .equal(Source_.enable, true)
+                        .order(Source_.type)
+                        .build()
+                        .find()
+        );
     }
 
     public List<Source> listEnable() {
-        return mSourceDao.queryBuilder()
-                .where(Properties.Enable.equal(true))
-                .orderAsc(Properties.Type)
-                .list();
+        Log.d(TAG, "[listEnable]");
+        return mSourceDao.getBox()
+                .query()
+                .equal(Source_.enable, true)
+                .order(Source_.type)
+                .build()
+                .find();
     }
 
     public Source load(int type) {
+        Log.d(TAG, "[load] type: " + type);
         /*
         return mSourceDao.queryBuilder()
                 .where(Properties.Type.equal(type))
                 .unique();
          */
-        return mSourceDao.queryBuilder()
-                .where(Properties.Type.equal(type))
-                .build().findFirst();
+        return mSourceDao.getBox()
+                .query()
+                .equal(Source_.type, true)
+                .build()
+                .findUnique();
     }
 
     public long insert(Source source) {
+        Log.d(TAG, "[insert] source: " + source);
         return mSourceDao.insert(source);
     }
 
     public void update(Source source) {
+        Log.d(TAG, "[update] source: " + source);
         mSourceDao.update(source);
     }
 
@@ -149,138 +149,49 @@ public class SourceManager {
         Parser parser = mParserArray.get(type);
         if (parser == null) {
             Source source = load(type);
-            switch (type) {
-                case IKanman.TYPE:
-                    parser = new IKanman(source);
-                    break;
-                case Dmzj.TYPE:
-                    parser = new Dmzj(source);
-                    break;
-                case HHAAZZ.TYPE:
-                    parser = new HHAAZZ(source);
-                    break;
-                case U17.TYPE:
-                    parser = new U17(source);
-                    break;
-                case DM5.TYPE:
-                    parser = new DM5(source);
-                    break;
-                case Webtoon.TYPE:
-                    parser = new Webtoon(source);
-                    break;
-                case MH57.TYPE:
-                    parser = new MH57(source);
-                    break;
-                case MH50.TYPE:
-                    parser = new MH50(source);
-                    break;
-                case Dmzjv2.TYPE:
-                    parser = new Dmzjv2(source);
-                    break;
-                case Locality.TYPE:
-                    parser = new Locality();
-                    break;
-                case MangaNel.TYPE:
-                    parser = new MangaNel(source);
-                    break;
-
-                //feilong
-                case PuFei.TYPE:
-                    parser = new PuFei(source);
-                    break;
-                case Tencent.TYPE:
-                    parser = new Tencent(source);
-                    break;
-                case EHentai.TYPE:
-                    parser = new EHentai(source);
-                    break;
-                case QiManWu.TYPE:
-                    parser = new QiManWu(source);
-                    break;
-                case Hhxxee.TYPE:
-                    parser = new Hhxxee(source);
-                    break;
-                case Cartoonmad.TYPE:
-                    parser = new Cartoonmad(source);
-                    break;
-                case Animx2.TYPE:
-                    parser = new Animx2(source);
-                    break;
-                case MH517.TYPE:
-                    parser = new MH517(source);
-                    break;
-                case MiGu.TYPE:
-                    parser = new MiGu(source);
-                    break;
-                case BaiNian.TYPE:
-                    parser = new BaiNian(source);
-                    break;
-                case ChuiXue.TYPE:
-                    parser = new ChuiXue(source);
-                    break;
-                case TuHao.TYPE:
-                    parser = new TuHao(source);
-                    break;
-                case SixMH.TYPE:
-                    parser = new SixMH(source);
-                    break;
-                case ManHuaDB.TYPE:
-                    parser = new ManHuaDB(source);
-                    break;
-                case Manhuatai.TYPE:
-                    parser = new Manhuatai(source);
-                    break;
-                case GuFeng.TYPE:
-                    parser = new GuFeng(source);
-                    break;
-                case CCMH.TYPE:
-                    parser = new CCMH(source);
-                    break;
-                case MHLove.TYPE:
-                    parser = new MHLove(source);
-                    break;
-                case YYLS.TYPE:
-                    parser = new YYLS(source);
-                    break;
-                case JMTT.TYPE:
-                    parser = new JMTT(source);
-                    break;
-
-                //haleydu
-                case Mangakakalot.TYPE:
-                    parser = new Mangakakalot(source);
-                    break;
-                case Ohmanhua.TYPE:
-                    parser = new Ohmanhua(source);
-                    break;
-                case CopyMH.TYPE:
-                    parser = new CopyMH(source);
-                    break;
-                case HotManga.TYPE:
-                    parser = new HotManga(source);
-                    break;
-                case MangaBZ.TYPE:
-                    parser = new MangaBZ(source);
-                    break;
-                case WebtoonDongManManHua.TYPE:
-                    parser = new WebtoonDongManManHua(source);
-                    break;
-                case MH160.TYPE:
-                    parser = new MH160(source);
-                    break;
-                case QiMiaoMH.TYPE:
-                    parser = new QiMiaoMH(source);
-                    break;
-                case YKMH.TYPE:
-                    parser = new YKMH(source);
-                    break;
-                case DmzjFix.TYPE:
-                    parser = new DmzjFix(source);
-                    break;
-                default:
-                    parser = new Null();
-                    break;
-            }
+            parser = switch (type) {
+                case IKanman.TYPE -> new IKanman(source);
+                case Dmzj.TYPE -> new Dmzj(source);
+                case HHAAZZ.TYPE -> new HHAAZZ(source);
+                case U17.TYPE -> new U17(source);
+                case DM5.TYPE -> new DM5(source);
+                case Webtoon.TYPE -> new Webtoon(source);
+                case MH57.TYPE -> new MH57(source);
+                case MH50.TYPE -> new MH50(source);
+                case Dmzjv2.TYPE -> new Dmzjv2(source);
+                case Locality.TYPE -> new Locality();
+                case MangaNel.TYPE -> new MangaNel(source);
+                case Tencent.TYPE -> new Tencent(source);
+                case EHentai.TYPE -> new EHentai(source);
+                case QiManWu.TYPE -> new QiManWu(source);
+                case Hhxxee.TYPE -> new Hhxxee(source);
+                case Cartoonmad.TYPE -> new Cartoonmad(source);
+                case Animx2.TYPE -> new Animx2(source);
+                case MH517.TYPE -> new MH517(source);
+                case MiGu.TYPE -> new MiGu(source);
+                case BaiNian.TYPE -> new BaiNian(source);
+                case ChuiXue.TYPE -> new ChuiXue(source);
+                case TuHao.TYPE -> new TuHao(source);
+                case SixMH.TYPE -> new SixMH(source);
+                case ManHuaDB.TYPE -> new ManHuaDB(source);
+                case Manhuatai.TYPE -> new Manhuatai(source);
+                case GuFeng.TYPE -> new GuFeng(source);
+                case CCMH.TYPE -> new CCMH(source);
+                case MHLove.TYPE -> new MHLove(source);
+                case YYLS.TYPE -> new YYLS(source);
+                case JMTT.TYPE -> new JMTT(source);
+                case Mangakakalot.TYPE -> new Mangakakalot(source);
+                case Ohmanhua.TYPE -> new Ohmanhua(source);
+                case CopyMH.TYPE -> new CopyMH(source);
+                case HotManga.TYPE -> new HotManga(source);
+                case MangaBZ.TYPE -> new MangaBZ(source);
+                case WebtoonDongManManHua.TYPE -> new WebtoonDongManManHua(source);
+                case MH160.TYPE -> new MH160(source);
+                case QiMiaoMH.TYPE -> new QiMiaoMH(source);
+                case YKMH.TYPE -> new YKMH(source);
+                case DmzjFix.TYPE -> new DmzjFix(source);
+                default -> new Null();
+            };
             mParserArray.put(type, parser);
         }
         return parser;

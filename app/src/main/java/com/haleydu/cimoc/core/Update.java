@@ -27,8 +27,6 @@ import rx.schedulers.Schedulers;
 public class Update {
 
     private static final String UPDATE_URL = "https://api.github.com/repos/VindroidH/cimoc/releases/latest";
-    private static final String UPDATE_URL_GITHUB = "https://raw.githubusercontent.com/VindroidH/update/master/Update.json";
-    private static final String UPDATE_URL_GITEE = "https://gitee.com/VindroidH/update/raw/master/Update.json";
     private static final String SERVER_FILENAME = "tag_name";
     private AppUpdater mAppUpdater;
 //    private static final String LIST = "list";
@@ -47,32 +45,6 @@ public class Update {
 //                        JSONObject object = new JSONObject(json).getJSONArray(LIST).getJSONObject(0);
                         String version = new JSONObject(json).getString(SERVER_FILENAME);
                         subscriber.onNext(version);
-                        subscriber.onCompleted();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (response != null) {
-                        response.close();
-                    }
-                }
-                subscriber.onError(new Exception());
-            }
-        }).subscribeOn(Schedulers.io());
-    }
-
-    public static Observable<String> checkGitee() {
-        return Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                OkHttpClient client = App.getHttpClient();
-                Request request = new Request.Builder().url(UPDATE_URL_GITEE).build();
-                Response response = null;
-                try {
-                    response = client.newCall(request).execute();
-                    if (response.isSuccessful()) {
-                        String json = response.body().string();
-                        subscriber.onNext(json);
                         subscriber.onCompleted();
                     }
                 } catch (Exception e) {
