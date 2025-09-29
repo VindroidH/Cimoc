@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Environment;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -16,8 +17,7 @@ public class PermissionUtils {
 
     public static boolean hasStoragePermission(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            int manageResult = checkPermission(activity, Manifest.permission.MANAGE_EXTERNAL_STORAGE);
-            return manageResult == PackageManager.PERMISSION_GRANTED;
+            return Environment.isExternalStorageManager();
         } else {
             int writeResult = checkPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             return writeResult == PackageManager.PERMISSION_GRANTED;
@@ -26,8 +26,7 @@ public class PermissionUtils {
 
     public static boolean hasAllPermissions(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            int manageResult = checkPermission(activity, Manifest.permission.MANAGE_EXTERNAL_STORAGE);
-            return manageResult == PackageManager.PERMISSION_GRANTED;
+            return Environment.isExternalStorageManager();
         } else {
             int readResult = checkPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
             int writeResult = checkPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);

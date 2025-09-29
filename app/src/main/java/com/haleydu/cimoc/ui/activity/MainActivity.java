@@ -124,13 +124,9 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
 
         //检查App更新
         String updateUrl;
-        if (mPreference.getBoolean(PreferenceManager.PREF_UPDATE_APP_AUTO, true)) {
-            if ((updateUrl = App.getPreferenceManager().getString(PreferenceManager.PREF_UPDATE_CURRENT_URL)) != null) {
-                App.setUpdateCurrentUrl(updateUrl);
-            }
+        if (mPreference.getBoolean(PreferenceManager.PREF_OTHER_CHECK_SOFTWARE_UPDATE, false)) {
             checkUpdate();
         }
-        mPresenter.getSourceBaseUrl();
 
         showPermission();
     }
@@ -185,9 +181,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
             case PreferenceManager.HOME_SOURCE:
                 mCheckItem = R.id.drawer_source;
                 break;
-//            case PreferenceManager.HOME_TAG:
-//                mCheckItem = R.id.drawer_tag;
-//                break;
         }
         mNavigationView.setCheckedItem(mCheckItem);
         mFragmentArray = new SparseArray<>(FRAGMENT_NUM);
@@ -198,16 +191,10 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     private boolean refreshCurrentFragment() {
         mCurrentFragment = mFragmentArray.get(mCheckItem);
         if (mCurrentFragment == null) {
-            switch (mCheckItem) {
-                case R.id.drawer_comic:
-                    mCurrentFragment = new ComicFragment();
-                    break;
-                case R.id.drawer_source:
-                    mCurrentFragment = new SourceFragment();
-                    break;
-//                case R.id.drawer_tag:
-//                    mCurrentFragment = new TagFragment();
-//                    break;
+            if (mCheckItem == R.id.drawer_comic) {
+                mCurrentFragment = new ComicFragment();
+            } else if (mCheckItem == R.id.drawer_source) {
+                mCurrentFragment = new SourceFragment();
             }
             mFragmentArray.put(mCheckItem, mCurrentFragment);
             return false;
@@ -295,7 +282,8 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
                             new String[]{
                                     Manifest.permission.READ_EXTERNAL_STORAGE,
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE
-                            }, 0);
+                            }, 0
+                    );
                 }
                 break;
             default:
@@ -307,7 +295,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (PermissionUtils.hasStoragePermission(this)) {
                 ((App) getApplication()).initRootDocumentFile();
                 HintUtils.showToast(this, R.string.main_permission_success);
             } else {
@@ -397,8 +385,11 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
 
     private void showPermission() {
         if (!PermissionUtils.hasAllPermissions(this)) {
-            MessageDialogFragment fragment = MessageDialogFragment.newInstance(R.string.main_permission,
-                    R.string.main_permission_content, false, DIALOG_REQUEST_PERMISSION);
+            MessageDialogFragment fragment = MessageDialogFragment.newInstance(
+                    R.string.main_permission,
+                    R.string.main_permission_content,
+                    false,
+                    DIALOG_REQUEST_PERMISSION);
             fragment.show(getSupportFragmentManager(), null);
         }
     }
@@ -415,15 +406,11 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     @Override
     protected String getDefaultTitle() {
         int home = mPreference.getInt(PreferenceManager.PREF_OTHER_LAUNCH, PreferenceManager.HOME_FAVORITE);
-        return switch (home) {
-            case PreferenceManager.HOME_FAVORITE, PreferenceManager.HOME_HISTORY,
-                 PreferenceManager.HOME_DOWNLOAD, PreferenceManager.HOME_LOCAL ->
-                    getString(R.string.drawer_comic);
-            case PreferenceManager.HOME_SOURCE -> getString(R.string.drawer_source);
-//            case PreferenceManager.HOME_TAG:
-//                return getString(R.string.drawer_tag);
-            default -> getString(R.string.drawer_comic);
-        };
+        if (home == PreferenceManager.HOME_SOURCE) {
+            return getString(R.string.drawer_source);
+        } else {
+            return getString(R.string.drawer_comic);
+        }
     }
 
     @Override

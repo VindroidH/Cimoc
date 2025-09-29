@@ -1,12 +1,14 @@
 package com.haleydu.cimoc.core;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.haleydu.cimoc.App;
+import com.haleydu.cimoc.Constants;
 import com.haleydu.cimoc.R;
 import com.king.app.dialog.AppDialog;
 import com.king.app.updater.AppUpdater;
@@ -25,25 +27,24 @@ import rx.schedulers.Schedulers;
  * Created by Hiroshi on 2016/8/24.
  */
 public class Update {
+    private static final String TAG = "Cimoc-Update";
 
-    private static final String UPDATE_URL = "https://api.github.com/repos/VindroidH/cimoc/releases/latest";
     private static final String SERVER_FILENAME = "tag_name";
     private AppUpdater mAppUpdater;
-//    private static final String LIST = "list";
 
     public static Observable<String> check() {
         return Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 OkHttpClient client = App.getHttpClient();
-                Request request = new Request.Builder().url(UPDATE_URL).build();
+                Request request = new Request.Builder().url(Constants.UPDATE_GITHUB_URL).build();
                 Response response = null;
                 try {
                     response = client.newCall(request).execute();
                     if (response.isSuccessful()) {
                         String json = response.body().string();
-//                        JSONObject object = new JSONObject(json).getJSONArray(LIST).getJSONObject(0);
                         String version = new JSONObject(json).getString(SERVER_FILENAME);
+                        Log.d(TAG, "[Update] tag_name: " + version);
                         subscriber.onNext(version);
                         subscriber.onCompleted();
                     }

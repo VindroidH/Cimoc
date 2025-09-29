@@ -13,11 +13,6 @@
             android:checkable="true"
             android:icon="@drawable/ic_widgets_black_24dp"
             android:title="@string/drawer_source" />
-        <!--<item-->
-        <!--android:id="@+id/drawer_tag"-->
-        <!--android:checkable="true"-->
-        <!--android:icon="@drawable/ic_class_black_24dp"-->
-        <!--android:title="@string/drawer_tag"/>-->
     </group>
     <group android:id="@+id/drawer_group_system">
         <item

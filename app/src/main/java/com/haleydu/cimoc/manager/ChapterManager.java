@@ -102,7 +102,7 @@ public class ChapterManager {
     }
 
     public void updateOrInsert(List<Chapter> chapterList) {
-        Log.d(TAG, "[updateOrInsert] chapterList: " + chapterList);
+        Log.d(TAG, "[updateOrInsert]");
         for (Chapter chapter : chapterList) {
             if (chapter.getId() == null) {
                 insert(chapter);
@@ -113,7 +113,7 @@ public class ChapterManager {
     }
 
     public void insertOrReplace(List<Chapter> chapterList) {
-        Log.d(TAG, "[insertOrReplace] chapterList: " + chapterList);
+        Log.d(TAG, "[insertOrReplace]");
         for (Chapter chapter : chapterList) {
             if (chapter.getId() != null) {
                 mChapterDao.insertOrReplace(chapter);

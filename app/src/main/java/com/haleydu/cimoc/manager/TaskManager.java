@@ -96,7 +96,7 @@ public class TaskManager {
     }
 
     public void insertInTx(Iterable<Task> entities) {
-        Log.d(TAG, "[insertInTx] entities: " + entities);
+        Log.d(TAG, "[insertInTx] entities");
         mTaskDao.insertInTx((Collection<Task>) entities);
     }
 
@@ -116,7 +116,7 @@ public class TaskManager {
     }
 
     public void deleteInTx(Iterable<Task> entities) {
-        Log.d(TAG, "[deleteInTx] entities: " + entities);
+        Log.d(TAG, "[deleteInTx]");
         mTaskDao.deleteInTx((Collection<Task>) entities);
     }
 
@@ -136,7 +136,7 @@ public class TaskManager {
     }
 
     public void insertIfNotExist(final Iterable<Task> entities) {
-        Log.d(TAG, "[insertIfNotExist] entities: " + entities);
+        Log.d(TAG, "[insertIfNotExist]");
         mTaskDao.getSession().runInTx(new Runnable() {
             @Override
             public void run() {

@@ -79,12 +79,12 @@ public class TagRefManager {
     }
 
     public void insert(Iterable<TagRef> entities) {
-        Log.d(TAG, "[insert] entities: " + entities);
+        Log.d(TAG, "[insert]");
         mRefDao.insertInTx((Collection<TagRef>) entities);
     }
 
     public void insertInTx(Iterable<TagRef> entities) {
-        Log.d(TAG, "[insertInTx] entities: " + entities);
+        Log.d(TAG, "[insertInTx]");
         mRefDao.insertInTx((Collection<TagRef>) entities);
     }
 

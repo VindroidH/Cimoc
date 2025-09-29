@@ -16,10 +16,8 @@ import com.haleydu.cimoc.source.Dmzjv2;
 import com.haleydu.cimoc.source.Hhxxee;
 import com.haleydu.cimoc.source.HotManga;
 import com.haleydu.cimoc.source.IKanman;
-import com.haleydu.cimoc.source.MH50;
 import com.haleydu.cimoc.source.MH517;
 import com.haleydu.cimoc.source.MH57;
-import com.haleydu.cimoc.source.ManHuaDB;
 import com.haleydu.cimoc.source.MiGu;
 import com.haleydu.cimoc.source.SixMH;
 import com.haleydu.cimoc.source.Tencent;
@@ -58,13 +56,11 @@ public class BrowserFilter extends BaseActivity {
         list.add(Tencent.TYPE);
         list.add(U17.TYPE);
         list.add(MH57.TYPE);
-        list.add(MH50.TYPE);
         list.add(DM5.TYPE);
         list.add(IKanman.TYPE);
         list.add(Hhxxee.TYPE);
         list.add(BaiNian.TYPE);
         list.add(ChuiXue.TYPE);
-        list.add(ManHuaDB.TYPE);
         list.add(TuHao.TYPE);
         list.add(YKMH.TYPE);
         list.add(SixMH.TYPE);
@@ -99,16 +95,16 @@ public class BrowserFilter extends BaseActivity {
             if (uri != null) {
                 openReader(uri);
             } else {
-                Toast.makeText(this, "url不合法", Toast.LENGTH_SHORT);
+                Toast.makeText(this, "url不合法", Toast.LENGTH_SHORT).show();
             }
         }
 
         //来自分享
         if (Intent.ACTION_SEND.equals(action) && "text/plain".equals(type)) {
             try {
-                openReader(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT).replace("https://m.ykmh.commanhua", "https://m.ykmh.com/manhua")));
+                openReader(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
             } catch (Exception ex) {
-                Toast.makeText(this, "url不合法", Toast.LENGTH_SHORT);
+                Toast.makeText(this, "url不合法", Toast.LENGTH_SHORT).show();
             }
         }
     }

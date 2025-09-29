@@ -4,26 +4,20 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".App"
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:preserveLegacyExternalStorage="true"
-        android:requestLegacyExternalStorage="true"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        tools:ignore="UnusedAttribute">
-        <meta-data
-            android:name="EasyGoClient"
-            android:value="true" />
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".ui.activity.MainActivity"
@@ -84,12 +78,10 @@
         <activity
             android:name=".ui.activity.PageReaderActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:forceDarkAllowed="false"
             android:theme="@style/AppThemeNoDark" />
         <activity
             android:name=".ui.activity.StreamReaderActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:forceDarkAllowed="false"
             android:theme="@style/AppThemeNoDark" />
         <activity
             android:name=".ui.activity.BrowserFilter"
@@ -110,30 +102,40 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="cimoc" />
-                <data android:host="m.buka.cn" />
-                <data android:host="www.dm5.com" />
-                <data android:host="tel.dm5.com" />
-                <data android:host="manhua.dmzj.com" />
-                <data android:host="m.dmzj.com" />
-                <data android:host="m.5qmh.com" />
+                <data android:host="2animx.com" />
+                <data android:host="bnmanhua.com" />
+                <data android:host="cartoonmad.com" />
+                <data android:host="ccmh6.com" />
+                <data android:host="chuixue.net" />
+                <data android:host="copymanga.site" />
+                <data android:host="dm5.com" />
+                <data android:host="dmzj.com" />
+                <data android:host="e-hentai.org" />
+                <data android:host="gufengmanhua.com" />
+                <data android:host="125084.com" />
+                <data android:host="relamanhua.com" />
+                <data android:host="manhuagui.com" />
+                <data android:host="18comic1.com" />
+                <data android:host="mangabz.com" />
+                <data android:host="mangakakalot.com" />
+                <data android:host="manganelo.com" />
+                <data android:host="manhuatai.com" />
+                <data android:host="lancaier.com" />
+                <data android:host="mh160.xyz" />
+                <data android:host="517manhua.com" />
+                <data android:host="php06.com" />
+                <data android:host="migudm.cn" />
+                <data android:host="cocomanhua.com" />
+                <data android:host="qiman6.com" />
+                <data android:host="qimiaomh.com" />
+                <data android:host="sixmh6.com" />
                 <data android:host="ac.qq.com" />
-                <data android:host="m.ac.qq.com" />
-                <data android:host="www.u17.com" />
-                <data android:host="www.migudm.cn" />
-                <data android:host="m.migudm.cn" />
-                <data android:host="99770.hhxxee.com" />
-                <data android:host="www.cartoonmad.com" />
-                <data android:host="www.2animx.com" />
-                <data android:host="www.50mh.com" />
-                <data android:host="m.50mh.com" />
-                <data android:host="www.manhuadb.com" />
-                <data android:host="m.bnmanhua.com" />
-                <data android:host="m.tohomh123.com" />
-                <data android:host="www.chuixue.net" />
-                <data android:host="m.517manhua.com" />
-                <data android:host="m.ykmh.com" />
-                <data android:host="m.mh160.xyz" />
-                <data android:host="m.manga2020.com" />
+                <data android:host="tuhao456.com" />
+                <data android:host="u17.com" />
+                <data android:host="webtoons.com" />
+                <data android:host="dongmanmanhua.cn" />
+                <data android:host="ykmh.com" />
+                <data android:host="8comic.se" />
             </intent-filter>
         </activity>
 

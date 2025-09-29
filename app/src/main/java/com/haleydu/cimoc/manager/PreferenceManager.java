@@ -107,10 +107,6 @@ public class PreferenceManager {
 
     public static final String PREF_NIGHT = "pref_night";
 
-    public static final String PREF_UPDATE_APP_AUTO = "pref_update_app_auto";
-
-    public static final String PREF_UPDATE_CURRENT_URL = "pref_update_current_url";
-
     public static final String PREF_OTHER_CHECK_UPDATE = "pref_other_check_update";
     public static final String PREF_OTHER_CHECK_SOFTWARE_UPDATE = "pref_other_check_software_update";
     public static final String PREF_OTHER_CONNECT_ONLY_WIFI = "pref_other_connect_only_wifi";
@@ -131,10 +127,6 @@ public class PreferenceManager {
 
     public static final String PREF_CHAPTER_BUTTON_MODE = "pref_chapter_button_mode";
     public static final String PREF_CHAPTER_ASCEND_MODE = "pref_chapter_ascend_mode";
-    public static final String PREFERENCES_MH50_KEY_MSG = "preferences_mh50_key_msg";
-    public static final String PREFERENCES_MH50_IV_MSG = "preferences_mh50_iv_msg";
-    public static final String PREF_HHAAZZ_BASEURL = "pref_hhaazz_baseurl";
-    public static final String PREF_HHAAZZ_SW = "pref_hhaazz_sw";
     private static final String PREFERENCES_NAME = "cimoc_preferences";
     private final SharedPreferences mSharedPreferences;
 

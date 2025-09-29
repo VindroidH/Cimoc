@@ -47,8 +47,6 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
     private static WifiManager manager_wifi;
     private static App mApp;
     private static Activity sActivity;
-    // 默认Github源
-    private static String UPDATE_CURRENT_URL = "https://api.github.com/repos/VindroidH/Cimoc/releases/latest";
     private DocumentFile mDocumentFile;
     private ControllerBuilderProvider mBuilderProvider;
     private RecyclerView.RecycledViewPool mRecycledPool;
@@ -75,31 +73,19 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
         return mPreferenceManager;
     }
 
-    public static String getUpdateCurrentUrl() {
-        return UPDATE_CURRENT_URL;
-    }
-
-    public static void setUpdateCurrentUrl(String updateCurrentUrl) {
-        UPDATE_CURRENT_URL = updateCurrentUrl;
-    }
-
     public static OkHttpClient getHttpClient() {
-
-        //OkHttpClient返回null实现"仅WiFi联网"，后面要注意空指针处理
-        if (!manager_wifi.isWifiEnabled() && mPreferenceManager.getBoolean(PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
+        if (!manager_wifi.isWifiEnabled()
+                && mPreferenceManager.getBoolean(
+                        PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
             return null;
         }
-
         if (mHttpClient == null) {
-
-            // 3.OkHttp访问https的Client实例
             mHttpClient = new OkHttpClient().newBuilder()
                     .followRedirects(true)
                     .followSslRedirects(true)
                     .retryOnConnectionFailure(true)
                     .build();
         }
-
         return mHttpClient;
     }
 

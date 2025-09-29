@@ -2,8 +2,8 @@
 <paths>
     <external-path
         name="app_update_external"
-        path="/" />
+        path="/Cimoc2" />
     <external-cache-path
         name="app_update_cache"
-        path="/" />
+        path="/Cimoc2/cache" />
 </paths>

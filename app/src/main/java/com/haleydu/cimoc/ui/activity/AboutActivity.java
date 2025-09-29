@@ -3,24 +3,17 @@ package com.haleydu.cimoc.ui.activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.haleydu.cimoc.App;
-import com.haleydu.cimoc.Constants;
 import com.haleydu.cimoc.R;
-import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.presenter.AboutPresenter;
 import com.haleydu.cimoc.presenter.BasePresenter;
 import com.haleydu.cimoc.ui.view.AboutView;
 import com.haleydu.cimoc.utils.HintUtils;
 import com.haleydu.cimoc.utils.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Hiroshi on 2016/9/21.
@@ -33,10 +26,6 @@ public class AboutActivity extends BackActivity implements AboutView, AdapterVie
     View mLayoutView;
 
     private AboutPresenter mPresenter;
-    private boolean update = false;
-    private boolean checking = false;
-
-    private final List<String> listSources = new ArrayList<>();
 
     @Override
     protected BasePresenter initPresenter() {
@@ -113,20 +102,16 @@ public class AboutActivity extends BackActivity implements AboutView, AdapterVie
     public void onUpdateNone() {
         mUpdateText.setText(R.string.about_update_latest);
         HintUtils.showToast(this, R.string.about_update_latest);
-        checking = false;
     }
 
     @Override
     public void onUpdateReady() {
         update();
-        checking = false;
-        update = true;
     }
 
     @Override
     public void onCheckError() {
         mUpdateText.setText(R.string.about_update_fail);
-        checking = false;
     }
 
     @Override
@@ -150,15 +135,8 @@ public class AboutActivity extends BackActivity implements AboutView, AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
-            case 0:
-                showSnackbar("请选择一个下载源");
-                break;
-            case 1:
-                App.setUpdateCurrentUrl(Constants.UPDATE_GITHUB_URL);
-                update = false;
-                App.getPreferenceManager().putString(PreferenceManager.PREF_UPDATE_CURRENT_URL, App.getUpdateCurrentUrl());
-                break;
+        if (position == 0) {
+            showSnackbar("请选择一个下载源");
         }
     }
 

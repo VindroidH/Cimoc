@@ -1,25 +1,14 @@
 package com.haleydu.cimoc.presenter;
 
-import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.core.Update;
 import com.haleydu.cimoc.manager.ComicManager;
-import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.MiniComic;
 import com.haleydu.cimoc.rx.RxEvent;
 import com.haleydu.cimoc.ui.view.MainView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Hiroshi on 2016/9/21.
@@ -27,7 +16,6 @@ import rx.schedulers.Schedulers;
 
 public class MainPresenter extends BasePresenter<MainView> {
 
-    private static final String SOURCE_URL = "https://raw.githubusercontent.com/Haleydu/update/master/sourceBaseUrl.json";
     private ComicManager mComicManager;
 
     @Override
@@ -85,54 +73,5 @@ public class MainPresenter extends BasePresenter<MainView> {
                     public void call(Throwable throwable) {
                     }
                 }));
-    }
-
-    public void getSourceBaseUrl() {
-        mCompositeSubscription.add(
-                Observable.create(new Observable.OnSubscribe<String>() {
-                    @Override
-                    public void call(Subscriber<? super String> subscriber) {
-                        OkHttpClient client = App.getHttpClient();
-                        Request request = new Request.Builder().url(SOURCE_URL).build();
-                        Response response = null;
-                        try {
-                            response = client.newCall(request).execute();
-                            if (response.isSuccessful()) {
-                                String json = response.body().string();
-                                subscriber.onNext(json);
-                                subscriber.onCompleted();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        } finally {
-                            if (response != null) {
-                                response.close();
-                            }
-                        }
-                        subscriber.onError(new Exception());
-                    }
-                }).subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<String>() {
-                            @Override
-                            public void call(String json) {
-                                try {
-                                    String HHAAZZ = new JSONObject(json).getString("HHAAZZ");
-                                    String sw = new JSONObject(json).getString("sw");
-                                    if (!HHAAZZ.equals(App.getPreferenceManager().getString(PreferenceManager.PREF_HHAAZZ_BASEURL, ""))) {
-                                        App.getPreferenceManager().putString(PreferenceManager.PREF_HHAAZZ_BASEURL, HHAAZZ);
-                                    }
-                                    if (!sw.equals(App.getPreferenceManager().getString(PreferenceManager.PREF_HHAAZZ_SW, ""))) {
-                                        App.getPreferenceManager().putString(PreferenceManager.PREF_HHAAZZ_SW, sw);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Action1<Throwable>() {
-                            @Override
-                            public void call(Throwable throwable) {
-                            }
-                        }));
     }
 }

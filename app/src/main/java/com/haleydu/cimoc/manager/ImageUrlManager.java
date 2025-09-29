@@ -72,7 +72,7 @@ public class ImageUrlManager {
     }
 
     public void updateOrInsert(List<ImageUrl> imageUrlList) {
-        Log.d(TAG, "[updateOrInsert] imageUrlList: " + imageUrlList);
+        Log.d(TAG, "[updateOrInsert]");
         for (ImageUrl imageurl : imageUrlList) {
             if (imageurl.getId() == null) {
                 insert(imageurl);
@@ -83,7 +83,7 @@ public class ImageUrlManager {
     }
 
     public void insertOrReplace(List<ImageUrl> imageUrlList) {
-        Log.d(TAG, "[insertOrReplace] imageUrlList: " + imageUrlList);
+        Log.d(TAG, "[insertOrReplace]");
         for (ImageUrl imageurl : imageUrlList) {
             if (imageurl.getId() != null) {
                 mImageUrlDao.insertOrReplace(imageurl);

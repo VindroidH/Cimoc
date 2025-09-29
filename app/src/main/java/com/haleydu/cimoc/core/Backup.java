@@ -3,9 +3,8 @@ package com.haleydu.cimoc.core;
 import android.content.ContentResolver;
 import android.util.Pair;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.Tag;
@@ -17,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -289,9 +289,10 @@ public class Backup {
                 String jsonString = readBackupFile(resolver, root, filename);
 
                 //将jsonStr转为Map
-                Map<String, ?> entries = JSON.parseObject(
-                        jsonString, new TypeReference<Map<String, ?>>() {
-                        });
+                Map<String, ?> entries = new Gson().fromJson(
+                        jsonString,
+                        new TypeToken<Map<String, ?>>() {
+                        }.getType());
                 if (filename.endsWith(SUFFIX_CSBF)) {
                     for (Map.Entry entry : entries.entrySet()) {
                         App.getPreferenceManager().putObject(entry.getKey().toString(), entry.getValue());
