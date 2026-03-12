@@ -26,9 +26,6 @@ public class ThemeUtils {
 
     public static int getThemeById(int id) {
         switch (id) {
-            default:
-            case THEME_BLUE:
-                return R.style.AppThemeBlue;
             case THEME_GREY:
                 return R.style.AppThemeGrey;
             case THEME_TEAL:
@@ -39,6 +36,9 @@ public class ThemeUtils {
                 return R.style.AppThemePink;
             case THEME_BROWN:
                 return R.style.AppThemeBrown;
+            case THEME_BLUE:
+            default:
+                return R.style.AppThemeBlue;
         }
     }
 

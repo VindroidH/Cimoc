@@ -79,7 +79,6 @@ public class SourceManager {
 
     public Observable<List<Source>> list() {
         Log.d(TAG, "[list]");
-//        mSourceDao.queryBuilder().orderAsc(Properties.Type).rx().list();
         return Observable.fromCallable(() ->
                 mSourceDao.getBox()
                         .query()
@@ -91,13 +90,6 @@ public class SourceManager {
 
     public Observable<List<Source>> listEnableInRx() {
         Log.d(TAG, "[listEnableInRx]");
-        /*
-        return mSourceDao.queryBuilder()
-                .where(Properties.Enable.equal(true))
-                .orderAsc(Properties.Type)
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mSourceDao.getBox()
                         .query()
@@ -120,16 +112,11 @@ public class SourceManager {
 
     public Source load(int type) {
         Log.d(TAG, "[load] type: " + type);
-        /*
-        return mSourceDao.queryBuilder()
-                .where(Properties.Type.equal(type))
-                .unique();
-         */
         return mSourceDao.getBox()
                 .query()
-                .equal(Source_.type, true)
+                .equal(Source_.type, type)
                 .build()
-                .findUnique();
+                .findFirst();
     }
 
     public long insert(Source source) {

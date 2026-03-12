@@ -46,7 +46,7 @@ public class Storage {
         } else if (uri.startsWith("file")) {
             return DocumentFile.fromFile(new File(Uri.parse(uri).getPath()));
         } else {
-            return DocumentFile.fromFile(new File(uri, "Cimoc"));
+            return DocumentFile.fromFile(new File(uri, "Cimoc2"));
         }
     }
 

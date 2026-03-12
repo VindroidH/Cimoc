@@ -1,5 +1,6 @@
 package com.haleydu.cimoc;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -27,6 +28,17 @@ import com.haleydu.cimoc.utils.StringUtils;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import io.objectbox.BoxStore;
 import okhttp3.OkHttpClient;
@@ -76,15 +88,45 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
     public static OkHttpClient getHttpClient() {
         if (!manager_wifi.isWifiEnabled()
                 && mPreferenceManager.getBoolean(
-                        PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
+                PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
             return null;
         }
         if (mHttpClient == null) {
-            mHttpClient = new OkHttpClient().newBuilder()
-                    .followRedirects(true)
-                    .followSslRedirects(true)
-                    .retryOnConnectionFailure(true)
-                    .build();
+            try {
+                @SuppressLint("CustomX509TrustManager") final TrustManager[] trustAllCerts = new TrustManager[]{
+                        new X509TrustManager() {
+                            @SuppressLint("TrustAllX509TrustManager")
+                            @Override
+                            public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                            }
+
+                            @SuppressLint("TrustAllX509TrustManager")
+                            @Override
+                            public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                            }
+
+                            @Override
+                            public X509Certificate[] getAcceptedIssuers() {
+                                return new X509Certificate[0];
+                            }
+                        }
+                };
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, trustAllCerts, new SecureRandom());
+                mHttpClient = new OkHttpClient().newBuilder()
+                        .followRedirects(true)
+                        .followSslRedirects(true)
+                        .retryOnConnectionFailure(true)
+                        .hostnameVerifier((s, sslSession) -> true)
+                        .sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) trustAllCerts[0])
+                        .build();
+            } catch (NoSuchAlgorithmException | KeyManagementException e) {
+                mHttpClient = new OkHttpClient().newBuilder()
+                        .followRedirects(true)
+                        .followSslRedirects(true)
+                        .retryOnConnectionFailure(true)
+                        .build();
+            }
         }
         return mHttpClient;
     }
@@ -96,8 +138,6 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
         mActivityLifecycle = new ActivityLifecycle();
         registerActivityLifecycleCallbacks(mActivityLifecycle);
         mPreferenceManager = new PreferenceManager(this);
-//        DBOpenHelper helper = new DBOpenHelper(this, "cimoc.db");
-//        mDaoSession = new DaoMaster(helper.getWritableDatabase()).newSession(IdentityScopeType.None);
         BoxStore boxStore = MyObjectBox.builder()
                 .androidContext(getApplicationContext())
                 .name("cimoc2.db")

@@ -1,6 +1,5 @@
 package com.haleydu.cimoc.presenter;
 
-import com.haleydu.cimoc.core.Update;
 import com.haleydu.cimoc.manager.ComicManager;
 import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.MiniComic;
@@ -54,23 +53,6 @@ public class MainPresenter extends BasePresenter<MainView> {
                     @Override
                     public void call(Throwable throwable) {
                         mBaseView.onLastLoadFail();
-                    }
-                }));
-    }
-
-    public void checkUpdate(final String version) {
-        mCompositeSubscription.add(Update.check()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        if (!version.contains(s) && !version.contains("t")) {
-                            mBaseView.onUpdateReady();
-                        }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
                     }
                 }));
     }

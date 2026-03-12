@@ -224,6 +224,7 @@
                     android:id="@+id/settings_check_update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:summary="@string/settings_check_update_summary"
                     app:title="@string/settings_check_update" />
 

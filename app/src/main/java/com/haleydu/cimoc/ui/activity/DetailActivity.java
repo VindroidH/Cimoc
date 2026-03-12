@@ -3,7 +3,6 @@ package com.haleydu.cimoc.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +36,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.haleydu.cimoc.utils.interpretationUtils.isReverseOrder;
+import static com.haleydu.cimoc.utils.InterpretationUtils.isReverseOrder;
 
 /**
  * Created by Hiroshi on 2016/7/2.

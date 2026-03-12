@@ -62,12 +62,6 @@ public class TaskManager {
 
     public Observable<List<Task>> listInRx(long key) {
         Log.d(TAG, "[listInRx] key: " + key);
-        /*
-        return mTaskDao.queryBuilder()
-                .where(Properties.Key.equal(key))
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mTaskDao.getBox()
                         .query()
@@ -79,11 +73,6 @@ public class TaskManager {
 
     public Observable<List<Task>> listInRx() {
         Log.d(TAG, "[listInRx]");
-        /*
-        return mTaskDao.queryBuilder()
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mTaskDao.getBox().query().build().find()
         );
@@ -122,12 +111,6 @@ public class TaskManager {
 
     public void deleteByComicId(long id) {
         Log.d(TAG, "[deleteByComicId] id: " + id);
-        /*
-        mTaskDao.queryBuilder()
-                .where(Properties.Key.equal(id))
-                .buildDelete()
-                .executeDeleteWithoutDetachingEntities();
-         */
         mTaskDao.getBox()
                 .query()
                 .equal(Task_.key, id)

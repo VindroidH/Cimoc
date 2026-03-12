@@ -46,11 +46,6 @@ public class TagManager {
 
     public Observable<List<Tag>> listInRx() {
         Log.d(TAG, "[listInRx]");
-        /*
-        return mTagDao.queryBuilder()
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mTagDao.getBox()
                         .query()

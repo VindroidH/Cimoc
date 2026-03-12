@@ -74,12 +74,6 @@ public class ComicManager {
 
     public Observable<List<Comic>> listLocalInRx() {
         Log.d(TAG, "[listLocalInRx]");
-        /*
-        return mComicDao.queryBuilder()
-                .where(Properties.Local.equal(true))
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mComicDao.getBox()
                         .query()
@@ -90,12 +84,6 @@ public class ComicManager {
 
     public Observable<List<Comic>> listFavoriteOrHistoryInRx() {
         Log.d(TAG, "[listFavoriteOrHistoryInRx]");
-        /*
-        return mComicDao.queryBuilder()
-                .whereOr(Properties.Favorite.notNull(), Properties.History.notNull())
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mComicDao.getBox().query()
                         .notNull(Comic_.favorite)
@@ -117,13 +105,6 @@ public class ComicManager {
 
     public Observable<List<Comic>> listFavoriteInRx() {
         Log.d(TAG, "[listFavoriteInRx]");
-        /*
-        return mComicDao.queryBuilder()
-                .where(Properties.Favorite.notNull())
-                .orderDesc(Properties.Highlight, Properties.Favorite)
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mComicDao.getBox()
                         .query()
@@ -137,13 +118,6 @@ public class ComicManager {
 
     public Observable<List<Comic>> listFinishInRx() {
         Log.d(TAG, "[listFinishInRx]");
-        /*
-        return mComicDao.queryBuilder()
-                .where(Properties.Favorite.notNull(), Properties.Finish.equal(true))
-                .orderDesc(Properties.Highlight, Properties.Favorite)
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mComicDao.getBox()
                         .query()
@@ -158,13 +132,6 @@ public class ComicManager {
 
     public Observable<List<Comic>> listContinueInRx() {
         Log.d(TAG, "[listContinueInRx]");
-        /*
-        return mComicDao.queryBuilder()
-                .where(Properties.Favorite.notNull(), Properties.Finish.notEqual(true))
-                .orderDesc(Properties.Highlight, Properties.Favorite)
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mComicDao.getBox()
                         .query()
@@ -179,13 +146,6 @@ public class ComicManager {
 
     public Observable<List<Comic>> listHistoryInRx() {
         Log.d(TAG, "[listHistoryInRx]");
-        /*
-        return mComicDao.queryBuilder()
-                .where(Properties.History.notNull())
-                .orderDesc(Properties.History)
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mComicDao.getBox()
                         .query()
@@ -198,13 +158,6 @@ public class ComicManager {
 
     public Observable<List<Comic>> listDownloadInRx() {
         Log.d(TAG, "[listDownloadInRx]");
-        /*
-        return mComicDao.queryBuilder()
-                .where(Properties.Download.notNull())
-                .orderDesc(Properties.Download)
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mComicDao.getBox()
                         .query()
@@ -217,14 +170,6 @@ public class ComicManager {
 
     public Observable<List<Comic>> listFavoriteByTag(long id) {
         Log.d(TAG, "[listFavoriteByTag] id: " + id);
-        /*
-        QueryBuilder<Comic> queryBuilder = mComicDao.queryBuilder();
-        queryBuilder.join(TagRef.class, TagRefDao.Properties.Cid).where(TagRefDao.Properties.Tid.equal(id));
-        return queryBuilder.orderDesc(Properties.Highlight, Properties.Favorite)
-                .rx()
-                .list();
-         */
-
         return Observable.fromCallable(() -> {
             List<TagRef> tagRefs = mTagRefDao.getBox()
                     .query()
@@ -247,12 +192,6 @@ public class ComicManager {
 
     public Observable<List<Comic>> listFavoriteNotIn(Collection<Long> collections) {
         Log.d(TAG, "[listFavoriteNotIn] collections: " + collections);
-        /*
-        return mComicDao.queryBuilder()
-                .where(Properties.Favorite.notNull(), Properties.Id.notIn(collections))
-                .rx()
-                .list();
-         */
         long[] list = collections.stream()
                 .mapToLong(Long::longValue)
                 .toArray();
@@ -299,15 +238,6 @@ public class ComicManager {
 
     public Observable<Comic> loadLast() {
         Log.d(TAG, "[loadLast]");
-        /*
-        return mComicDao.queryBuilder()
-                .where(Properties.History.notNull())
-                .orderDesc(Properties.History)
-                .limit(1)
-                .rx()
-                .unique();
-         */
-
         return Observable.fromCallable(() ->
                 mComicDao.getBox()
                         .query()
@@ -320,7 +250,6 @@ public class ComicManager {
 
     public void cancelHighlight() {
         Log.d(TAG, "[cancelHighlight]");
-//        mComicDao.getDatabase().execSQL("UPDATE \"COMIC\" SET \"HIGHLIGHT\" = 0 WHERE \"HIGHLIGHT\" = 1");
         Box<Comic> comicBox = mComicDao.getBox();
         List<Comic> comics = comicBox.query()
                 .equal(Comic_.highlight, true)

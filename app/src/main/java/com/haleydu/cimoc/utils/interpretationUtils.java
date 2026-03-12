@@ -9,7 +9,7 @@ import com.haleydu.cimoc.source.Manhuatai;
 import com.haleydu.cimoc.source.MiGu;
 import com.haleydu.cimoc.source.Tencent;
 
-public class interpretationUtils {
+public class InterpretationUtils {
 
     public static boolean isReverseOrder(Comic comic) {
         int type = comic.getSource();

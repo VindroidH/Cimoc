@@ -24,7 +24,6 @@
 # Keep our interfaces so they can be used by other ProGuard rules.
 # See http://sourceforge.net/p/proguard/bugs/466/
 -keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
--keep,allowobfuscation @interface com.facebook.soloader.DoNotOptimize
 
 # Do not strip any method/class that is annotated with @DoNotStrip
 -keep @com.facebook.common.internal.DoNotStrip class *
@@ -32,20 +31,9 @@
     @com.facebook.common.internal.DoNotStrip *;
 }
 
-# Do not strip any method/class that is annotated with @DoNotOptimize
--keep @com.facebook.soloader.DoNotOptimize class *
--keepclassmembers class * {
-    @com.facebook.soloader.DoNotOptimize *;
-}
-
 # Keep native methods
 -keepclassmembers class * {
     native <methods>;
-}
-
-# Do not strip SoLoader class and init method
--keep public class com.facebook.soloader.SoLoader {
-    public static void init(android.content.Context, int);
 }
 
 -dontwarn okio.**
@@ -115,4 +103,7 @@
 -dontwarn java.lang.ClassValue
 -keep class java.lang.ClassValue { *; }
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--keep class org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement { *; }
+
+# This is generated automatically by the Android Gradle plugin.
+-dontwarn com.google.re2j.Matcher
+-dontwarn com.google.re2j.Pattern

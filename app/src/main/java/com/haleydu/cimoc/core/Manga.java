@@ -52,7 +52,6 @@ public class Manga {
                     }
                     while (iterator.hasNext()) {
                         Comic comic = iterator.next();
-//                        if (comic != null && (comic.getTitle().indexOf(keyword) != -1 || comic.getAuthor().indexOf(keyword) != -1)) {
                         if (comic != null
                                 && (indexOfIgnoreCase(comic.getTitle(), keyword)
                                 || indexOfIgnoreCase(comic.getAuthor(), keyword)

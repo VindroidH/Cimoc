@@ -2,8 +2,6 @@ package com.haleydu.cimoc.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
@@ -25,7 +23,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
 import com.haleydu.cimoc.component.ThemeResponsive;
-import com.haleydu.cimoc.core.Update;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
 import com.haleydu.cimoc.global.Extra;
 import com.haleydu.cimoc.manager.PreferenceManager;
@@ -39,7 +36,6 @@ import com.haleydu.cimoc.ui.fragment.recyclerview.SourceFragment;
 import com.haleydu.cimoc.ui.view.MainView;
 import com.haleydu.cimoc.utils.HintUtils;
 import com.haleydu.cimoc.utils.PermissionUtils;
-import com.king.app.updater.constant.Constants;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.ColorRes;
@@ -84,10 +80,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     private BaseFragment mCurrentFragment;
     private boolean night;
 
-    private final Update update = new Update();
-    private String versionName, content, mUrl, md5;
-    private int versionCode;
-
     @Override
     protected BasePresenter initPresenter() {
         mPresenter = new MainPresenter();
@@ -121,13 +113,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     @Override
     protected void initData() {
         mPresenter.loadLast();
-
-        //检查App更新
-        String updateUrl;
-        if (mPreference.getBoolean(PreferenceManager.PREF_OTHER_CHECK_SOFTWARE_UPDATE, false)) {
-            checkUpdate();
-        }
-
         showPermission();
     }
 
@@ -233,7 +218,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);
             } else if (itemId == R.id.drawer_comicUpdate) {
-                update.startUpdate(versionName, content, mUrl, versionCode, md5);
+                // do nothing
             } else if (itemId == R.id.drawer_night) {
                 onNightSwitch();
                 mPreference.putBoolean(PreferenceManager.PREF_NIGHT, night);
@@ -323,17 +308,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
 
     @Override
     public void onUpdateReady(String versionName, String content, String mUrl, int versionCode, String md5) {
-        this.versionName = versionName;
-        this.content = content;
-        this.mUrl = mUrl;
-        this.md5 = md5;
-        this.versionCode = versionCode;
-        if (mPreference.getBoolean(PreferenceManager.PREF_OTHER_CHECK_SOFTWARE_UPDATE, true)) {
-            mNavigationView.getMenu().findItem(R.id.drawer_comicUpdate).setVisible(true);
-            update.startUpdate(versionName, content, mUrl, versionCode, md5);
-        } else {
-            HintUtils.showToast(this, R.string.main_ready_update);
-        }
+        // do nothing
     }
 
     @Override
@@ -391,15 +366,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
                     false,
                     DIALOG_REQUEST_PERMISSION);
             fragment.show(getSupportFragmentManager(), null);
-        }
-    }
-
-    private void checkUpdate() {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
-            mPresenter.checkUpdate(String.valueOf(info.versionCode));
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

@@ -27,7 +27,6 @@ import java.util.List;
 
 import okhttp3.Headers;
 import okhttp3.Request;
-import taobe.tec.jcc.JChineseConvertor;
 
 import static com.haleydu.cimoc.core.Manga.getResponseBody;
 
@@ -48,8 +47,6 @@ public class CopyMH extends MangaParser {
     public Request getSearchRequest(String keyword, int page) {
         String url = "";
         if (page == 1) {
-//            JChineseConvertor jChineseConvertor = JChineseConvertor.getInstance();
-//            keyword = jChineseConvertor.s2t(keyword);
             url = StringUtils.format("https://api.copymanga.site/api/v3/search/comic?platform=1&limit=30&offset=0&q=%s", keyword);
             return new Request.Builder()
                     .url(url)
@@ -77,9 +74,8 @@ public class CopyMH extends MangaParser {
                 @Override
                 protected Comic parse(JSONObject object) {
                     try {
-                        JChineseConvertor jChineseConvertor = JChineseConvertor.getInstance();
                         String cid = object.getString("path_word");
-                        String title = jChineseConvertor.t2s(object.getString("name"));
+                        String title = object.getString("name");
                         String cover = object.getString("cover");
                         String author = object.getJSONArray("author").getJSONObject(0).getString("name").trim();
                         return new Comic(TYPE, cid, title, cover, null, author);

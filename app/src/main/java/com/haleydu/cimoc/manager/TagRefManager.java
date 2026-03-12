@@ -90,12 +90,6 @@ public class TagRefManager {
 
     public void deleteByTag(long tid) {
         Log.d(TAG, "[deleteByTag] tid: " + tid);
-        /*
-        mRefDao.queryBuilder()
-                .where(TagRefDao.Properties.Tid.equal(tid))
-                .buildDelete()
-                .executeDeleteWithoutDetachingEntities();
-         */
         mRefDao.getBox()
                 .query()
                 .equal(TagRef_.tid, tid)
@@ -105,12 +99,6 @@ public class TagRefManager {
 
     public void deleteByComic(long cid) {
         Log.d(TAG, "[deleteByComic] cid: " + cid);
-        /*
-        mRefDao.queryBuilder()
-                .where(TagRefDao.Properties.Cid.equal(cid))
-                .buildDelete()
-                .executeDeleteWithoutDetachingEntities();
-         */
         mRefDao.getBox()
                 .query()
                 .equal(TagRef_.cid, cid)
@@ -120,12 +108,6 @@ public class TagRefManager {
 
     public void delete(long tid, long cid) {
         Log.d(TAG, "[delete] tid: " + tid + ", cid: " + cid);
-        /*
-        mRefDao.queryBuilder()
-                .where(TagRefDao.Properties.Tid.equal(tid), TagRefDao.Properties.Cid.equal(cid))
-                .buildDelete()
-                .executeDeleteWithoutDetachingEntities();
-         */
         mRefDao.getBox()
                 .query()
                 .equal(TagRef_.tid, tid)

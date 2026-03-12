@@ -55,12 +55,6 @@ public class ChapterManager {
 
     public Observable<List<Chapter>> getListChapter(Long sourceComic) {
         Log.d(TAG, "[getListChapter] sourceComic: " + sourceComic);
-        /*
-        return mChapterDao.queryBuilder()
-                .where(Properties.SourceComic.equal(sourceComic))
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mChapterDao.getBox()
                         .query()
@@ -88,7 +82,6 @@ public class ChapterManager {
 
     public void cancelHighlight() {
         Log.d(TAG, "[cancelHighlight]");
-//        mChapterDao.getDatabase().execSQL("UPDATE \"COMIC\" SET \"HIGHLIGHT\" = 0 WHERE \"HIGHLIGHT\" = 1");
         Box<Comic> comicBox = mComicDao.getBox();
         List<Comic> comics = comicBox.query()
                 .equal(Comic_.highlight, true)

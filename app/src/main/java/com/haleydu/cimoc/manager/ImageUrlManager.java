@@ -42,12 +42,6 @@ public class ImageUrlManager {
 
     public Observable<List<ImageUrl>> getListImageUrlRX(Long comicChapter) {
         Log.d(TAG, "[getListImageUrlRX] comicChapter: " + comicChapter);
-        /*
-        return mImageUrlDao.queryBuilder()
-                .where(ImageUrlDao.Properties.ComicChapter.equal(comicChapter))
-                .rx()
-                .list();
-         */
         return Observable.fromCallable(() ->
                 mImageUrlDao.getBox()
                         .query()
