@@ -71,7 +71,7 @@ public class GridAdapter extends BaseAdapter<Object> {
                     //                    .build();
                     ImageRequest request = null;
                     try {
-                        if (!App.getManager_wifi().isWifiEnabled() && App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
+                        if (!App.getWifiManager().isWifiEnabled() && App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
                             //                    request = null;
                             if (FrescoUtils.isCached(comic.getCover())) {
                                 request = ImageRequestBuilder
@@ -79,7 +79,7 @@ public class GridAdapter extends BaseAdapter<Object> {
                                         .setResizeOptions(new ResizeOptions(App.mCoverWidthPixels / 3, App.mCoverHeightPixels / 3))
                                         .build();
                             }
-                        } else if (!App.getManager_wifi().isWifiEnabled() && App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_LOADCOVER_ONLY_WIFI, false)) {
+                        } else if (!App.getWifiManager().isWifiEnabled() && App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_LOADCOVER_ONLY_WIFI, false)) {
                             //                    request = null;
                             if (FrescoUtils.isCached(comic.getCover())) {
                                 request = ImageRequestBuilder

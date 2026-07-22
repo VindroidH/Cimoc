@@ -12,6 +12,7 @@ package com.haleydu.cimoc.fresco;
 import android.net.Uri;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.facebook.common.logging.FLog;
 import com.facebook.imagepipeline.image.EncodedImage;
@@ -21,6 +22,7 @@ import com.facebook.imagepipeline.producers.Consumer;
 import com.facebook.imagepipeline.producers.FetchState;
 import com.facebook.imagepipeline.producers.ProducerContext;
 import com.haleydu.cimoc.App;
+import com.haleydu.cimoc.fresco.processor.MangaPostprocessor;
 import com.haleydu.cimoc.ui.widget.CustomToast;
 
 import java.io.IOException;
@@ -49,12 +51,11 @@ public class OkHttpNetworkFetcher extends
     private static final String IMAGE_SIZE = "image_size";
     private final OkHttpClient mOkHttpClient;
     private Executor mCancellationExecutor;
-    private final Headers mHeaders;
 
     /**
      * @param okHttpClient client to use
      */
-    public OkHttpNetworkFetcher(OkHttpClient okHttpClient, Headers headers) {
+    public OkHttpNetworkFetcher(OkHttpClient okHttpClient) {
         mOkHttpClient = okHttpClient;
 
         //修复打开仅WiFi联网功能后运行闪退的问题
@@ -63,8 +64,6 @@ public class OkHttpNetworkFetcher extends
         } catch (NullPointerException e) {
             CustomToast.showToast(App.getActivity(), "网络连接失败，请检查网络！！", 2000);
         }
-
-        mHeaders = headers;
     }
 
     @Override
@@ -77,10 +76,17 @@ public class OkHttpNetworkFetcher extends
     @Override
     public void fetch(final OkHttpNetworkFetchState fetchState, final Callback callback) {
         fetchState.submitTime = SystemClock.elapsedRealtime();
+        MangaPostprocessor processor = (MangaPostprocessor) fetchState.getContext().getImageRequest().getPostprocessor();
+        Headers headers;
+        if (processor != null && processor.getHeaders() != null) {
+            headers = processor.getHeaders();
+        } else {
+            headers = Headers.of(new HashMap<>());
+        }
         final Uri uri = fetchState.getUri();
         Request request = new Request.Builder()
                 .cacheControl(new CacheControl.Builder().noStore().build())
-                .headers(mHeaders)
+                .headers(headers)
                 .url(uri.toString())
                 .get()
                 .build();

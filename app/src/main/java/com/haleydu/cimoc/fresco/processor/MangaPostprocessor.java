@@ -12,6 +12,8 @@ import com.haleydu.cimoc.rx.RxBus;
 import com.haleydu.cimoc.rx.RxEvent;
 import com.haleydu.cimoc.utils.StringUtils;
 
+import okhttp3.Headers;
+
 /**
  * Created by Hiroshi on 2017/3/3.
  */
@@ -27,12 +29,14 @@ public class MangaPostprocessor extends BasePostprocessor {
     private int mPosX, mPosY;
     private boolean isDone = false;
     private boolean jmttIsDone = false;
+    private Headers mHeaders;
 
-    public MangaPostprocessor(ImageUrl image, boolean paging, boolean pagingReverse, boolean whiteEdge) {
+    public MangaPostprocessor(ImageUrl image, boolean paging, boolean pagingReverse, boolean whiteEdge, Headers headers) {
         mImage = image;
         isPaging = paging;
         isPagingReverse = pagingReverse;
         isWhiteEdge = whiteEdge;
+        mHeaders = headers;
     }
 
     @Override
@@ -70,6 +74,10 @@ public class MangaPostprocessor extends BasePostprocessor {
             CloseableReference.closeSafely(reference);
         }
         return super.process(sourceBitmap, bitmapFactory);
+    }
+
+    public Headers getHeaders() {
+        return mHeaders;
     }
 
     private void preparePaging(boolean reverse) {

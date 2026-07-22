@@ -11,9 +11,13 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.DownsampleMode;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.haleydu.cimoc.component.AppGetter;
 import com.haleydu.cimoc.core.Storage;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
+import com.haleydu.cimoc.fresco.OkHttpNetworkFetcher;
 import com.haleydu.cimoc.helper.UpdateHelper;
 import com.haleydu.cimoc.manager.PreferenceManager;
 import com.haleydu.cimoc.manager.SourceManager;
@@ -33,14 +37,14 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import io.objectbox.BoxStore;
+import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 
 /**
@@ -56,7 +60,7 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
 
     private static OkHttpClient mHttpClient;
     private static PreferenceManager mPreferenceManager;
-    private static WifiManager manager_wifi;
+    private static WifiManager mWifiManager;
     private static App mApp;
     private static Activity sActivity;
     private DocumentFile mDocumentFile;
@@ -77,8 +81,8 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
         return sActivity;
     }
 
-    public static WifiManager getManager_wifi() {
-        return manager_wifi;
+    public static WifiManager getWifiManager() {
+        return mWifiManager;
     }
 
     public static PreferenceManager getPreferenceManager() {
@@ -86,7 +90,7 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
     }
 
     public static OkHttpClient getHttpClient() {
-        if (!manager_wifi.isWifiEnabled()
+        if (!mWifiManager.isWifiEnabled()
                 && mPreferenceManager.getBoolean(
                 PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
             return null;
@@ -143,49 +147,45 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
                 .name("cimoc2.db")
                 .build();
         mDaoSession = new DaoSession(boxStore);
+        mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         UpdateHelper.update(mPreferenceManager, getDaoSession());
-        Fresco.initialize(this);
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                .setNetworkFetcher(new OkHttpNetworkFetcher(getHttpClient()))
+                .setDownsampleMode(DownsampleMode.AUTO)
+                .build();
+        Fresco.initialize(this, config);
         initPixels();
 
-        manager_wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         //获取栈顶Activity以及当前App上下文
         mApp = this;
         this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-//                Log.d("ActivityLifecycle:",activity+"onActivityCreated");
             }
 
             @Override
             public void onActivityStarted(Activity activity) {
-//                Log.d("ActivityLifecycle:",activity+"onActivityStarted");
                 sActivity = activity;
-
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
-
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
-
             }
 
             @Override
             public void onActivityStopped(Activity activity) {
-
             }
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
             }
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-
             }
         });
     }

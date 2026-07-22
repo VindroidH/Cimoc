@@ -3,6 +3,7 @@ package com.haleydu.cimoc.fresco;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.facebook.imagepipeline.core.DownsampleMode;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.haleydu.cimoc.App;
@@ -17,11 +18,9 @@ public class ImagePipelineFactoryBuilder {
     public static ImagePipelineFactory build(Context context, Headers header, boolean down) {
         ImagePipelineConfig.Builder builder =
                 ImagePipelineConfig.newBuilder(context.getApplicationContext())
-                        .setDownsampleEnabled(down)
-                        .setBitmapsConfig(down ? Bitmap.Config.RGB_565 : Bitmap.Config.ARGB_8888);
-        if (header != null) {
-            builder.setNetworkFetcher(new OkHttpNetworkFetcher(App.getHttpClient(), header));
-        }
+                        .setDownsampleMode(down ? DownsampleMode.ALWAYS : DownsampleMode.NEVER)
+                        .setBitmapsConfig(down ? Bitmap.Config.RGB_565 : Bitmap.Config.ARGB_8888)
+                        .setNetworkFetcher(new OkHttpNetworkFetcher(App.getHttpClient()));
         return new ImagePipelineFactory(builder.build());
     }
 

@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.facebook.binaryresource.BinaryResource;
 import com.facebook.cache.common.SimpleCacheKey;
+import com.facebook.imagepipeline.core.DownsampleMode;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.R;
@@ -59,6 +60,8 @@ import java.util.Objects;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import okhttp3.Headers;
 
 /**
  * Created by Hiroshi on 2016/8/6.
@@ -377,12 +380,14 @@ public abstract class ReaderActivity extends BaseActivity implements OnTapGestur
     private void setReaderAdapter(List<ImageUrl> list, int source, boolean local) {
         _source = source;
         _local = local;
+        Headers headers = SourceManager.getInstance(this).getParser(source).getHeader(list);
         mImagePipelineFactory = ImagePipelineFactoryBuilder
-                .build(this, local ? null : SourceManager.getInstance(this).getParser(source).getHeader(list), false);
+                .build(this, local ? null : headers, false);
         mLargeImagePipelineFactory = ImagePipelineFactoryBuilder
-                .build(this, local ? null : SourceManager.getInstance(this).getParser(source).getHeader(list), true);
+                .build(this, local ? null : headers, true);
         mReaderAdapter.setControllerSupplier(ControllerBuilderSupplierFactory.get(this, mImagePipelineFactory),
                 ControllerBuilderSupplierFactory.get(this, mLargeImagePipelineFactory));
+        mReaderAdapter.setHttpHeaders(headers);
     }
 
     @Override

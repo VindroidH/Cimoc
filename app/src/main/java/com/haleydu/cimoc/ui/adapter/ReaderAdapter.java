@@ -31,6 +31,8 @@ import java.util.List;
 import androidx.annotation.IntDef;
 import androidx.recyclerview.widget.RecyclerView;
 
+import okhttp3.Headers;
+
 /**
  * Created by Hiroshi on 2016/8/5.
  */
@@ -55,6 +57,7 @@ public class ReaderAdapter extends BaseAdapter<ImageUrl> {
     private boolean isDoubleTap;
     private boolean isCloseAutoResizeImage;
     private float mScaleFactor;
+    private Headers mHttpHeaders;
 
 
     public ReaderAdapter(Context context, List<ImageUrl> list) {
@@ -137,7 +140,7 @@ public class ReaderAdapter extends BaseAdapter<ImageUrl> {
                     .setProgressiveRenderingEnabled(true);
 
             // TODO 切图后可能需要修改图片高度和宽度
-            MangaPostprocessor processor = new MangaPostprocessor(imageUrl, isPaging, isPagingReverse, isWhiteEdge);
+            MangaPostprocessor processor = new MangaPostprocessor(imageUrl, isPaging, isPagingReverse, isWhiteEdge, mHttpHeaders);
             imageRequestBuilder.setPostprocessor(processor);
             if (!isCloseAutoResizeImage) {
                 ResizeOptions options = isVertical ? new ResizeOptions(App.mWidthPixels, App.mHeightPixels) :
@@ -154,6 +157,10 @@ public class ReaderAdapter extends BaseAdapter<ImageUrl> {
         }
         builder.setOldController(draweeView.getController()).setTapToRetryEnabled(true).setRetainImageOnFailure(true);
         draweeView.setController(builder.setFirstAvailableImageRequests(request).build());
+    }
+
+    public void setHttpHeaders(Headers headers) {
+        mHttpHeaders = headers;
     }
 
     public void setControllerSupplier(PipelineDraweeControllerBuilderSupplier normal,

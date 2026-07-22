@@ -1,6 +1,6 @@
 package com.haleydu.cimoc.source
 
-import android.os.Build
+import android.text.TextUtils
 import com.haleydu.cimoc.model.Chapter
 import com.haleydu.cimoc.model.Comic
 import com.haleydu.cimoc.model.ImageUrl
@@ -15,14 +15,10 @@ import com.haleydu.cimoc.utils.StringUtils
 import okhttp3.Headers
 import okhttp3.Request
 import java.io.UnsupportedEncodingException
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.LinkedList
 
 /**
  * Created by FEILONG on 2017/12/21.
- * need fix
  */
 class MangaBZ(source: Source?) : MangaParser() {
     @Throws(UnsupportedEncodingException::class)
@@ -63,8 +59,10 @@ class MangaBZ(source: Source?) : MangaParser() {
         val body = Node(html)
         val title = body.text(".detail-info-title")
         val cover = body.src(".detail-info-cover")
-        val update = StringUtils.match("(..月..号 | ....-..-..)",
-                body.text(".detail-list-form-title"), 1)
+        val update = StringUtils.match(
+            "(..月..号 | ....-..-..)",
+            body.text(".detail-list-form-title"), 1
+        )
         val author = body.text(".detail-info-tip > span > a")
         val intro = body.text(".detail-info-content")
         val status = isFinish(".detail-list-form-title")
@@ -79,7 +77,14 @@ class MangaBZ(source: Source?) : MangaParser() {
             var title = node.text()
             if (title == "") title = node.attr("title")
             val path = node.href().trim('/')
-            list.add(Chapter((sourceComic.toString() + "00" + i++).toLong(), sourceComic, title, path))
+            list.add(
+                Chapter(
+                    (sourceComic.toString() + "00" + i++).toLong(),
+                    sourceComic,
+                    title,
+                    path
+                )
+            )
         }
         return list
     }
@@ -92,59 +97,41 @@ class MangaBZ(source: Source?) : MangaParser() {
         this._cid = cid
         this._path = path
         return Request.Builder()
-                .url(url)
-                .build()
-    }
-
-    private fun getValFromRegex(html: String, keyword: String, searchfor: String): String? {
-        val re = Regex("var\\s+$keyword\\s*=\\s*$searchfor\\s*;")
-        val match = re.find(html)
-        return match?.groups?.get(1)?.value
+            .url(url)
+            .addHeader(
+                "User-Agent",
+                "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36"
+            )
+            .build()
     }
 
     override fun parseImages(html: String, chapter: Chapter): List<ImageUrl> {
         val list: MutableList<ImageUrl> = LinkedList()
         try {
-            // get page num
-            val mid = getValFromRegex(html, "MANGABZ_MID", "(\\w+)")!!
-            val cid = getValFromRegex(html, "MANGABZ_CID", "(\\w+)")!!
-            val sign = getValFromRegex(html, "MANGABZ_VIEWSIGN", """\"(\w+)\"""")!!
-            val pageCount = getValFromRegex(html, "MANGABZ_IMAGE_COUNT", "(\\d+)")!!.toInt()
-            for (i in 1..pageCount) {
-                val url = "https://www.mangabz.com/$_path/chapterimage.ashx?cid=$cid&page=$i&key=&_cid=$cid&_mid=$mid&_sign=$sign&_dt="
-                val comicChapter = chapter.id
-                val id = (comicChapter.toString() + "00" + i).toLong()
-                list.add(ImageUrl(id, comicChapter, i + 1, url, true))
+            val comicChapter = chapter.id
+            for (node in Node(html).list("script")) {
+                var eval = node.get().html()
+                if (TextUtils.isEmpty(eval)) continue
+                if (!eval.startsWith("eval")) continue
+                eval = eval.replaceFirst("eval", "JSON.stringify")
+                var data = DecryptionUtils.evalDecrypt(eval)
+                val startIndex = data.indexOf('[')
+                val endIndex = data.lastIndexOf(']')
+                data = data.substring(startIndex + 1, endIndex)
+                val urls = data.split(",")
+                val pageCount = urls.size - 1
+                for (i in 0..pageCount) {
+                    val id = (comicChapter.toString() + "00" + i).toLong()
+                    var url = urls[i]
+                    url = url.substring(1, url.length - 1)
+                    list.add(ImageUrl(id, comicChapter, i + 1, url, false))
+                }
+                break
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         return list
-    }
-
-    override fun getLazyRequest(url: String?): Request? {
-        val dateFmt = "yyyy-MM-dd+HH:mm:ss"
-        val dateStr =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val current = LocalDateTime.now()
-                    val formatter = DateTimeFormatter.ofPattern(dateFmt)
-                    current.format(formatter)
-                } else {
-                    var date = Date()
-                    val formatter = SimpleDateFormat(dateFmt)
-                    formatter.format(date)
-                }
-
-
-        return Request.Builder()
-                .addHeader("Referer", "https://www.mangabz.com/$_path/")
-                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36")
-                .url(url + dateStr).build()
-    }
-
-    override fun parseLazy(html: String?, url: String?): String? {
-        return DecryptionUtils.evalDecrypt(html).split(',').get(0)
     }
 
     override fun getCheckRequest(cid: String?): Request? {
@@ -152,12 +139,26 @@ class MangaBZ(source: Source?) : MangaParser() {
     }
 
     override fun parseCheck(html: String?): String? {
-        return StringUtils.match("(..月..号 | ....-..-..)",
-                Node(html).text(".detail-list-form-title"), 1)
+        return StringUtils.match(
+            "(..月..号 | ....-..-..)",
+            Node(html).text(".detail-list-form-title"), 1
+        )
     }
 
     override fun getHeader(): Headers {
-        return Headers.headersOf("Referer", "https://www.mangabz.com/")
+        return Headers.headersOf(
+            "Referer",
+            "https://mangabz.com/",
+            "User-Agent",
+            "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36"
+        )
+    }
+
+    override fun getHeader(list: List<ImageUrl?>?): Headers? {
+        return Headers.headersOf(
+            "Referer",
+            "https://mangabz.com/"
+        )
     }
 
     companion object {
