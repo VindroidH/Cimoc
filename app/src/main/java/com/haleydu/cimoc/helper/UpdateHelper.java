@@ -107,16 +107,13 @@ public class UpdateHelper {
         list.add(QiManWu.getDefaultSource());
         list.add(Hhxxee.getDefaultSource());
         list.add(ChuiXue.getDefaultSource());
-        list.add(BaiNian.getDefaultSource());
         list.add(TuHao.getDefaultSource());
         list.add(SixMH.getDefaultSource());
         list.add(MangaBZ.getDefaultSource());
         list.add(Manhuatai.getDefaultSource());
         list.add(GuFeng.getDefaultSource());
         list.add(CCMH.getDefaultSource());
-        list.add(Manhuatai.getDefaultSource());
         list.add(MHLove.getDefaultSource());
-        list.add(GuFeng.getDefaultSource());
         list.add(YYLS.getDefaultSource());
         list.add(JMTT.getDefaultSource());
         list.add(Ohmanhua.getDefaultSource());
