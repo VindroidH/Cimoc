@@ -1,5 +1,7 @@
 package com.haleydu.cimoc.core;
 
+import android.util.Log;
+
 import com.haleydu.cimoc.App;
 import com.haleydu.cimoc.manager.ChapterManager;
 import com.haleydu.cimoc.manager.SourceManager;
@@ -33,6 +35,7 @@ import rx.schedulers.Schedulers;
  * Created by Hiroshi on 2016/8/20.
  */
 public class Manga {
+    public static final String TAG = "Cimoc-Manga";
 
     private static boolean indexOfIgnoreCase(String str, String search) {
         return str.toLowerCase().indexOf(search.toLowerCase()) != -1;
@@ -44,6 +47,7 @@ public class Manga {
             public void call(Subscriber<? super Comic> subscriber) {
                 try {
                     Request request = parser.getSearchRequest(keyword, page);
+                    printRequestInfo("[getSearchResult]", request);
                     Random random = new Random();
                     String html = getResponseBody(App.getHttpClient(), request);
                     SearchIterator iterator = parser.getSearchIterator(html, page);
@@ -77,10 +81,12 @@ public class Manga {
                     if (list.isEmpty()) {
                         comic.setUrl(parser.getUrl(comic.getCid()));
                         Request request = parser.getInfoRequest(comic.getCid());
+                        printRequestInfo("[getComicInfo]", request);
                         String html = getResponseBody(App.getHttpClient(), request);
                         Comic newComic = parser.parseInfo(html, comic);
                         RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_COMIC_UPDATE_INFO, newComic));
                         request = parser.getChapterRequest(html, comic.getCid());
+                        printRequestInfo("[getComicInfo] chapter", request);
                         if (request != null) {
                             html = getResponseBody(App.getHttpClient(), request);
                         }
@@ -110,6 +116,7 @@ public class Manga {
             public void call(Subscriber<? super List<Comic>> subscriber) {
                 try {
                     Request request = parser.getCategoryRequest(format, page);
+                    printRequestInfo("[getCategoryComic]", request);
                     String html = getResponseBody(App.getHttpClient(), request);
                     List<Comic> list = parser.parseCategory(html, page);
                     if (!list.isEmpty()) {
@@ -137,6 +144,7 @@ public class Manga {
                 try {
                     if (list.isEmpty()) {
                         Request request = parser.getImagesRequest(cid, path);
+                        printRequestInfo("[getChapterImage]", request);
                         html = getResponseBody(App.getHttpClient(), request);
                         list = parser.parseImages(html, chapter);
                         if (list == null || list.isEmpty()) {
@@ -168,6 +176,7 @@ public class Manga {
                 return list;
             }
             Request request = parser.getImagesRequest(cid, path);
+            printRequestInfo("[getImageUrls]", request);
             response = App.getHttpClient().newCall(request).execute();
             if (response.isSuccessful()) {
                 List<Chapter> chapter = mChapterManager.getChapter(path, title);
@@ -196,6 +205,7 @@ public class Manga {
         Response response = null;
         try {
             Request request = parser.getLazyRequest(url);
+            printRequestInfo("[getLazyUrl]", request);
             response = App.getHttpClient().newCall(request).execute();
             if (response.isSuccessful()) {
                 return parser.parseLazy(response.body().string(), url);
@@ -219,6 +229,7 @@ public class Manga {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 Request request = parser.getLazyRequest(url);
+                printRequestInfo("[loadLazyUrl]", request);
                 String newUrl = null;
                 try {
                     newUrl = parser.parseLazy(getResponseBody(App.getHttpClient(), request), url);
@@ -238,6 +249,7 @@ public class Manga {
                 Request request = new Request.Builder()
                         .url("http://m.ac.qq.com/search/smart?word=" + keyword)
                         .build();
+                printRequestInfo("[loadAutoComplete]", request);
                 try {
                     String jsonString = getResponseBody(App.getHttpClient(), request);
                     JSONObject jsonObject = new JSONObject(jsonString);
@@ -268,6 +280,7 @@ public class Manga {
                     try {
                         Parser parser = manager.getParser(comic.getSource());
                         Request request = parser.getCheckRequest(comic.getCid());
+                        printRequestInfo("[checkUpdate]", request);
                         String update = parser.parseCheck(getResponseBody(client, request));
                         if (comic.getUpdate() != null && update != null && !comic.getUpdate().equals(update)) {
                             comic.setFavorite(System.currentTimeMillis());
@@ -322,4 +335,7 @@ public class Manga {
     public static class NetworkErrorException extends Exception {
     }
 
+    public static void printRequestInfo(String info, Request request) {
+        Log.d(TAG, info + " url: " + request.url() + ", headers: " + request.headers());
+    }
 }

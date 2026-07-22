@@ -44,7 +44,7 @@ import okhttp3.ResponseBody;
 public class OkHttpNetworkFetcher extends
         BaseNetworkFetcher<OkHttpNetworkFetcher.OkHttpNetworkFetchState> {
 
-    private static final String TAG = "OkHttpNetworkFetchProducer";
+    private static final String TAG = "Cimoc-OkHttpNetworkFetcher";
     private static final String QUEUE_TIME = "queue_time";
     private static final String FETCH_TIME = "fetch_time";
     private static final String TOTAL_TIME = "total_time";
@@ -91,6 +91,7 @@ public class OkHttpNetworkFetcher extends
                 .get()
                 .build();
         final Call call = mOkHttpClient.newCall(request);
+        Log.d(TAG, "[fetch] url: " + request.url() + ", headers: " + headers);
 
         fetchState.getContext().addCallbacks(
                 new BaseProducerContextCallbacks() {
