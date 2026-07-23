@@ -6,6 +6,7 @@ import com.haleydu.cimoc.model.Comic;
 import com.haleydu.cimoc.model.ComicDao;
 import com.haleydu.cimoc.model.DaoSession;
 import com.haleydu.cimoc.model.Source;
+import com.haleydu.cimoc.model.SourceDao;
 import com.haleydu.cimoc.source.Animx2;
 import com.haleydu.cimoc.source.BaiNian;
 import com.haleydu.cimoc.source.CCMH;
@@ -124,6 +125,25 @@ public class UpdateHelper {
         list.add(QiMiaoMH.getDefaultSource());
         list.add(YKMH.getDefaultSource());
         list.add(DmzjFix.getDefaultSource());
-        session.getSourceDao().insertOrReplaceInTx(list);
+
+        SourceDao dao = session.getSourceDao();
+        for (Source source : list) {
+            List<Source> existingList = dao.queryBuilder()
+                    .where(SourceDao.Properties.Type.equal(source.getType()))
+                    .list();
+            if (!existingList.isEmpty()) {
+                Source existing = existingList.get(0);
+                source.setId(existing.getId());
+                source.setEnable(existing.getEnable());
+
+                if (existingList.size() > 1) {
+                    for (int i = 1; i < existingList.size(); i++) {
+                        dao.delete(existingList.get(i));
+                    }
+                }
+            }
+        }
+
+        dao.insertOrReplaceInTx(list);
     }
 }
