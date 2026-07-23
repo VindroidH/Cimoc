@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.objectbox'
 
-def buildVersion = 2010000
-def version = "v2.1.0"
+def buildVersion = 2020000
+def version = "v2.2.0"
 
 android {
     namespace "com.haleydu.cimoc"
