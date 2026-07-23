@@ -51,6 +51,7 @@ public abstract class GridFragment extends RecyclerViewFragment implements GridV
         mGridAdapter = new GridAdapter(getActivity(), new LinkedList<>());
         mGridAdapter.setProvider(getAppInstance().getBuilderProvider());
         mGridAdapter.setTitleGetter(SourceManager.getInstance(this).new TitleGetter());
+        mGridAdapter.setHeaderGetter(SourceManager.getInstance(this).new HeaderGetter());
         mRecyclerView.setRecycledViewPool(getAppInstance().getGridRecycledPool());
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

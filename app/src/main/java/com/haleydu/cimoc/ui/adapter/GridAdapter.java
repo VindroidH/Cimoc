@@ -35,6 +35,7 @@ public class GridAdapter extends BaseAdapter<Object> {
 
     private ControllerBuilderProvider mProvider;
     private SourceManager.TitleGetter mTitleGetter;
+    private SourceManager.HeaderGetter mHeaderGetter;
     private boolean symbol = false;
 
     public GridAdapter(Context context, List<Object> list) {
@@ -65,10 +66,6 @@ public class GridAdapter extends BaseAdapter<Object> {
                 gridHolder.comicTitle.setText(comic.getTitle());
                 gridHolder.comicSource.setText(mTitleGetter.getTitle(comic.getSource()));
                 if (mProvider != null) {
-                    //            ImageRequest request = ImageRequestBuilder
-                    //                    .newBuilderWithSource(Uri.parse(comic.getCover()))
-                    //                    .setResizeOptions(new ResizeOptions(App.mCoverWidthPixels / 3, App.mCoverHeightPixels / 3))
-                    //                    .build();
                     ImageRequest request = null;
                     try {
                         if (!App.getWifiManager().isWifiEnabled() && App.getPreferenceManager().getBoolean(PreferenceManager.PREF_OTHER_CONNECT_ONLY_WIFI, false)) {
@@ -106,6 +103,7 @@ public class GridAdapter extends BaseAdapter<Object> {
                     DraweeController controller = mProvider.get(comic.getSource())
                             .setOldController(gridHolder.comicImage.getController())
                             .setImageRequest(request)
+                            .setCallerContext(mHeaderGetter.getHeader(comic.getSource()))
                             .build();
                     gridHolder.comicImage.setController(controller);
                 }
@@ -119,6 +117,10 @@ public class GridAdapter extends BaseAdapter<Object> {
 
     public void setTitleGetter(SourceManager.TitleGetter getter) {
         mTitleGetter = getter;
+    }
+
+    public void setHeaderGetter(SourceManager.HeaderGetter getter) {
+        mHeaderGetter = getter;
     }
 
     public void setSymbol(boolean symbol) {

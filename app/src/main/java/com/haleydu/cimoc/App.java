@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.DownsampleMode;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
-import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.haleydu.cimoc.component.AppGetter;
 import com.haleydu.cimoc.core.Storage;
 import com.haleydu.cimoc.fresco.ControllerBuilderProvider;
@@ -253,8 +252,7 @@ public class App extends MultiDexApplication implements AppGetter, Thread.Uncaug
 
     public ControllerBuilderProvider getBuilderProvider() {
         if (mBuilderProvider == null) {
-            mBuilderProvider = new ControllerBuilderProvider(getApplicationContext(),
-                    SourceManager.getInstance(this).new HeaderGetter(), true);
+            mBuilderProvider = new ControllerBuilderProvider(getApplicationContext(), true);
         }
         return mBuilderProvider;
     }

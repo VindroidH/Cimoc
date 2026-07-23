@@ -29,6 +29,7 @@ public class ResultAdapter extends BaseAdapter<Comic> {
 
     private ControllerBuilderProvider mProvider;
     private SourceManager.TitleGetter mTitleGetter;
+    private SourceManager.HeaderGetter mHeaderGetter;
 
     public ResultAdapter(Context context, List<Comic> list) {
         super(context, list);
@@ -53,7 +54,11 @@ public class ResultAdapter extends BaseAdapter<Comic> {
                 .newBuilderWithSource(Uri.parse(comic.getCover()))
                 .setResizeOptions(new ResizeOptions(App.mCoverWidthPixels / 3, App.mCoverHeightPixels / 3))
                 .build();
-        viewHolder.comicImage.setController(mProvider.get(comic.getSource()).setImageRequest(request).build());
+        viewHolder.comicImage.setController(
+                mProvider.get(comic.getSource())
+                        .setImageRequest(request)
+                        .setCallerContext(mHeaderGetter.getHeader(comic.getSource()))
+                        .build());
     }
 
     public void setProvider(ControllerBuilderProvider provider) {
@@ -62,6 +67,10 @@ public class ResultAdapter extends BaseAdapter<Comic> {
 
     public void setTitleGetter(SourceManager.TitleGetter getter) {
         mTitleGetter = getter;
+    }
+
+    public void setHeaderGetter(SourceManager.HeaderGetter getter) {
+        mHeaderGetter = getter;
     }
 
     @Override

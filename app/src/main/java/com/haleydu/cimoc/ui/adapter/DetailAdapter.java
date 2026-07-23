@@ -24,6 +24,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import okhttp3.Headers;
+
 /**
  * Created by Hiroshi on 2016/7/2.
  */
@@ -34,6 +36,7 @@ public class DetailAdapter extends BaseAdapter<Chapter> {
     Paint textPaint;
     Paint paint;
     private PipelineDraweeControllerBuilderSupplier mControllerSupplier;
+    private Headers mHttpHeaders;
     private String cover;
     private String update;
     private String author;
@@ -181,7 +184,11 @@ public class DetailAdapter extends BaseAdapter<Chapter> {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 if (title != null) {
                     if (cover != null) {
-                        headerHolder.mComicImage.setController(mControllerSupplier.get().setUri(cover).build());
+                        headerHolder.mComicImage.setController(
+                                mControllerSupplier.get()
+                                        .setUri(cover)
+                                        .setCallerContext(mHttpHeaders)
+                                        .build());
                     }
                     headerHolder.mComicTitle.setText(title);
                     headerHolder.mComicIntro.setText(intro);
@@ -228,6 +235,10 @@ public class DetailAdapter extends BaseAdapter<Chapter> {
 
     public void setControllerSupplier(PipelineDraweeControllerBuilderSupplier supplier) {
         this.mControllerSupplier = supplier;
+    }
+
+    public void setHttpHeaders(Headers headers) {
+        mHttpHeaders = headers;
     }
 
     public void setLast(String value) {

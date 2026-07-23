@@ -140,7 +140,7 @@ public class ReaderAdapter extends BaseAdapter<ImageUrl> {
                     .setProgressiveRenderingEnabled(true);
 
             // TODO 切图后可能需要修改图片高度和宽度
-            MangaPostprocessor processor = new MangaPostprocessor(imageUrl, isPaging, isPagingReverse, isWhiteEdge, mHttpHeaders);
+            MangaPostprocessor processor = new MangaPostprocessor(imageUrl, isPaging, isPagingReverse, isWhiteEdge);
             imageRequestBuilder.setPostprocessor(processor);
             if (!isCloseAutoResizeImage) {
                 ResizeOptions options = isVertical ? new ResizeOptions(App.mWidthPixels, App.mHeightPixels) :
@@ -156,7 +156,7 @@ public class ReaderAdapter extends BaseAdapter<ImageUrl> {
             request[i] = imageRequestBuilder.build();
         }
         builder.setOldController(draweeView.getController()).setTapToRetryEnabled(true).setRetainImageOnFailure(true);
-        draweeView.setController(builder.setFirstAvailableImageRequests(request).build());
+        draweeView.setController(builder.setFirstAvailableImageRequests(request).setCallerContext(mHttpHeaders).build());
     }
 
     public void setHttpHeaders(Headers headers) {

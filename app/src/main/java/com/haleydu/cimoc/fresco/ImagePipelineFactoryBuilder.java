@@ -15,7 +15,7 @@ import okhttp3.Headers;
  */
 public class ImagePipelineFactoryBuilder {
 
-    public static ImagePipelineFactory build(Context context, Headers header, boolean down) {
+    public static ImagePipelineFactory build(Context context, boolean down) {
         ImagePipelineConfig.Builder builder =
                 ImagePipelineConfig.newBuilder(context.getApplicationContext())
                         .setDownsampleMode(down ? DownsampleMode.ALWAYS : DownsampleMode.NEVER)

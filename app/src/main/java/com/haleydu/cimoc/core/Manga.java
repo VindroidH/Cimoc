@@ -86,8 +86,8 @@ public class Manga {
                         Comic newComic = parser.parseInfo(html, comic);
                         RxBus.getInstance().post(new RxEvent(RxEvent.EVENT_COMIC_UPDATE_INFO, newComic));
                         request = parser.getChapterRequest(html, comic.getCid());
-                        printRequestInfo("[getComicInfo] chapter", request);
                         if (request != null) {
+                            printRequestInfo("[getComicInfo] chapter", request);
                             html = getResponseBody(App.getHttpClient(), request);
                         }
                         Long sourceComic = Long.parseLong(comic.getSource() + "00" + (comic.getId() == null ? "00" : comic.getId()));

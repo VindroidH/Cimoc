@@ -29,14 +29,12 @@ public class MangaPostprocessor extends BasePostprocessor {
     private int mPosX, mPosY;
     private boolean isDone = false;
     private boolean jmttIsDone = false;
-    private Headers mHeaders;
 
-    public MangaPostprocessor(ImageUrl image, boolean paging, boolean pagingReverse, boolean whiteEdge, Headers headers) {
+    public MangaPostprocessor(ImageUrl image, boolean paging, boolean pagingReverse, boolean whiteEdge) {
         mImage = image;
         isPaging = paging;
         isPagingReverse = pagingReverse;
         isWhiteEdge = whiteEdge;
-        mHeaders = headers;
     }
 
     @Override
@@ -74,10 +72,6 @@ public class MangaPostprocessor extends BasePostprocessor {
             CloseableReference.closeSafely(reference);
         }
         return super.process(sourceBitmap, bitmapFactory);
-    }
-
-    public Headers getHeaders() {
-        return mHeaders;
     }
 
     private void preparePaging(boolean reverse) {

@@ -150,8 +150,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
                 HintUtils.showToast(MainActivity.this, R.string.common_execute_fail);
             }
         });
-        mControllerBuilderProvider = new ControllerBuilderProvider(this,
-                SourceManager.getInstance(this).new HeaderGetter(), false);
+        mControllerBuilderProvider = new ControllerBuilderProvider(this, false);
     }
 
     private void initFragment() {
@@ -334,6 +333,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         DraweeController controller = mControllerBuilderProvider.get(source)
                 .setOldController(mDraweeView.getController())
                 .setImageRequest(request)
+                .setCallerContext(SourceManager.getInstance(this).getParser(source).getHeader())
                 .build();
         mDraweeView.setController(controller);
     }

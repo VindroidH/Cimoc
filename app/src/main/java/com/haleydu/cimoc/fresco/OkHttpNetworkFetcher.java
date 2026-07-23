@@ -76,10 +76,10 @@ public class OkHttpNetworkFetcher extends
     @Override
     public void fetch(final OkHttpNetworkFetchState fetchState, final Callback callback) {
         fetchState.submitTime = SystemClock.elapsedRealtime();
-        MangaPostprocessor processor = (MangaPostprocessor) fetchState.getContext().getImageRequest().getPostprocessor();
         Headers headers;
-        if (processor != null && processor.getHeaders() != null) {
-            headers = processor.getHeaders();
+        Object obj = fetchState.getContext().getCallerContext();
+        if (obj instanceof Headers) {
+            headers = (Headers) obj;
         } else {
             headers = Headers.of(new HashMap<>());
         }
@@ -91,7 +91,7 @@ public class OkHttpNetworkFetcher extends
                 .get()
                 .build();
         final Call call = mOkHttpClient.newCall(request);
-        Log.d(TAG, "[fetch] url: " + request.url() + ", headers: " + headers);
+        Log.d(TAG, "[fetch] url: " + request.url() + ", headers: " + request.headers());
 
         fetchState.getContext().addCallbacks(
                 new BaseProducerContextCallbacks() {
